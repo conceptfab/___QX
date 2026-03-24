@@ -81,6 +81,19 @@ export interface HeroDescriptionStyleConfig {
   uppercase?: boolean;
 }
 
+export interface HeroSlideContentOverrides {
+  /** Optional small label above the main hero title */
+  brandLabel?: string;
+  /** Optional main hero title override */
+  collectionName?: string;
+  /** Optional primary hero copy override */
+  tagline?: string;
+  /** Optional secondary hero copy override */
+  taglineLine2?: string;
+  /** Optional CTA label override */
+  ctaLabel?: string;
+}
+
 export interface HeroSlide {
   /** Resolved image URL */
   src: string;
@@ -88,6 +101,10 @@ export interface HeroSlide {
   alt: string;
   /** Optional visible caption/description */
   description?: string;
+  /** Optional per-slide override for the main hero copy */
+  heroContent?: HeroSlideContentOverrides;
+  /** Optional per-slide override for description placement and style */
+  descriptionStyle?: HeroDescriptionStyleConfig;
 }
 
 export interface HeroSlideDefinition {
@@ -97,6 +114,10 @@ export interface HeroSlideDefinition {
   alt?: string;
   /** Optional visible caption/description for the slide */
   description?: string;
+  /** Optional per-slide override for the main hero copy */
+  heroContent?: HeroSlideContentOverrides;
+  /** Optional per-slide override for description placement and style */
+  descriptionStyle?: HeroDescriptionStyleConfig;
 }
 
 export interface HeroSliderFile {

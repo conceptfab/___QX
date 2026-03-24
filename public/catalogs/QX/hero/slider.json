@@ -3,7 +3,7 @@
                      "autoAdvance":  true,
                      "interval":  5000,
                      "pauseOnHover":  true,
-                     "transitionMs":  900,
+                     "transitionMs":  1800,
                      "showArrows":  true,
                      "showDots":  true,
                      "initialSlide":  0
@@ -12,17 +12,38 @@
                    {
                        "image":  "hero_00.webp",
                        "alt":  "QX desk system in a modern open-space office with people working",
-                       "description":  "Slide 01: Open-space layout with collaborative desks."
+                       "description":  "Slide 01: Open-space layout with collaborative desks.",
+                       "descriptionStyle":  {
+                                                "enabled":  true,
+                                                "position":  "bottom-left",
+                                                "offsetPx":  56,
+                                                "textAlign":  "left",
+                                                "maxWidth":  "28rem"
+                                            }
                    },
                    {
                        "image":  "hero_01.webp",
                        "alt":  "QX desk with ergonomic chairs in a bright office interior",
-                       "description":  "Slide 02: Focus zone optimized for ergonomic work."
+                       "description":  "Slide 02: Focus zone optimized for ergonomic work.",
+                       "descriptionStyle":  {
+                                                "enabled":  true,
+                                                "position":  "top-right",
+                                                "offsetPx":  112,
+                                                "textAlign":  "right",
+                                                "maxWidth":  "24rem"
+                                            }
                    },
                    {
                        "image":  "hero_02.webp",
                        "alt":  "QX modular desks arranged in a contemporary workspace",
-                       "description":  "Slide 03: Modular arrangement for team scalability."
+                       "description":  "Slide 03: Modular arrangement for team scalability.",
+                       "descriptionStyle":  {
+                                                "enabled":  true,
+                                                "position":  "bottom-center",
+                                                "offsetPx":  56,
+                                                "textAlign":  "center",
+                                                "maxWidth":  "30rem"
+                                            }
                    }
                ],
     "descriptionStyle":  {

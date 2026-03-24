@@ -23,7 +23,7 @@ export type ImagePreset =
 const PRESET_WIDTHS: Record<ImagePreset, number[]> = {
   hero: [640, 1280, 1920],
   gallery: [400, 800, 1200],
-  packshot: [300, 600],
+  packshot: [480, 960, 1440],
   overview: [400, 800],
   variants: [400, 800],
   'materials-full': [400, 800],
@@ -37,7 +37,7 @@ const PRESET_WIDTHS: Record<ImagePreset, number[]> = {
 const PRESET_SIZES: Record<ImagePreset, string> = {
   hero: '100vw',
   gallery: '(min-width: 1024px) 33vw, 50vw',
-  packshot: '(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw',
+  packshot: '(min-width: 1280px) 560px, (min-width: 640px) 46vw, 94vw',
   overview: '(min-width: 1024px) 50vw, 100vw',
   variants: '(min-width: 1024px) 50vw, 100vw',
   'materials-full': '(min-width: 1024px) 50vw, 100vw',

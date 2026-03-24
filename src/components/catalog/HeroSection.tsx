@@ -79,40 +79,52 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
   const displaySlides: HeroSlide[] = hasSlider
     ? configuredSlides
     : [{ src: data.heroImage, alt: data.heroImageAlt }];
-  const normalizedCatalogId = catalogId?.toUpperCase();
-  const isQx = normalizedCatalogId === 'QX';
-  const isQx5 = normalizedCatalogId === 'QX-5';
-  const isQx2 = normalizedCatalogId === 'QX-2';
+  const isQx = catalogId?.toUpperCase() === 'QX';
   const initialIdx = Math.min(
     Math.max(0, slider.initialSlide ?? 0),
     displaySlides.length - 1,
   );
   const [currentIndex, setCurrentIndex] = useState(initialIdx);
   const [isHovered, setIsHovered] = useState(false);
-  const descriptionStyle = {
+  const currentSlide = displaySlides[currentIndex];
+  const currentHeroContent = {
+    brandLabel: currentSlide?.heroContent?.brandLabel ?? data.brandLabel,
+    collectionName:
+      currentSlide?.heroContent?.collectionName ?? data.collectionName,
+    tagline: currentSlide?.heroContent?.tagline ?? data.tagline,
+    taglineLine2:
+      currentSlide?.heroContent?.taglineLine2 ?? data.taglineLine2,
+    ctaLabel: currentSlide?.heroContent?.ctaLabel ?? data.ctaLabel,
+  };
+  const slideTransition = {
+    duration: Math.max(1.6, slider.transitionMs / 1000),
+    ease: 'easeInOut' as const,
+  };
+  const currentDescriptionStyle = {
     ...DEFAULT_DESCRIPTION_STYLE,
     ...data.descriptionStyle,
+    ...currentSlide?.descriptionStyle,
   };
   const descriptionPosClass = descriptionPositionClasses(
-    descriptionStyle.position,
+    currentDescriptionStyle.position,
   );
-  const isTopDescription = descriptionStyle.position.startsWith('top');
+  const isTopDescription = currentDescriptionStyle.position.startsWith('top');
   const descriptionInlineStyle: CSSProperties = {
-    color: descriptionStyle.textColor,
-    backgroundColor: descriptionStyle.backgroundColor,
-    backdropFilter: `blur(${descriptionStyle.backdropBlurPx}px)`,
-    WebkitBackdropFilter: `blur(${descriptionStyle.backdropBlurPx}px)`,
-    padding: `${descriptionStyle.paddingY}px ${descriptionStyle.paddingX}px`,
-    borderRadius: `${descriptionStyle.borderRadiusPx}px`,
-    fontSize: `${descriptionStyle.fontSizePx}px`,
-    fontWeight: descriptionStyle.fontWeight,
-    letterSpacing: `${descriptionStyle.letterSpacingEm}em`,
-    maxWidth: descriptionStyle.maxWidth,
-    textAlign: descriptionStyle.textAlign,
-    textTransform: descriptionStyle.uppercase ? 'uppercase' : 'none',
+    color: currentDescriptionStyle.textColor,
+    backgroundColor: currentDescriptionStyle.backgroundColor,
+    backdropFilter: `blur(${currentDescriptionStyle.backdropBlurPx}px)`,
+    WebkitBackdropFilter: `blur(${currentDescriptionStyle.backdropBlurPx}px)`,
+    padding: `${currentDescriptionStyle.paddingY}px ${currentDescriptionStyle.paddingX}px`,
+    borderRadius: `${currentDescriptionStyle.borderRadiusPx}px`,
+    fontSize: `${currentDescriptionStyle.fontSizePx}px`,
+    fontWeight: currentDescriptionStyle.fontWeight,
+    letterSpacing: `${currentDescriptionStyle.letterSpacingEm}em`,
+    maxWidth: currentDescriptionStyle.maxWidth,
+    textAlign: currentDescriptionStyle.textAlign,
+    textTransform: currentDescriptionStyle.uppercase ? 'uppercase' : 'none',
     ...(isTopDescription
-      ? { top: `${descriptionStyle.offsetPx}px` }
-      : { bottom: `${descriptionStyle.offsetPx}px` }),
+      ? { top: `${currentDescriptionStyle.offsetPx}px` }
+      : { bottom: `${currentDescriptionStyle.offsetPx}px` }),
   };
   const prefersReducedMotion = useReducedMotion();
 
@@ -146,8 +158,8 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
       return;
     }
 
-    const t = setInterval(goNext, slider.interval);
-    return () => clearInterval(t);
+    const timer = setInterval(goNext, slider.interval);
+    return () => clearInterval(timer);
   }, [
     hasSlider,
     displaySlides.length,
@@ -160,24 +172,28 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
   ]);
 
   useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
+    const onKeyDown = (event: KeyboardEvent) => {
       if (!hasSlider) return;
-      const target = e.target as HTMLElement;
+      const target = event.target as HTMLElement;
       if (
         target.tagName === 'INPUT' ||
         target.tagName === 'TEXTAREA' ||
         target.isContentEditable
-      )
+      ) {
         return;
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault();
+      }
+
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
         goPrev();
       }
-      if (e.key === 'ArrowRight') {
-        e.preventDefault();
+
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
         goNext();
       }
     };
+
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [hasSlider, goPrev, goNext]);
@@ -185,8 +201,8 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
   return (
     <section
       id="cover"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
-      aria-label={`${data.collectionName} Collection cover`}
+      className="relative flex min-h-screen items-center justify-center overflow-hidden"
+      aria-label={`${currentHeroContent.collectionName} Collection cover`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -196,46 +212,23 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
         aria-roledescription={hasSlider ? 'Image carousel' : undefined}
         aria-live={hasSlider ? 'polite' : undefined}
       >
-        {isQx5 ? (
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.img
-              key={`${displaySlides[currentIndex].src}-${currentIndex}`}
-              src={displaySlides[currentIndex].src}
-              {...responsiveImg(displaySlides[currentIndex].src, 'hero')}
-              draggable={true}
-              alt={displaySlides[currentIndex].alt}
-              className="absolute inset-0 w-full h-full object-cover"
-              initial={{ x: '100%' }}
-              animate={{ x: '0%' }}
-              exit={{ x: '-14%' }}
-              transition={{
-                duration: Math.max(0.45, slider.transitionMs / 1000),
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              loading={currentIndex === 0 ? 'eager' : 'lazy'}
-            />
-          </AnimatePresence>
-        ) : (
-          displaySlides.map((slide, i) => (
-            <img
-              key={`${slide.src}-${i}`}
-              src={slide.src}
-              {...responsiveImg(slide.src, 'hero')}
-              draggable={true}
-              alt={slide.alt}
-              className="absolute inset-0 w-full h-full object-cover transition-opacity ease-out"
-              style={{
-                transitionDuration: `${slider.transitionMs}ms`,
-                opacity: i === currentIndex ? 1 : 0,
-                zIndex: i === currentIndex ? 1 : 0,
-                visibility: i === currentIndex ? 'visible' : 'hidden',
-              }}
-              loading={i === 0 ? 'eager' : 'lazy'}
-            />
-          ))
-        )}
+        <AnimatePresence mode="sync" initial={false}>
+          <motion.img
+            key={`${currentSlide.src}-${currentIndex}`}
+            src={currentSlide.src}
+            {...responsiveImg(currentSlide.src, 'hero')}
+            draggable={true}
+            alt={currentSlide.alt}
+            className="absolute inset-0 h-full w-full object-cover will-change-[opacity,transform]"
+            initial={{ opacity: 0, scale: 1.012 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.006 }}
+            transition={slideTransition}
+            loading={currentIndex === 0 ? 'eager' : 'lazy'}
+          />
+        </AnimatePresence>
         {!isQx && (
-          <div className="hero-overlay-layer absolute inset-0 bg-[hsl(var(--hero-overlay)/0.65)] z-[2]" />
+          <div className="hero-overlay-layer absolute inset-0 z-[2] bg-[hsl(var(--hero-overlay)/0.65)]" />
         )}
       </div>
 
@@ -249,7 +242,7 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.2 }}
                 onClick={goPrev}
-                className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 text-on-dark-muted hover:text-on-dark transition-colors min-h-[44px] min-w-[44px] items-center justify-center"
+                className="absolute left-4 top-1/2 z-20 hidden min-h-[44px] min-w-[44px] -translate-y-1/2 items-center justify-center text-on-dark-muted transition-colors hover:text-on-dark md:flex"
                 aria-label="Previous slide"
               >
                 <ArrowDown size={24} strokeWidth={1.2} className="rotate-90" />
@@ -260,7 +253,7 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.2 }}
                 onClick={goNext}
-                className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-20 text-on-dark-muted hover:text-on-dark transition-colors min-h-[44px] min-w-[44px] items-center justify-center"
+                className="absolute right-4 top-1/2 z-20 hidden min-h-[44px] min-w-[44px] -translate-y-1/2 items-center justify-center text-on-dark-muted transition-colors hover:text-on-dark md:flex"
                 aria-label="Next slide"
               >
                 <ArrowDown size={24} strokeWidth={1.2} className="-rotate-90" />
@@ -272,25 +265,25 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.2 }}
-              className="absolute bottom-20 md:bottom-24 left-1/2 -translate-x-1/2 z-20 flex gap-2"
+              className="absolute bottom-20 left-1/2 z-20 flex -translate-x-1/2 gap-2 md:bottom-24"
               role="tablist"
               aria-label="Slide indicators"
             >
-              {displaySlides.map((_, i) => (
+              {displaySlides.map((_, index) => (
                 <button
-                  key={i}
+                  key={index}
                   type="button"
                   role="tab"
-                  aria-selected={i === currentIndex}
-                  aria-label={`Go to slide ${i + 1}`}
-                  onClick={() => goTo(i)}
-                  className={`hero-slider-dot min-h-[44px] min-w-[44px] flex items-center justify-center p-2 ${
-                    isQx5 ? 'is-qx5' : ''
-                  }`}
+                  aria-selected={index === currentIndex}
+                  aria-label={`Go to slide ${index + 1}`}
+                  onClick={() => goTo(index)}
+                  className="hero-slider-dot flex min-h-[44px] min-w-[44px] items-center justify-center p-2"
                 >
                   <span
-                    className={`hero-slider-dot-mark block w-2 h-2 rounded-full transition-colors ${
-                      i === currentIndex ? 'bg-accent' : 'bg-on-dark-muted/60'
+                    className={`hero-slider-dot-mark block h-2 w-2 rounded-full transition-colors ${
+                      index === currentIndex
+                        ? 'bg-accent'
+                        : 'bg-on-dark-muted/60'
                     }`}
                   />
                 </button>
@@ -300,7 +293,7 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
         </>
       )}
 
-      {descriptionStyle.enabled && displaySlides[currentIndex]?.description && (
+      {currentDescriptionStyle.enabled && currentSlide?.description && (
         <motion.p
           key={`slide-description-${currentIndex}`}
           initial={{ opacity: 0, y: 6 }}
@@ -309,109 +302,78 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
           style={descriptionInlineStyle}
           aria-live="polite"
         >
-          {displaySlides[currentIndex].description}
+          {currentSlide.description}
         </motion.p>
       )}
 
-      <div
-        className={`relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full ${
-          isQx2
-            ? 'text-left mb-[clamp(6rem,16vw,14rem)]'
-            : isQx5
-              ? 'text-left pb-[clamp(4rem,9vh,7rem)]'
-              : 'text-center'
-        }`}
-      >
-        {data.brandLabel?.trim() && (
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+        {currentHeroContent.brandLabel?.trim() && (
           <motion.p
+            key={`hero-brand-${currentIndex}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-on-dark-muted font-body text-sm uppercase tracking-[0.3em] mb-6"
+            className="mb-6 font-body text-sm uppercase tracking-[0.3em] text-on-dark-muted"
           >
-            {data.brandLabel}
+            {currentHeroContent.brandLabel}
           </motion.p>
         )}
 
         <motion.h1
+          key={`hero-title-${currentIndex}`}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className={`font-display font-bold text-primary-foreground leading-[0.8] flex flex-col overflow-visible ${
-            isQx2 || isQx5 ? 'items-start' : 'items-center'
-          }`}
+          className="flex flex-col items-center overflow-visible font-display text-primary-foreground"
         >
-          {normalizedCatalogId === 'QX' ? (
+          {isQx ? (
             <span
-              className="text-[clamp(5.6rem,17.5vw,15.4rem)] tracking-tighter qx-giant py-4"
+              className="qx-giant py-4 text-[clamp(5.6rem,17.5vw,15.4rem)] tracking-tighter"
               style={{
                 lineHeight: '0.9',
                 fontFamily: "'Sora', sans-serif",
                 fontWeight: 200,
               }}
             >
-              {renderQxText(data.collectionName)}
-            </span>
-          ) : isQx2 ? (
-            <span className="flex items-baseline gap-[0.2em] uppercase">
-              <span
-                style={{
-                  fontSize: 'clamp(6rem, 16vw, 14rem)',
-                  fontWeight: 100,
-                }}
-              >
-                QX
-              </span>
-              <span style={{ fontSize: 'clamp(3rem, 8vw, 7rem)' }}>SERIES</span>
+              {renderQxText(currentHeroContent.collectionName)}
             </span>
           ) : (
-            <span style={{ fontSize: 'clamp(3rem, 8vw, 7rem)' }}>
-              {renderQxText(data.collectionName)}
+            <span
+              style={{
+                fontSize: 'clamp(3rem, 8vw, 7rem)',
+                lineHeight: '0.8',
+              }}
+            >
+              {renderQxText(currentHeroContent.collectionName)}
             </span>
           )}
         </motion.h1>
 
         <motion.p
+          key={`hero-tagline-${currentIndex}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className={`font-body text-lg md:text-xl mt-8 text-balance leading-relaxed ${
-            isQx2
-              ? 'ml-0 max-w-2xl text-white opacity-100'
-              : isQx5
-                ? 'hero-qx5-copy ml-0 max-w-[44rem] text-white/95'
-                : 'mx-auto max-w-2xl text-white/90'
-          }`}
-          style={{
-            textShadow: isQx5
-              ? '0 8px 28px rgba(0, 0, 0, 0.55)'
-              : '0 2px 10px rgba(0,0,0,0.3)',
-          }}
+          className="mx-auto mt-8 max-w-2xl text-balance font-body text-lg leading-relaxed text-white/90 md:text-xl"
+          style={{ textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)' }}
         >
-          {renderQxText(data.tagline)}
-          {data.taglineLine2 && (
+          {renderQxText(currentHeroContent.tagline)}
+          {currentHeroContent.taglineLine2 && (
             <>
               <br className="hidden md:block" />
-              <span
-                className={`block mt-2 ${
-                  isQx2
-                    ? 'font-normal text-white opacity-100'
-                    : isQx5
-                      ? 'font-light text-[1.05rem] md:text-[1.25rem] text-white/85'
-                      : 'opacity-80 font-light text-base md:text-lg'
-                }`}
-              >
-                {renderQxText(data.taglineLine2)}
+              <span className="mt-2 block text-base font-light opacity-80 md:text-lg">
+                {renderQxText(currentHeroContent.taglineLine2)}
               </span>
             </>
           )}
         </motion.p>
 
         <motion.div
+          key={`hero-cta-${currentIndex}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
-          className={`mt-12 ${isQx5 ? 'flex justify-start' : ''}`}
+          className="mt-12"
         >
           <button
             onClick={() =>
@@ -419,15 +381,9 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
                 .getElementById('overview')
                 ?.scrollIntoView({ behavior: 'smooth' })
             }
-            className={`btn-premium inline-flex items-center gap-3 px-8 py-4 rounded-full font-display font-bold text-sm uppercase tracking-widest transition-colors min-h-[44px] ${
-              isQx2
-                ? 'text-white hover:text-white/80 bg-transparent'
-                : isQx5
-                  ? 'hero-qx5-cta text-white'
-                  : 'bg-accent text-accent-foreground hover:opacity-100'
-            }`}
+            className="btn-premium inline-flex min-h-[44px] items-center gap-3 rounded-full bg-accent px-8 py-4 font-display text-sm font-bold uppercase tracking-widest text-accent-foreground transition-colors hover:opacity-100"
           >
-            <span>{data.ctaLabel}</span>
+            <span>{currentHeroContent.ctaLabel}</span>
             <ArrowDown size={18} strokeWidth={1.2} className="animate-bounce" />
           </button>
         </motion.div>
@@ -442,7 +398,7 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
             .getElementById('overview')
             ?.scrollIntoView({ behavior: 'smooth' })
         }
-        className="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 z-20 text-on-dark-muted hover:text-on-dark transition-colors min-h-[44px] min-w-[44px] items-center justify-center"
+        className="absolute bottom-8 left-1/2 z-20 hidden min-h-[44px] min-w-[44px] -translate-x-1/2 items-center justify-center text-on-dark-muted transition-colors hover:text-on-dark md:flex"
         aria-label="Scroll to overview"
       >
         <motion.div

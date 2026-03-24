@@ -37,7 +37,7 @@ const MANIFEST_OUTPUT = path.join(
 const SECTION_WIDTHS = {
   hero: [640, 1280, 1920],
   gallery: [400, 800, 1200],
-  packshots: [300, 600],
+  packshots: [480, 960, 1440],
   overview: [400, 800],
   variants: [400, 800],
   // Materials full-size images (configurator preview)

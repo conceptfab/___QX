@@ -365,6 +365,13 @@ async function normalizeHeroSlides(
           slide.alt?.trim() ||
           defaultHeroSlideAlt(fallbackAlt, index, slides.length),
         ...(slide.description ? { description: slide.description } : {}),
+        ...(slide.heroContent && Object.keys(slide.heroContent).length > 0
+          ? { heroContent: slide.heroContent }
+          : {}),
+        ...(slide.descriptionStyle &&
+        Object.keys(slide.descriptionStyle).length > 0
+          ? { descriptionStyle: slide.descriptionStyle }
+          : {}),
       };
     }),
   );

@@ -9,14 +9,12 @@ import { responsiveImg } from '@/lib/responsive-image';
 
 interface GallerySectionProps {
   data: GalleryData;
-  catalogId?: string;
 }
 
-const GallerySection = ({ data, catalogId }: GallerySectionProps) => {
+const GallerySection = ({ data }: GallerySectionProps) => {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
-  const isQx5 = catalogId?.toUpperCase() === 'QX-5';
 
   const openLightbox = (index: number) => setLightboxIndex(index);
   const closeLightbox = () => setLightboxIndex(null);
@@ -61,17 +59,17 @@ const GallerySection = ({ data, catalogId }: GallerySectionProps) => {
               transition={{ delay: i * 0.1 }}
               onClick={() => openLightbox(i)}
               className={`gallery-item group relative overflow-hidden ${
-                !isQx5 && i === 0
-                  ? 'col-span-2 lg:col-span-2 row-span-2'
-                  : isQx5
-                    ? 'h-[15rem] lg:h-[20rem]'
-                    : ''
+                i === 0 ? 'col-span-2 lg:col-span-2 row-span-2' : ''
               } min-h-[44px] shadow-lg`}
               aria-label={`View ${img.category} image in fullscreen`}
             >
               <img
                 src={img.src}
-                {...responsiveImg(img.src, 'gallery', i === 0 ? '(min-width: 1024px) 66vw, 100vw' : undefined)}
+                {...responsiveImg(
+                  img.src,
+                  'gallery',
+                  i === 0 ? '(min-width: 1024px) 66vw, 100vw' : undefined,
+                )}
                 draggable={true}
                 alt={img.alt}
                 className="w-full h-full object-cover aspect-[4/3] group-hover:scale-110 transition-transform duration-700"
