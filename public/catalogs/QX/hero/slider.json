@@ -1,0 +1,45 @@
+{
+    "settings":  {
+                     "autoAdvance":  true,
+                     "interval":  5000,
+                     "pauseOnHover":  true,
+                     "transitionMs":  900,
+                     "showArrows":  true,
+                     "showDots":  true,
+                     "initialSlide":  0
+                 },
+    "slides":  [
+                   {
+                       "image":  "hero_00.webp",
+                       "alt":  "QX desk system in a modern open-space office with people working",
+                       "description":  "Slide 01: Open-space layout with collaborative desks."
+                   },
+                   {
+                       "image":  "hero_01.webp",
+                       "alt":  "QX desk with ergonomic chairs in a bright office interior",
+                       "description":  "Slide 02: Focus zone optimized for ergonomic work."
+                   },
+                   {
+                       "image":  "hero_02.webp",
+                       "alt":  "QX modular desks arranged in a contemporary workspace",
+                       "description":  "Slide 03: Modular arrangement for team scalability."
+                   }
+               ],
+    "descriptionStyle":  {
+                             "enabled":  false,
+                             "position":  "bottom-center",
+                             "offsetPx":  40,
+                             "textColor":  "#E8EEF5",
+                             "backgroundColor":  "rgba(0,0,0,0.35)",
+                             "backdropBlurPx":  6,
+                             "paddingX":  16,
+                             "paddingY":  8,
+                             "borderRadiusPx":  9999,
+                             "fontSizePx":  13,
+                             "fontWeight":  500,
+                             "letterSpacingEm":  0.04,
+                             "maxWidth":  "90vw",
+                             "textAlign":  "center",
+                             "uppercase":  false
+                         }
+}
