@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useInView } from 'framer-motion';
 import type { MaterialsConfiguratorOption, MaterialsData } from '@/types/catalog';
+import { slowTransition } from '@/lib/motion';
 import { renderQxText } from './renderQxText';
 import { responsiveImg } from '@/lib/responsive-image';
 
@@ -145,7 +146,7 @@ const MaterialsSection = ({ data }: MaterialsSectionProps) => {
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.2 }}
+            transition={slowTransition({ duration: 0.3, delay: 0.2 })}
             className="flex flex-col"
           >
             {hasConfigurator && selectedFrame && selectedDesktop ? (
@@ -169,7 +170,10 @@ const MaterialsSection = ({ data }: MaterialsSectionProps) => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.22, ease: 'easeOut' }}
+                        transition={slowTransition({
+                          duration: 0.22,
+                          ease: 'easeOut',
+                        })}
                       />
                     </AnimatePresence>
 
@@ -185,7 +189,10 @@ const MaterialsSection = ({ data }: MaterialsSectionProps) => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.22, ease: 'easeOut' }}
+                        transition={slowTransition({
+                          duration: 0.22,
+                          ease: 'easeOut',
+                        })}
                       />
                     </AnimatePresence>
                   </div>
@@ -224,7 +231,7 @@ const MaterialsSection = ({ data }: MaterialsSectionProps) => {
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.3 }}
+            transition={slowTransition({ duration: 0.3, delay: 0.3 })}
             className="space-y-8"
           >
             {data.materials.map((material) => (

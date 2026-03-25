@@ -5,6 +5,7 @@ import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import type { OverviewData } from '@/types/catalog';
 import { getIcon } from '@/lib/icon-map';
+import { slowTransition } from '@/lib/motion';
 import { renderQxText } from './renderQxText';
 import { responsiveImg } from '@/lib/responsive-image';
 
@@ -27,7 +28,7 @@ const OverviewSection = ({ data }: OverviewSectionProps) => {
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6 }}
+            transition={slowTransition({ duration: 0.6 })}
           >
             <p className="text-accent font-display font-semibold text-sm uppercase tracking-[0.2em] mb-4">
               {renderQxText(data.sectionLabel)}
@@ -71,7 +72,7 @@ const OverviewSection = ({ data }: OverviewSectionProps) => {
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={slowTransition({ duration: 0.6, delay: 0.2 })}
             className="w-full flex justify-center lg:justify-end"
           >
             <figure className="w-full overflow-hidden bg-transparent">
@@ -100,7 +101,10 @@ const OverviewSection = ({ data }: OverviewSectionProps) => {
                 key={f.title}
                 initial={{ opacity: 0, y: 24 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
+                transition={slowTransition({
+                  duration: 0.5,
+                  delay: 0.3 + i * 0.1,
+                })}
                 className="group flex gap-6 items-start"
               >
                 <div className="icon-container shrink-0 w-12 h-12 flex items-center justify-center group-hover:scale-110 transition-transform text-foreground">

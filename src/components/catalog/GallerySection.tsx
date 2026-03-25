@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { X, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { GalleryData } from '@/types/catalog';
+import { slowTransition } from '@/lib/motion';
 import { renderQxText } from './renderQxText';
 import { responsiveImg } from '@/lib/responsive-image';
 
@@ -56,7 +57,7 @@ const GallerySection = ({ data }: GallerySectionProps) => {
               key={i}
               initial={{ opacity: 0, y: 24 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.1 }}
+              transition={slowTransition({ duration: 0.3, delay: i * 0.1 })}
               onClick={() => openLightbox(i)}
               className={`gallery-item group relative overflow-hidden ${
                 i === 0 ? 'col-span-2 lg:col-span-2 row-span-2' : ''

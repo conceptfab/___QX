@@ -7,6 +7,7 @@ import type {
   PackshotGroup,
   PackshotItem,
 } from '@/types/catalog';
+import { slowTransition } from '@/lib/motion';
 import { renderQxText } from './renderQxText';
 import { responsiveImg } from '@/lib/responsive-image';
 
@@ -108,7 +109,10 @@ const PackshotsSection = ({ data }: PackshotsSectionProps) => {
                 key={group.model}
                 initial={{ opacity: 0, y: 24 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.06 + index * 0.07 }}
+                transition={slowTransition({
+                  duration: 0.3,
+                  delay: 0.06 + index * 0.07,
+                })}
               >
                 <div className="mb-5 flex items-center gap-3 border-b border-border pb-3">
                   <h3 className="font-display text-lg font-bold text-foreground">

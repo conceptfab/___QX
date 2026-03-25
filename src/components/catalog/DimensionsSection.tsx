@@ -5,6 +5,7 @@ import { motion, useInView } from 'framer-motion';
 import { Award, CheckCircle } from 'lucide-react';
 import Image from 'next/image';
 import type { DimensionsData } from '@/types/catalog';
+import { slowTransition } from '@/lib/motion';
 import { renderQxText } from './renderQxText';
 
 interface DimensionsSectionProps {
@@ -43,7 +44,7 @@ const DimensionsSection = ({ data }: DimensionsSectionProps) => {
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.2 }}
+            transition={slowTransition({ duration: 0.3, delay: 0.2 })}
             className="lg:col-span-3 bg-transparent p-0 lg:p-8 flex items-center justify-center"
           >
             <Image
@@ -58,7 +59,7 @@ const DimensionsSection = ({ data }: DimensionsSectionProps) => {
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.3 }}
+            transition={slowTransition({ duration: 0.3, delay: 0.3 })}
             className="lg:col-span-2"
           >
             <h3 className="font-display font-bold text-2xl text-foreground mb-6">

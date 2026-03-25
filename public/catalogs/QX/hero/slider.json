@@ -14,7 +14,7 @@
                        "alt":  "QX desk system in a modern open-space office with people working",
                        "description":  "Slide 01: Open-space layout with collaborative desks.",
                        "descriptionStyle":  {
-                                                "enabled":  true,
+                                                "enabled":  false,
                                                 "position":  "bottom-left",
                                                 "offsetPx":  56,
                                                 "textAlign":  "left",
@@ -26,7 +26,7 @@
                        "alt":  "QX desk with ergonomic chairs in a bright office interior",
                        "description":  "Slide 02: Focus zone optimized for ergonomic work.",
                        "descriptionStyle":  {
-                                                "enabled":  true,
+                                                "enabled":  false,
                                                 "position":  "top-right",
                                                 "offsetPx":  112,
                                                 "textAlign":  "right",
@@ -38,7 +38,7 @@
                        "alt":  "QX modular desks arranged in a contemporary workspace",
                        "description":  "Slide 03: Modular arrangement for team scalability.",
                        "descriptionStyle":  {
-                                                "enabled":  true,
+                                                "enabled":  false,
                                                 "position":  "bottom-center",
                                                 "offsetPx":  56,
                                                 "textAlign":  "center",

@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Package, FileDown, Mail } from 'lucide-react';
 import type { AssemblyData } from '@/types/catalog';
+import { slowTransition } from '@/lib/motion';
 import { renderQxText } from './renderQxText';
 
 interface AssemblySectionProps {
@@ -54,7 +55,10 @@ const AssemblySection = ({ data }: AssemblySectionProps) => {
               key={s.step}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.1 + i * 0.1 }}
+              transition={slowTransition({
+                duration: 0.3,
+                delay: 0.1 + i * 0.1,
+              })}
               className={`step-card ${i % 2 === 1 ? 'lg:translate-y-12' : ''}`}
             >
               <div className="flex items-start gap-6 group p-6 lg:p-10">
@@ -77,7 +81,7 @@ const AssemblySection = ({ data }: AssemblySectionProps) => {
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           animate={isInView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ delay: 0.8 }}
+          transition={slowTransition({ duration: 0.3, delay: 0.8 })}
           className="assembly-codes-panel bg-white/40 backdrop-blur-md border border-border/50 p-8 lg:p-12 mb-16 rounded-2xl shadow-xl shadow-foreground/5"
         >
           <div className="flex flex-col lg:flex-row gap-12 items-start">
@@ -127,7 +131,7 @@ const AssemblySection = ({ data }: AssemblySectionProps) => {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 1 }}
+          transition={slowTransition({ duration: 0.3, delay: 1 })}
           className="flex flex-col sm:flex-row items-center justify-center gap-6"
         >
           <button className="btn-premium inline-flex items-center gap-3 bg-accent text-accent-foreground px-12 py-6 rounded-full font-display font-bold text-sm uppercase tracking-widest hover:scale-105 transition-transform min-h-[44px]">

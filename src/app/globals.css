@@ -326,4 +326,32 @@ html {
   font-size: clamp(2.88rem, 7.2vw, 5.04rem) !important;
 }
 
+.catalog-motion-slow .transition,
+.catalog-motion-slow .transition-all,
+.catalog-motion-slow .transition-colors,
+.catalog-motion-slow .transition-opacity,
+.catalog-motion-slow .transition-transform {
+  transition-duration: 300ms !important;
+}
+
+.catalog-motion-slow .duration-200 {
+  transition-duration: 400ms !important;
+}
+
+.catalog-motion-slow .duration-300 {
+  transition-duration: 600ms !important;
+}
+
+.catalog-motion-slow .duration-500 {
+  transition-duration: 1000ms !important;
+}
+
+.catalog-motion-slow .duration-700 {
+  transition-duration: 1400ms !important;
+}
+
+.catalog-motion-slow .animate-bounce {
+  animation-duration: 2s !important;
+}
+
 

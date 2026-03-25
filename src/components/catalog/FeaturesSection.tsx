@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import type { FeaturesData } from '@/types/catalog';
 import { getIcon } from '@/lib/icon-map';
+import { slowTransition } from '@/lib/motion';
 import { renderQxText } from './renderQxText';
 
 interface FeaturesSectionProps {
@@ -80,7 +81,7 @@ const FeaturesSection = ({ data }: FeaturesSectionProps) => {
             key={activeFeature}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={slowTransition({ duration: 0.3 })}
             role="tabpanel"
             className="lg:col-span-2 bg-transparent p-8 lg:p-12 flex flex-col justify-center rounded-xl"
           >
@@ -134,11 +135,11 @@ const FeaturesSection = ({ data }: FeaturesSectionProps) => {
                       <motion.div
                         className="absolute left-0 top-0 h-full rounded-full bg-accent"
                         animate={{ width: ['20%', '80%', '50%', '20%'] }}
-                        transition={{
+                        transition={slowTransition({
                           repeat: Infinity,
                           duration: 4,
                           ease: 'easeInOut',
-                        }}
+                        })}
                       />
                     </motion.div>
                   </div>

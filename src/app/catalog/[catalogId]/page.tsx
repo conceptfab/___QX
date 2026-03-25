@@ -15,6 +15,7 @@ import MaterialsSection from '@/components/catalog/MaterialsSection';
 import FeaturesSection from '@/components/catalog/FeaturesSection';
 import AssemblySection from '@/components/catalog/AssemblySection';
 import PackshotsSection from '@/components/catalog/PackshotsSection';
+import CatalogMotion from '@/components/catalog/CatalogMotion';
 
 export async function generateStaticParams() {
   const catalogs = await getCatalogList();
@@ -59,36 +60,41 @@ export default async function CatalogPage({
   const themeClassName = catalog.meta.theme
     ? `catalog-${catalog.meta.theme}`
     : undefined;
+  const pageClassName = [themeClassName, 'catalog-motion-slow']
+    .filter(Boolean)
+    .join(' ');
   const navVariant = catalog.meta.theme === 'qx0' ? 'qx0' : 'default';
   const normalizedCatalogId = catalogId?.toUpperCase();
   const isQx0 = normalizedCatalogId === 'QX';
 
   return (
-    <div className={themeClassName}>
-      <a href="#overview" className="skip-link">
-        Skip to main content
-      </a>
+    <div className={pageClassName}>
+      <CatalogMotion>
+        <a href="#overview" className="skip-link">
+          Skip to main content
+        </a>
 
-      <CatalogNav
-        sections={catalog.sections}
-        brandLabel={(
-          globalConfig?.brandName ?? catalog.hero.brandLabel
-        ).toUpperCase()}
-        brandLogoSrc={isQx0 ? '/catalogs/QX/metro_logo.svg' : undefined}
-        variant={navVariant}
-      />
+        <CatalogNav
+          sections={catalog.sections}
+          brandLabel={(
+            globalConfig?.brandName ?? catalog.hero.brandLabel
+          ).toUpperCase()}
+          brandLogoSrc={isQx0 ? '/catalogs/QX/metro_logo.svg' : undefined}
+          variant={navVariant}
+        />
 
-      <main id="main-content" lang="en">
-        <HeroSection data={catalog.hero} catalogId={catalogId} />
-        <OverviewSection data={catalog.overview} />
-        <GallerySection data={catalog.gallery} />
-        <VariantsSection data={catalog.variants} />
-        {catalog.packshots && <PackshotsSection data={catalog.packshots} />}
-        <DimensionsSection data={catalog.dimensions} />
-        <MaterialsSection data={catalog.materials} />
-        <FeaturesSection data={catalog.features} />
-        <AssemblySection data={catalog.assembly} />
-      </main>
+        <main id="main-content" lang="en">
+          <HeroSection data={catalog.hero} catalogId={catalogId} />
+          <OverviewSection data={catalog.overview} />
+          <GallerySection data={catalog.gallery} />
+          <VariantsSection data={catalog.variants} />
+          {catalog.packshots && <PackshotsSection data={catalog.packshots} />}
+          <DimensionsSection data={catalog.dimensions} />
+          <MaterialsSection data={catalog.materials} />
+          <FeaturesSection data={catalog.features} />
+          <AssemblySection data={catalog.assembly} />
+        </main>
+      </CatalogMotion>
     </div>
   );
 }

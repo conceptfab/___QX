@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import type { VariantsData } from '@/types/catalog';
+import { slowTransition } from '@/lib/motion';
 import { renderQxText } from './renderQxText';
 import { responsiveImg } from '@/lib/responsive-image';
 
@@ -48,7 +49,7 @@ const VariantsSection = ({ data }: VariantsSectionProps) => {
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.2 }}
+            transition={slowTransition({ duration: 0.3, delay: 0.2 })}
             className="relative z-0"
           >
             <div
@@ -84,7 +85,7 @@ const VariantsSection = ({ data }: VariantsSectionProps) => {
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.3 }}
+            transition={slowTransition({ duration: 0.3, delay: 0.3 })}
             className="space-y-10"
           >
             <div>

@@ -9,6 +9,7 @@ import type {
   HeroDescriptionPosition,
   HeroDescriptionStyleConfig,
 } from '@/types/catalog';
+import { scaleMotionValue, slowTransition } from '@/lib/motion';
 import { renderQxText } from './renderQxText';
 import { responsiveImg } from '@/lib/responsive-image';
 
@@ -96,15 +97,22 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
       currentSlide?.heroContent?.taglineLine2 ?? data.taglineLine2,
     ctaLabel: currentSlide?.heroContent?.ctaLabel ?? data.ctaLabel,
   };
-  const slideTransition = {
+  const slideTransition = slowTransition({
     duration: Math.max(1.6, slider.transitionMs / 1000),
     ease: 'easeInOut' as const,
-  };
+  });
   const currentDescriptionStyle = {
     ...DEFAULT_DESCRIPTION_STYLE,
     ...data.descriptionStyle,
     ...currentSlide?.descriptionStyle,
   };
+  // The first two QX slides use lighter imagery, so anchor the hero copy low-left
+  // and switch to near-black text for contrast.
+  const useQxCornerHeroLayout = isQx && currentIndex < 2;
+  const useQxThirdSlideLift = isQx && currentIndex === 2;
+  const showSlideDescription = Boolean(
+    currentDescriptionStyle.enabled && currentSlide?.description && !isQx,
+  );
   const descriptionPosClass = descriptionPositionClasses(
     currentDescriptionStyle.position,
   );
@@ -126,6 +134,48 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
       ? { top: `${currentDescriptionStyle.offsetPx}px` }
       : { bottom: `${currentDescriptionStyle.offsetPx}px` }),
   };
+  const heroTextColor = useQxCornerHeroLayout ? '#151515' : undefined;
+  const heroSecondaryTextColor = useQxCornerHeroLayout
+    ? 'rgba(21, 21, 21, 0.78)'
+    : undefined;
+  const heroContentWrapperClassName = useQxCornerHeroLayout
+    ? 'relative z-10 flex min-h-screen w-full flex-col items-start justify-end px-5 pb-10 text-left sm:px-8 sm:pb-14 lg:px-10 lg:pb-16'
+    : 'relative z-10 mx-auto w-full max-w-7xl px-4 text-center sm:px-6 lg:px-8';
+  const heroTitleClassName = useQxCornerHeroLayout
+    ? 'flex flex-col items-start overflow-visible'
+    : 'flex flex-col items-center overflow-visible';
+  const heroTitleStyle = useQxCornerHeroLayout
+    ? { color: heroTextColor }
+    : undefined;
+  const heroTaglineClassName = useQxCornerHeroLayout
+    ? 'mt-4 max-w-xl text-balance font-body text-lg leading-relaxed md:text-xl'
+    : 'mx-auto mt-8 max-w-2xl text-balance font-body text-lg leading-relaxed md:text-xl';
+  const heroBrandClassName = useQxCornerHeroLayout
+    ? 'mb-6 text-left font-body text-sm uppercase tracking-[0.3em]'
+    : 'mb-6 font-body text-sm uppercase tracking-[0.3em] text-on-dark-muted';
+  const heroCtaWrapperClassName = useQxCornerHeroLayout ? 'mt-8' : 'mt-12';
+  const heroFloatingCtaClassName = useQxThirdSlideLift
+    ? 'absolute inset-x-0 z-20 flex justify-center'
+    : undefined;
+  const heroCtaStyle = useQxCornerHeroLayout
+    ? {
+        color: '#151515',
+        backgroundColor: 'rgba(255, 255, 255, 0.72)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        boxShadow: '0 16px 34px rgba(0, 0, 0, 0.1)',
+      }
+    : undefined;
+  const heroFloatingCtaStyle = useQxThirdSlideLift
+    ? { bottom: 'clamp(12rem, 22vh, 16rem)' }
+    : undefined;
+  const heroContentWrapperStyle = useQxThirdSlideLift
+    ? {
+        transform:
+          'translateY(calc(clamp(5.04rem, 15.75vw, 13.86rem) * -1))',
+      }
+    : undefined;
+  const heroCtaTransition = slowTransition({ duration: 0.3, delay: 0.8 });
   const prefersReducedMotion = useReducedMotion();
 
   const goTo = useCallback(
@@ -158,7 +208,7 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
       return;
     }
 
-    const timer = setInterval(goNext, slider.interval);
+    const timer = setInterval(goNext, scaleMotionValue(slider.interval));
     return () => clearInterval(timer);
   }, [
     hasSlider,
@@ -240,7 +290,7 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
                 type="button"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.2 }}
+                transition={slowTransition({ duration: 0.3, delay: 1.2 })}
                 onClick={goPrev}
                 className="absolute left-4 top-1/2 z-20 hidden min-h-[44px] min-w-[44px] -translate-y-1/2 items-center justify-center text-on-dark-muted transition-colors hover:text-on-dark md:flex"
                 aria-label="Previous slide"
@@ -251,7 +301,7 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
                 type="button"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.2 }}
+                transition={slowTransition({ duration: 0.3, delay: 1.2 })}
                 onClick={goNext}
                 className="absolute right-4 top-1/2 z-20 hidden min-h-[44px] min-w-[44px] -translate-y-1/2 items-center justify-center text-on-dark-muted transition-colors hover:text-on-dark md:flex"
                 aria-label="Next slide"
@@ -264,7 +314,7 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 1.2 }}
+              transition={slowTransition({ duration: 0.3, delay: 1.2 })}
               className="absolute bottom-20 left-1/2 z-20 flex -translate-x-1/2 gap-2 md:bottom-24"
               role="tablist"
               aria-label="Slide indicators"
@@ -293,7 +343,7 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
         </>
       )}
 
-      {currentDescriptionStyle.enabled && currentSlide?.description && (
+      {showSlideDescription && (
         <motion.p
           key={`slide-description-${currentIndex}`}
           initial={{ opacity: 0, y: 6 }}
@@ -306,14 +356,18 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
         </motion.p>
       )}
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+      <div
+        className={heroContentWrapperClassName}
+        style={heroContentWrapperStyle}
+      >
         {currentHeroContent.brandLabel?.trim() && (
           <motion.p
             key={`hero-brand-${currentIndex}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="mb-6 font-body text-sm uppercase tracking-[0.3em] text-on-dark-muted"
+            transition={slowTransition({ duration: 0.3, delay: 0.2 })}
+            className={heroBrandClassName}
+            style={heroTextColor ? { color: heroSecondaryTextColor } : undefined}
           >
             {currentHeroContent.brandLabel}
           </motion.p>
@@ -323,8 +377,9 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
           key={`hero-title-${currentIndex}`}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="flex flex-col items-center overflow-visible font-display text-primary-foreground"
+          transition={slowTransition({ duration: 0.3, delay: 0.4 })}
+          className={`${heroTitleClassName} font-display text-primary-foreground`}
+          style={heroTitleStyle}
         >
           {isQx ? (
             <span
@@ -353,27 +408,68 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
           key={`hero-tagline-${currentIndex}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="mx-auto mt-8 max-w-2xl text-balance font-body text-lg leading-relaxed text-white/90 md:text-xl"
-          style={{ textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)' }}
+          transition={slowTransition({ duration: 0.3, delay: 0.6 })}
+          className={heroTaglineClassName}
+          style={
+            heroTextColor
+              ? { color: heroTextColor }
+              : { textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)' }
+          }
         >
           {renderQxText(currentHeroContent.tagline)}
           {currentHeroContent.taglineLine2 && (
             <>
               <br className="hidden md:block" />
-              <span className="mt-2 block text-base font-light opacity-80 md:text-lg">
+              <span
+                className="mt-2 block text-base font-light opacity-80 md:text-lg"
+                style={
+                  heroSecondaryTextColor
+                    ? { color: heroSecondaryTextColor }
+                    : undefined
+                }
+              >
                 {renderQxText(currentHeroContent.taglineLine2)}
               </span>
             </>
           )}
         </motion.p>
 
+        {!useQxThirdSlideLift && (
+          <motion.div
+            key={`hero-cta-${currentIndex}`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={heroCtaTransition}
+            className={heroCtaWrapperClassName}
+          >
+            <button
+              onClick={() =>
+                document
+                  .getElementById('overview')
+                  ?.scrollIntoView({ behavior: 'smooth' })
+              }
+              className="btn-premium inline-flex min-h-[44px] items-center gap-3 rounded-full bg-accent px-8 py-4 font-display text-sm font-bold uppercase tracking-widest text-accent-foreground transition-colors hover:opacity-100"
+              style={heroCtaStyle}
+            >
+              <span>{currentHeroContent.ctaLabel}</span>
+              <ArrowDown
+                size={18}
+                strokeWidth={1.2}
+                className="animate-bounce"
+              />
+            </button>
+          </motion.div>
+        )}
+      </div>
+
+      {useQxThirdSlideLift && (
         <motion.div
-          key={`hero-cta-${currentIndex}`}
+          key={`hero-floating-cta-${currentIndex}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
-          className="mt-12"
+          transition={heroCtaTransition}
+          className={heroFloatingCtaClassName}
+          style={heroFloatingCtaStyle}
         >
           <button
             onClick={() =>
@@ -387,12 +483,12 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
             <ArrowDown size={18} strokeWidth={1.2} className="animate-bounce" />
           </button>
         </motion.div>
-      </div>
+      )}
 
       <motion.button
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
+        transition={slowTransition({ duration: 0.3, delay: 1.2 })}
         onClick={() =>
           document
             .getElementById('overview')
@@ -403,7 +499,7 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
       >
         <motion.div
           animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
+          transition={slowTransition({ repeat: Infinity, duration: 2 })}
         >
           <ArrowDown size={24} strokeWidth={1.2} />
         </motion.div>
