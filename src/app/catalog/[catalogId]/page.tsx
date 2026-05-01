@@ -83,7 +83,11 @@ export default async function CatalogPage({
           variant={navVariant}
         />
 
-        <main id="main-content" lang="en">
+        <main
+          id="main-content"
+          lang="en"
+          className="[&>section+section]:mt-[240px]"
+        >
           <HeroSection data={catalog.hero} catalogId={catalogId} />
           <OverviewSection data={catalog.overview} />
           <GallerySection data={catalog.gallery} />

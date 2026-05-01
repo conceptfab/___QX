@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import type { FeaturesData } from '@/types/catalog';
 import { getIcon } from '@/lib/icon-map';
@@ -14,144 +14,55 @@ interface FeaturesSectionProps {
 const FeaturesSection = ({ data }: FeaturesSectionProps) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
-  const [activeFeature, setActiveFeature] = useState(0);
+  const featureCards = data.items.slice(0, 4);
 
   return (
     <section
       id="features"
-      className="section-padding bg-surface"
+      className="bg-white"
       aria-labelledby="features-title"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          className="text-center mb-12"
-        >
-          <p className="text-accent font-display font-semibold text-sm uppercase tracking-[0.2em] mb-4">
-            {renderQxText(data.sectionLabel)}
-          </p>
-          <h2
-            id="features-title"
-            className="font-display font-semibold text-foreground"
-            style={{ fontSize: 'clamp(2.1rem, 4.8vw, 3.3rem)' }}
-          >
-            {renderQxText(data.title)}
-          </h2>
-        </motion.div>
+      <div
+        className="mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-10 px-5 py-16 sm:grid-cols-2 sm:px-8 lg:h-[720px] lg:grid-cols-4 lg:items-center lg:gap-[74px] lg:px-[122px] lg:py-0"
+        ref={ref}
+      >
+        <h2 id="features-title" className="sr-only">
+          {renderQxText(data.title)}
+        </h2>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          <div
-            className="space-y-2 lg:col-span-1"
-            role="tablist"
-            aria-label="Product features"
-          >
-            {data.items.map((feature, index) => {
-              const Icon = getIcon(feature.icon);
-              return (
-                <button
-                  key={feature.title}
-                  role="tab"
-                  aria-selected={activeFeature === index}
-                  onClick={() => setActiveFeature(index)}
-                  className={`feature-tab-button w-full text-left px-6 py-5 flex items-center gap-4 transition-all min-h-[44px] rounded-xl ${
-                    activeFeature === index ? 'is-active' : ''
-                  }`}
-                >
-                  <Icon
-                    size={24}
-                    strokeWidth={1.2}
-                    className={`feature-tab-icon ${
-                      activeFeature === index ? 'is-active' : ''
-                    }`}
-                  />
-                  <span
-                    className={`feature-tab-label font-display text-lg font-bold ${
-                      activeFeature === index ? 'is-active' : ''
-                    }`}
-                  >
-                    {renderQxText(feature.title)}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          <motion.div
-            key={activeFeature}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={slowTransition({ duration: 0.3 })}
-            role="tabpanel"
-            className="lg:col-span-2 bg-transparent p-8 lg:p-12 flex flex-col justify-center rounded-xl"
-          >
-            {(() => {
-              const feature = data.items[activeFeature];
-              const Icon = getIcon(feature.icon);
-              return (
-                <>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-lg bg-warm-light flex items-center justify-center">
-                      <Icon size={24} strokeWidth={1.2} className="text-accent" />
-                    </div>
-                    <div>
-                      <h3 className="font-display font-bold text-foreground text-xl">
-                        {renderQxText(feature.title)}
-                      </h3>
-                      <span className="text-xs font-medium text-accent bg-warm-light px-2 py-0.5 rounded">
-                        {renderQxText(feature.badge)}
-                      </span>
-                    </div>
-                  </div>
-                  <p className="text-muted-foreground leading-relaxed text-base">
-                    {renderQxText(feature.desc)}
-                  </p>
-                </>
-              );
-            })()}
-
-            <div className={data.demoVideo ? 'mt-12' : 'mt-12 p-8 rounded-xl'}>
-              {data.demoVideo ? (
-                <div className="feature-demo-video-shell w-full overflow-hidden rounded-xl">
-                  <video
-                    key={data.demoVideo}
-                    src={data.demoVideo}
-                    className="feature-demo-video h-auto w-full mix-blend-multiply"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    controls
-                    preload="metadata"
-                  />
-                </div>
-              ) : (
-                <>
-                  <div className="flex h-40 items-center justify-center">
-                    <motion.div
-                      className="relative h-3 w-48 rounded-full bg-border"
-                      aria-hidden="true"
-                    >
-                      <motion.div
-                        className="absolute left-0 top-0 h-full rounded-full bg-accent"
-                        animate={{ width: ['20%', '80%', '50%', '20%'] }}
-                        transition={slowTransition({
-                          repeat: Infinity,
-                          duration: 4,
-                          ease: 'easeInOut',
-                        })}
-                      />
-                    </motion.div>
-                  </div>
-                  <p className="text-center text-xs text-muted-foreground">
-                    Interactive demonstration - animation placeholder
-                  </p>
-                </>
-              )}
-            </div>
-          </motion.div>
+        {featureCards.map((feature, index) => {
+          const Icon = getIcon(feature.icon);
+          return (
+            <motion.article
+              key={feature.title}
+              initial={{ opacity: 0, y: 24 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={slowTransition({
+                duration: 0.5,
+                delay: index * 0.08,
+              })}
+              className="w-full"
+            >
+              <div
+                className="flex aspect-square w-full items-center justify-center"
+                aria-hidden="true"
+              >
+                <Icon
+                  size={96}
+                  strokeWidth={1}
+                  className="text-foreground/55"
+                />
+              </div>
+              <h3 className="section_Title mt-4 font-display">
+                {renderQxText(feature.title)}
+              </h3>
+              <p className="sec_main_text mt-2 font-body">
+                {renderQxText(feature.desc)}
+              </p>
+            </motion.article>
+          );
+        })}
         </div>
-      </div>
     </section>
   );
 };

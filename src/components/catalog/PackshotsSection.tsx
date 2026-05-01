@@ -77,26 +77,25 @@ const PackshotsSection = ({ data }: PackshotsSectionProps) => {
     <section
       id="packshots"
       aria-labelledby="packshots-title"
-      className="section-padding bg-background"
+      className="section-padding bg-white"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" ref={ref}>
+      <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           className="text-center mb-12"
         >
-          <p className="mb-4 font-display text-sm font-semibold uppercase tracking-[0.2em] text-accent">
+          <p className="section_ID mb-4 font-display uppercase tracking-[0.2em]">
             {renderQxText(data.sectionLabel)}
           </p>
           <h2
             id="packshots-title"
-            className="font-display font-semibold text-foreground"
-            style={{ fontSize: 'clamp(2.1rem, 4.8vw, 3.3rem)' }}
+            className="section_Title font-display"
           >
             {renderQxText(data.title)}
           </h2>
           {data.subtitle && (
-            <p className="mt-3 text-sm text-muted-foreground">{data.subtitle}</p>
+            <p className="sec_main_text mt-3">{data.subtitle}</p>
           )}
         </motion.div>
 

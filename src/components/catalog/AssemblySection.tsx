@@ -22,11 +22,11 @@ const AssemblySection = ({ data }: AssemblySectionProps) => {
   return (
     <section
       id="assembly"
-      className="section-padding relative overflow-hidden"
+      className="section-padding relative overflow-hidden bg-white"
       aria-labelledby="assembly-title"
     >
       <div
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
+        className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
         ref={ref}
       >
         <motion.div
@@ -34,16 +34,12 @@ const AssemblySection = ({ data }: AssemblySectionProps) => {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           className="text-center mb-20"
         >
-          <p className="text-accent font-display font-bold text-xs uppercase tracking-[0.4em] mb-4">
+          <p className="section_ID mb-4 font-display uppercase tracking-[0.4em]">
             {renderQxText(data.sectionLabel)}
           </p>
           <h2
             id="assembly-title"
-            className="font-display font-semibold text-foreground"
-            style={{
-              fontSize: 'clamp(2.4rem, 6vw, 4.2rem)',
-              letterSpacing: '-0.03em',
-            }}
+            className="section_Title font-display"
           >
             {renderQxText(data.title)}
           </h2>
@@ -69,7 +65,7 @@ const AssemblySection = ({ data }: AssemblySectionProps) => {
                   <h3 className="font-display font-bold text-xl text-foreground mb-3 tracking-tight">
                     {renderQxText(s.title)}
                   </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed font-body">
+                  <p className="sec_main_text font-body">
                     {renderQxText(s.desc)}
                   </p>
                 </div>
@@ -90,7 +86,7 @@ const AssemblySection = ({ data }: AssemblySectionProps) => {
                 <Package size={28} strokeWidth={1.2} className="text-accent" />
                 Product Codes
               </h3>
-              <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+              <p className="sec_main_text mb-6">
                 Use these unique codes when placing your order or specifying
                 modules for your workspace.
               </p>

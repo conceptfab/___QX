@@ -121,22 +121,21 @@ const MaterialsSection = ({ data }: MaterialsSectionProps) => {
   return (
     <section
       id="materials"
-      className="section-padding bg-background"
+      className="section-padding bg-white"
       aria-labelledby="materials-title"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" ref={ref}>
+      <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           className="mb-12 text-center"
         >
-          <p className="mb-4 font-display text-sm font-semibold uppercase tracking-[0.2em] text-accent">
+          <p className="section_ID mb-4 font-display uppercase tracking-[0.2em]">
             {renderQxText(data.sectionLabel)}
           </p>
           <h2
             id="materials-title"
-            className="font-display font-semibold text-foreground"
-            style={{ fontSize: 'clamp(2.1rem, 4.8vw, 3.3rem)' }}
+            className="section_Title font-display"
           >
             {renderQxText(data.title)}
           </h2>
@@ -199,7 +198,7 @@ const MaterialsSection = ({ data }: MaterialsSectionProps) => {
                 </figure>
 
                 <div className="space-y-1 px-4 text-center">
-                  <p className="materials-detail-caption text-sm leading-relaxed text-muted-foreground">
+                  <p className="sec_main_text materials-detail-caption">
                     {renderQxText(data.detailImageCaption)}
                   </p>
                   <p className="text-xs font-medium uppercase tracking-[0.26em] text-foreground/90">
@@ -221,7 +220,7 @@ const MaterialsSection = ({ data }: MaterialsSectionProps) => {
                     loading="lazy"
                   />
                 </figure>
-                <p className="materials-detail-caption px-4 text-center text-sm text-muted-foreground">
+                <p className="sec_main_text materials-detail-caption px-4 text-center">
                   {renderQxText(data.detailImageCaption)}
                 </p>
               </>
@@ -239,7 +238,7 @@ const MaterialsSection = ({ data }: MaterialsSectionProps) => {
                 <h3 className="font-display text-lg font-semibold text-foreground">
                   {renderQxText(material.name)}
                 </h3>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                <p className="sec_main_text mt-1">
                   {renderQxText(material.desc)}
                 </p>
                 <p className="mt-2 text-xs font-medium text-accent">

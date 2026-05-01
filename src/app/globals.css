@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&family=Sora:wght@300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap');
 
 @font-face {
   font-family: 'Calibre';
@@ -67,9 +67,9 @@
     --success: 0 0% 45%;
     --info: 0 0% 55%;
 
-    --font-display: 'Roboto', sans-serif;
-    --font-body: 'Roboto', sans-serif;
-    --font-qx: 'Sora', sans-serif;
+    --font-display: 'Lato', sans-serif;
+    --font-body: 'Lato', sans-serif;
+    --font-qx: 'Lato', sans-serif;
 
     --section-padding: clamp(3rem, 6vw, 6rem);
   }
@@ -136,7 +136,7 @@
 }
 
 @layer utilities {
-  .font-display {
+  .font-display:not(.section_ID):not(.section_Title) {
     font-family: var(--font-display) !important;
     font-weight: 300 !important;
     letter-spacing: 0.03em !important;
@@ -165,7 +165,7 @@
 
 .variant-list-page,
 .variant-list-page * {
-  font-family: 'Roboto', sans-serif !important;
+  font-family: 'Lato', sans-serif !important;
 }
 
 .variant-list-page .variant-tile {
@@ -278,54 +278,104 @@ html {
   border-radius: 3px;
 }
 
-/* QX (theme qx0): no rounding for controls */
+/* ==========================================================================
+   QX theme controls
+   ========================================================================== */
+
 .catalog-qx0 {
   --radius: 0;
+  --font-body: 'Lato', sans-serif;
+  --font-display: 'Lato', sans-serif;
+
+  --section-id-color: aqua;
+  --section-id-size: 18px;
+  --section-id-weight: 700;
+  --section-id-line: 1.2;
+  --section-id-spacing: 0.02em;
+
+  --section-title-color: rgb(234, 117, 15);
+  --section-title-size: 46px;
+  --section-title-weight: 400;
+  --section-title-line: 50px;
+  --section-title-spacing: 0.03em;
+
+  --section-text-color: red;
+  --section-text-size: 18px;
+  --section-text-weight: 400;
+  --section-text-line: 1.5;
 }
 
+/* QX shapes */
 .catalog-qx0 button,
 .catalog-qx0 [role='button'],
 .catalog-qx0 [role='tab'],
-.catalog-qx0 [role='radio'] {
-  border-radius: 0 !important;
-}
-
-.catalog-qx0 #cover [role='tab'] span {
-  border-radius: 0 !important;
-}
-
+.catalog-qx0 [role='radio'],
+.catalog-qx0 #cover [role='tab'] span,
 .catalog-qx0 #overview .rounded-2xl,
 .catalog-qx0 #assembly .rounded-2xl {
   border-radius: 0 !important;
 }
 
-.catalog-qx0 {
-  --font-body: 'Roboto', sans-serif;
-  --font-display: 'Roboto', sans-serif;
-}
-
+/* QX typography helpers */
 .catalog-qx0 .font-body {
   font-family: var(--font-body) !important;
 }
 
-.catalog-qx0 .font-display {
+.catalog-qx0 .font-display:not(.section_ID):not(.section_Title) {
   font-family: var(--font-display) !important;
   font-weight: 300 !important;
   letter-spacing: 0.03em !important;
 }
 
-.catalog-qx0 h2.font-display {
+.catalog-qx0 h2.font-display:not(.section_Title) {
   font-weight: 200 !important;
 }
 
-.catalog-qx0 :is(#overview, #variants, #materials, #gallery, #dimensions, #features, #packshots) h2.font-display {
+.catalog-qx0 :is(#overview, #variants, #materials, #gallery, #dimensions, #features, #packshots) h2.font-display:not(.section_Title) {
   font-size: clamp(2.52rem, 5.76vw, 3.96rem) !important;
 }
 
-.catalog-qx0 #assembly h2.font-display {
+.catalog-qx0 #assembly h2.font-display:not(.section_Title) {
   font-size: clamp(2.88rem, 7.2vw, 5.04rem) !important;
 }
 
+/* Section text controls: global defaults for every section */
+.catalog-qx0 .section_ID {
+  color: var(--section-id-color) !important;
+  font-family: var(--font-display) !important;
+  font-size: var(--section-id-size) !important;
+  font-weight: var(--section-id-weight) !important;
+  line-height: var(--section-id-line) !important;
+  letter-spacing: var(--section-id-spacing) !important;
+}
+
+.catalog-qx0 .section_Title {
+  color: rgb(234, 117, 15) !important;
+  font-family: var(--font-display) !important;
+  font-size: var(--section-title-size) !important;
+  font-weight: var(--section-title-weight) !important;
+  line-height: var(--section-title-line) !important;
+  letter-spacing: var(--section-title-spacing) !important;
+}
+
+.catalog-qx0 .section_Title .qx-word {
+  font-family: inherit !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+  letter-spacing: inherit !important;
+  text-transform: inherit !important;
+}
+
+.catalog-qx0 .sec_main_text {
+  color: var(--section-text-color) !important;
+  font-family: var(--font-body) !important;
+  font-size: var(--section-text-size) !important;
+  font-weight: var(--section-text-weight) !important;
+  line-height: var(--section-text-line) !important;
+}
+
+/* Motion speed */
 .catalog-motion-slow .transition,
 .catalog-motion-slow .transition-all,
 .catalog-motion-slow .transition-colors,

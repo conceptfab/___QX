@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "dev:turbo": "next dev --turbopack",
+    "kill:next": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/kill-next.ps1",
     "thumbnails": "node scripts/generate-thumbnails.mjs",
     "thumbnails:force": "node scripts/generate-thumbnails.mjs --force",
     "thumbnails:clean": "node scripts/generate-thumbnails.mjs --clean",

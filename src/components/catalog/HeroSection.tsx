@@ -140,7 +140,7 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
     : undefined;
   const heroContentWrapperClassName = useQxCornerHeroLayout
     ? 'relative z-10 flex min-h-screen w-full flex-col items-start justify-end px-5 pb-10 text-left sm:px-8 sm:pb-14 lg:px-10 lg:pb-16'
-    : 'relative z-10 mx-auto w-full max-w-7xl px-4 text-center sm:px-6 lg:px-8';
+    : 'relative z-10 mx-auto w-full max-w-[1440px] px-4 text-center sm:px-6 lg:px-8';
   const heroTitleClassName = useQxCornerHeroLayout
     ? 'flex flex-col items-start overflow-visible'
     : 'flex flex-col items-center overflow-visible';
@@ -251,7 +251,7 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
   return (
     <section
       id="cover"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-white"
       aria-label={`${currentHeroContent.collectionName} Collection cover`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -386,7 +386,7 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
               className="qx-giant py-4 text-[clamp(5.6rem,17.5vw,15.4rem)] tracking-tighter"
               style={{
                 lineHeight: '0.9',
-                fontFamily: "'Sora', sans-serif",
+                fontFamily: "'Lato', sans-serif",
                 fontWeight: 200,
               }}
             >

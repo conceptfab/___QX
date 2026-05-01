@@ -19,22 +19,21 @@ const DimensionsSection = ({ data }: DimensionsSectionProps) => {
   return (
     <section
       id="dimensions"
-      className="section-padding bg-surface"
+      className="section-padding bg-white"
       aria-labelledby="dimensions-title"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           className="text-center mb-12"
         >
-          <p className="text-accent font-display font-semibold text-sm uppercase tracking-[0.2em] mb-4">
+          <p className="section_ID mb-4 font-display uppercase tracking-[0.2em]">
             {renderQxText(data.sectionLabel)}
           </p>
           <h2
             id="dimensions-title"
-            className="font-display font-semibold text-foreground"
-            style={{ fontSize: 'clamp(2.1rem, 4.8vw, 3.3rem)' }}
+            className="section_Title font-display"
           >
             {renderQxText(data.title)}
           </h2>

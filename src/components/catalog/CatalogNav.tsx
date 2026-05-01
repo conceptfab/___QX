@@ -123,7 +123,7 @@ const CatalogNav = ({
               : 'bg-white'
           }`}
         >
-          <div className="mx-auto max-w-7xl px-6 sm:px-8">
+          <div className="mx-auto max-w-[1440px] px-6 sm:px-8">
             <div className="flex h-11 items-center justify-between transition-all duration-300 sm:h-14">
               {renderBrandControl(
                 'font-display text-xl font-black tracking-tighter text-slate-900 !rounded-none',
@@ -207,7 +207,7 @@ const CatalogNav = ({
             : 'bg-white py-4 shadow-none'
         }`}
       >
-        <div className="mx-auto max-w-7xl px-6 sm:px-8">
+        <div className="mx-auto max-w-[1440px] px-6 sm:px-8">
           <div className="flex items-center justify-between">
             {renderBrandControl(
               'font-display text-xl font-black tracking-tighter text-slate-900',

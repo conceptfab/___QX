@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import type { OverviewData } from '@/types/catalog';
-import { getIcon } from '@/lib/icon-map';
 import { slowTransition } from '@/lib/motion';
 import { renderQxText } from './renderQxText';
 import { responsiveImg } from '@/lib/responsive-image';
@@ -20,23 +19,25 @@ const OverviewSection = ({ data }: OverviewSectionProps) => {
   return (
     <section
       id="overview"
-      className="section-padding bg-background"
+      className="bg-white"
       aria-labelledby="overview-title"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <div
+        className="relative mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-10 px-5 py-16 sm:px-8 lg:h-[640px] lg:grid-cols-12 lg:gap-0 lg:px-9 lg:py-0"
+        ref={ref}
+      >
+        <div className="relative z-10 flex flex-col lg:col-span-6 lg:max-w-[540px] lg:pt-3">
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={slowTransition({ duration: 0.6 })}
           >
-            <p className="text-accent font-display font-semibold text-sm uppercase tracking-[0.2em] mb-4">
+            <p className="section_ID mb-10 font-display uppercase lg:mb-10">
               {renderQxText(data.sectionLabel)}
             </p>
             <h2
               id="overview-title"
-              className="font-display font-semibold text-foreground leading-tight"
-              style={{ fontSize: 'clamp(2.1rem, 4.8vw, 3.3rem)' }}
+              className="section_Title font-display font-normal"
             >
               {renderQxText(data.title)}
               {data.titleLine2 && (
@@ -46,81 +47,37 @@ const OverviewSection = ({ data }: OverviewSectionProps) => {
                 </>
               )}
             </h2>
-            <div className="mt-6 space-y-4 text-muted-foreground font-body text-base leading-relaxed max-w-lg">
+            <div className="sec_main_text mt-12 max-w-[520px] space-y-4 font-body">
               {data.paragraphs.map((p, i) => (
                 <p key={i}>{renderQxText(p)}</p>
               ))}
             </div>
-
-            <div className="mt-8 flex flex-wrap gap-3">
-              {data.quickLinkLabels.map((label) => (
-                <button
-                  key={label}
-                  onClick={() =>
-                    document
-                      .getElementById(label.toLowerCase())
-                      ?.scrollIntoView({ behavior: 'smooth' })
-                  }
-                  className="px-6 py-3 bg-foreground text-background rounded-full text-sm font-bold tracking-wide hover:scale-105 transition-transform min-h-[44px]"
-                >
-                  {renderQxText(label)}
-                </button>
-              ))}
-            </div>
           </motion.div>
+        </div>
 
+        <div className="min-h-[360px] lg:absolute lg:inset-y-0 lg:left-[51.5%] lg:right-9 lg:min-h-0">
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={slowTransition({ duration: 0.6, delay: 0.2 })}
-            className="w-full flex justify-center lg:justify-end"
+            className="h-full w-full"
           >
-            <figure className="w-full overflow-hidden bg-transparent">
-              <div className="relative aspect-square w-full overflow-hidden">
+            <figure className="h-full w-full overflow-hidden bg-transparent">
+              <div className="relative h-full min-h-[360px] w-full overflow-hidden">
                 <img
                   src={data.packshotImage}
                   {...responsiveImg(data.packshotImage, 'overview')}
                   draggable={true}
                   alt={data.packshotImageAlt}
-                  className="absolute inset-0 h-full w-full object-cover"
+                  className="absolute inset-0 h-full w-full object-cover object-center"
                   loading="lazy"
                 />
               </div>
-              <figcaption className="overview-packshot-caption mt-6 text-center text-sm font-medium tracking-wide text-muted-foreground uppercase">
+              <figcaption className="sr-only">
                 {renderQxText(data.packshotCaption)}
               </figcaption>
             </figure>
           </motion.div>
-        </div>
-
-        <div className="mt-32 grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          {data.features.map((f, i) => {
-            const Icon = getIcon(f.icon);
-            return (
-              <motion.div
-                key={f.title}
-                initial={{ opacity: 0, y: 24 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={slowTransition({
-                  duration: 0.5,
-                  delay: 0.3 + i * 0.1,
-                })}
-                className="group flex gap-6 items-start"
-              >
-                <div className="icon-container shrink-0 w-12 h-12 flex items-center justify-center group-hover:scale-110 transition-transform text-foreground">
-                  <Icon size={48} strokeWidth={1.2} />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-display font-black text-foreground text-xl mb-2">
-                    {renderQxText(f.title)}
-                  </h3>
-                  <p className="text-muted-foreground text-base leading-relaxed">
-                    {renderQxText(f.desc)}
-                  </p>
-                </div>
-              </motion.div>
-            );
-          })}
         </div>
       </div>
     </section>
