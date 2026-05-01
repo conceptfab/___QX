@@ -5,14 +5,14 @@ import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { X, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { GalleryData } from '@/types/catalog';
 import { slowTransition } from '@/lib/motion';
-import { renderQxText } from './renderQxText';
+import { renderQxText } from '@/components/catalog/renderQxText';
 import { responsiveImg } from '@/lib/responsive-image';
 
 interface GallerySectionProps {
   data: GalleryData;
 }
 
-const GallerySection = ({ data }: GallerySectionProps) => {
+const GalleryQX = ({ data }: GallerySectionProps) => {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
@@ -190,4 +190,4 @@ const GallerySection = ({ data }: GallerySectionProps) => {
   );
 };
 
-export default GallerySection;
+export default GalleryQX;

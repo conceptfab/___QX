@@ -1,21 +1,23 @@
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import {
   loadCatalog,
   getGlobalConfig,
   getCatalogList,
 } from '@/lib/catalog-loader';
-import type { Metadata } from 'next';
-import CatalogNav from '@/components/catalog/CatalogNav';
-import HeroSection from '@/components/catalog/HeroSection';
-import OverviewSection from '@/components/catalog/OverviewSection';
-import GallerySection from '@/components/catalog/GallerySection';
-import VariantsSection from '@/components/catalog/VariantsSection';
-import DimensionsSection from '@/components/catalog/DimensionsSection';
-import MaterialsSection from '@/components/catalog/MaterialsSection';
-import FeaturesSection from '@/components/catalog/FeaturesSection';
-import AssemblySection from '@/components/catalog/AssemblySection';
-import PackshotsSection from '@/components/catalog/PackshotsSection';
-import CatalogMotion from '@/components/catalog/CatalogMotion';
+import type { CatalogLayoutType } from '@/types/catalog';
+import CatalogPageQX from '@/layouts/qx/CatalogPageQX';
+import CatalogPageType2 from '@/layouts/type2/CatalogPageType2';
+import CatalogPageType3 from '@/layouts/type3/CatalogPageType3';
+
+const layoutMap: Record<
+  CatalogLayoutType,
+  typeof CatalogPageQX | typeof CatalogPageType2 | typeof CatalogPageType3
+> = {
+  qx: CatalogPageQX,
+  type2: CatalogPageType2,
+  type3: CatalogPageType3,
+};
 
 export async function generateStaticParams() {
   const catalogs = await getCatalogList();
@@ -33,9 +35,7 @@ export async function generateMetadata({
   const catalog = await loadCatalog(resolvedParams.catalogId);
   if (!catalog) return {};
 
-  const variantName = resolvedParams.catalogId
-    ? resolvedParams.catalogId.toUpperCase()
-    : '';
+  const variantName = resolvedParams.catalogId.toUpperCase();
   return {
     title: `${variantName} - ${catalog.meta.title}`,
   };
@@ -47,9 +47,8 @@ export default async function CatalogPage({
   params: Promise<{ catalogId: string }>;
 }) {
   const resolvedParams = await params;
-  const catalogId = resolvedParams.catalogId;
   const [catalog, globalConfig] = await Promise.all([
-    loadCatalog(catalogId),
+    loadCatalog(resolvedParams.catalogId),
     getGlobalConfig(),
   ]);
 
@@ -57,48 +56,6 @@ export default async function CatalogPage({
     notFound();
   }
 
-  const themeClassName = catalog.meta.theme
-    ? `catalog-${catalog.meta.theme}`
-    : undefined;
-  const pageClassName = [themeClassName, 'catalog-motion-slow']
-    .filter(Boolean)
-    .join(' ');
-  const navVariant = catalog.meta.theme === 'qx0' ? 'qx0' : 'default';
-  const normalizedCatalogId = catalogId?.toUpperCase();
-  const isQx0 = normalizedCatalogId === 'QX';
-
-  return (
-    <div className={pageClassName}>
-      <CatalogMotion>
-        <a href="#overview" className="skip-link">
-          Skip to main content
-        </a>
-
-        <CatalogNav
-          sections={catalog.sections}
-          brandLabel={(
-            globalConfig?.brandName ?? catalog.hero.brandLabel
-          ).toUpperCase()}
-          brandLogoSrc={isQx0 ? '/catalogs/QX/metro_logo.svg' : undefined}
-          variant={navVariant}
-        />
-
-        <main
-          id="main-content"
-          lang="en"
-          className="[&>section+section]:mt-[240px]"
-        >
-          <HeroSection data={catalog.hero} catalogId={catalogId} />
-          <OverviewSection data={catalog.overview} />
-          <GallerySection data={catalog.gallery} />
-          <VariantsSection data={catalog.variants} />
-          {catalog.packshots && <PackshotsSection data={catalog.packshots} />}
-          <DimensionsSection data={catalog.dimensions} />
-          <MaterialsSection data={catalog.materials} />
-          <FeaturesSection data={catalog.features} />
-          <AssemblySection data={catalog.assembly} />
-        </main>
-      </CatalogMotion>
-    </div>
-  );
+  const LayoutComponent = layoutMap[catalog.meta.layoutType];
+  return <LayoutComponent catalog={catalog} globalConfig={globalConfig} />;
 }

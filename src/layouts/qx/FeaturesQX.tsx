@@ -5,13 +5,13 @@ import { motion, useInView } from 'framer-motion';
 import type { FeaturesData } from '@/types/catalog';
 import { getIcon } from '@/lib/icon-map';
 import { slowTransition } from '@/lib/motion';
-import { renderQxText } from './renderQxText';
+import { renderQxText } from '@/components/catalog/renderQxText';
 
 interface FeaturesSectionProps {
   data: FeaturesData;
 }
 
-const FeaturesSection = ({ data }: FeaturesSectionProps) => {
+const FeaturesQX = ({ data }: FeaturesSectionProps) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
@@ -88,4 +88,4 @@ const FeaturesSection = ({ data }: FeaturesSectionProps) => {
   );
 };
 
-export default FeaturesSection;
+export default FeaturesQX;

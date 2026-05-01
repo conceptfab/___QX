@@ -15,11 +15,14 @@ export interface CatalogData {
   sections?: SectionConfig[];
 }
 
+export type CatalogLayoutType = 'qx' | 'type2' | 'type3';
+
 export interface CatalogMeta {
   title: string;
   description: string;
   brandName: string;
   collectionName: string;
+  layoutType: CatalogLayoutType;
   theme?: string;
 }
 
@@ -94,6 +97,56 @@ export interface HeroSlideContentOverrides {
   ctaLabel?: string;
 }
 
+export type HeroAnchor =
+  | 'top-left'
+  | 'top-center'
+  | 'top-right'
+  | 'center-left'
+  | 'center'
+  | 'center-right'
+  | 'bottom-left'
+  | 'bottom-center'
+  | 'bottom-right';
+
+export type HeroCtaPosition = 'inline' | 'floating' | 'none';
+
+export interface HeroSlideContentLayout {
+  /** Where the text block anchors inside the viewport */
+  anchor?: HeroAnchor;
+  /** Text alignment within the block */
+  textAlign?: 'left' | 'center' | 'right';
+  /** Max width of text block (any CSS length, e.g. "32rem", "60vw", "1440px") */
+  maxWidth?: string;
+  /** Horizontal padding from screen edge (any CSS length) */
+  paddingX?: string;
+  /** Vertical padding from top/bottom edge (any CSS length) */
+  paddingY?: string;
+  /** Override main hero text color (CSS color) */
+  textColor?: string;
+  /** Override secondary text color (brand label + taglineLine2) */
+  secondaryTextColor?: string;
+  /** Title font-size (any CSS length, supports clamp(), e.g. "clamp(3rem, 8vw, 7rem)") */
+  titleFontSize?: string;
+  /** Title font-weight (numeric) */
+  titleFontWeight?: number;
+  /** Title line-height (any CSS value, e.g. "0.9") */
+  titleLineHeight?: string;
+  /** Title letter-spacing (any CSS value, e.g. "-0.02em") */
+  titleLetterSpacing?: string;
+  /** Tagline (primary copy) font-size */
+  taglineFontSize?: string;
+  /** Second-line tagline font-size */
+  taglineLine2FontSize?: string;
+  /** Brand label font-size */
+  brandLabelFontSize?: string;
+  /** CTA placement: inline (after tagline), floating (absolute), or none (hide CTA on this slide) */
+  ctaPosition?: HeroCtaPosition;
+  /** Floating CTA distance from viewport bottom (any CSS length) */
+  ctaFloatingBottom?: string;
+  /** Vertical lift of the whole content block (any CSS transform value, e.g. "-8rem") */
+  contentLift?: string;
+}
+
 export interface HeroSlide {
   /** Resolved image URL */
   src: string;
@@ -105,6 +158,8 @@ export interface HeroSlide {
   heroContent?: HeroSlideContentOverrides;
   /** Optional per-slide override for description placement and style */
   descriptionStyle?: HeroDescriptionStyleConfig;
+  /** Optional per-slide layout/geometry override */
+  contentLayout?: HeroSlideContentLayout;
 }
 
 export interface HeroSlideDefinition {
@@ -118,6 +173,8 @@ export interface HeroSlideDefinition {
   heroContent?: HeroSlideContentOverrides;
   /** Optional per-slide override for description placement and style */
   descriptionStyle?: HeroDescriptionStyleConfig;
+  /** Optional per-slide layout/geometry override */
+  contentLayout?: HeroSlideContentLayout;
 }
 
 export interface HeroSliderFile {

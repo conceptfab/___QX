@@ -4,14 +4,14 @@ import { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import type { VariantsData } from '@/types/catalog';
 import { slowTransition } from '@/lib/motion';
-import { renderQxText } from './renderQxText';
+import { renderQxText } from '@/components/catalog/renderQxText';
 import { responsiveImg } from '@/lib/responsive-image';
 
 interface VariantsSectionProps {
   data: VariantsData;
 }
 
-const VariantsSection = ({ data }: VariantsSectionProps) => {
+const VariantsQX = ({ data }: VariantsSectionProps) => {
   const [selectedColor, setSelectedColor] = useState(0);
   const [selectedFrame, setSelectedFrame] = useState(0);
   const [selectedSize, setSelectedSize] = useState(1);
@@ -242,4 +242,4 @@ const VariantsSection = ({ data }: VariantsSectionProps) => {
   );
 };
 
-export default VariantsSection;
+export default VariantsQX;

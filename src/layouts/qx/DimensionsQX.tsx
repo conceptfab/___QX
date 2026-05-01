@@ -6,13 +6,13 @@ import { Award, CheckCircle } from 'lucide-react';
 import Image from 'next/image';
 import type { DimensionsData } from '@/types/catalog';
 import { slowTransition } from '@/lib/motion';
-import { renderQxText } from './renderQxText';
+import { renderQxText } from '@/components/catalog/renderQxText';
 
 interface DimensionsSectionProps {
   data: DimensionsData;
 }
 
-const DimensionsSection = ({ data }: DimensionsSectionProps) => {
+const DimensionsQX = ({ data }: DimensionsSectionProps) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
@@ -116,4 +116,4 @@ const DimensionsSection = ({ data }: DimensionsSectionProps) => {
   );
 };
 
-export default DimensionsSection;
+export default DimensionsQX;

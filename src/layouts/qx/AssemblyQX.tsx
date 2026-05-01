@@ -5,13 +5,13 @@ import { motion, useInView } from 'framer-motion';
 import { Package, FileDown, Mail } from 'lucide-react';
 import type { AssemblyData } from '@/types/catalog';
 import { slowTransition } from '@/lib/motion';
-import { renderQxText } from './renderQxText';
+import { renderQxText } from '@/components/catalog/renderQxText';
 
 interface AssemblySectionProps {
   data: AssemblyData;
 }
 
-const AssemblySection = ({ data }: AssemblySectionProps) => {
+const AssemblyQX = ({ data }: AssemblySectionProps) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
@@ -149,4 +149,4 @@ const AssemblySection = ({ data }: AssemblySectionProps) => {
   );
 };
 
-export default AssemblySection;
+export default AssemblyQX;

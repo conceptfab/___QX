@@ -5,14 +5,14 @@ import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import type { OverviewData } from '@/types/catalog';
 import { slowTransition } from '@/lib/motion';
-import { renderQxText } from './renderQxText';
+import { renderQxText } from '@/components/catalog/renderQxText';
 import { responsiveImg } from '@/lib/responsive-image';
 
 interface OverviewSectionProps {
   data: OverviewData;
 }
 
-const OverviewSection = ({ data }: OverviewSectionProps) => {
+const OverviewQX = ({ data }: OverviewSectionProps) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
@@ -83,4 +83,4 @@ const OverviewSection = ({ data }: OverviewSectionProps) => {
   );
 };
 
-export default OverviewSection;
+export default OverviewQX;

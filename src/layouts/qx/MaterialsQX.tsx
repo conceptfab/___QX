@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useInView } from 'framer-motion';
 import type { MaterialsConfiguratorOption, MaterialsData } from '@/types/catalog';
 import { slowTransition } from '@/lib/motion';
-import { renderQxText } from './renderQxText';
+import { renderQxText } from '@/components/catalog/renderQxText';
 import { responsiveImg } from '@/lib/responsive-image';
 
 interface MaterialsSectionProps {
@@ -76,7 +76,7 @@ function MaterialsOptionGroup({
   );
 }
 
-const MaterialsSection = ({ data }: MaterialsSectionProps) => {
+const MaterialsQX = ({ data }: MaterialsSectionProps) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const frameOptions = data.configurator?.frameOptions ?? EMPTY_MATERIAL_OPTIONS;
@@ -285,4 +285,4 @@ const MaterialsSection = ({ data }: MaterialsSectionProps) => {
   );
 };
 
-export default MaterialsSection;
+export default MaterialsQX;

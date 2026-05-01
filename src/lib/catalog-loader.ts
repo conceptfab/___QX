@@ -347,6 +347,10 @@ async function normalizeHeroSlides(
         Object.keys(slide.descriptionStyle).length > 0
           ? { descriptionStyle: slide.descriptionStyle }
           : {}),
+        ...(slide.contentLayout &&
+        Object.keys(slide.contentLayout).length > 0
+          ? { contentLayout: slide.contentLayout }
+          : {}),
       };
     }),
   );
@@ -390,6 +394,8 @@ export async function getCatalogList(): Promise<
   );
 }
 
+const VALID_LAYOUT_TYPES = new Set(['qx', 'type2', 'type3']);
+
 export async function loadCatalog(
   catalogId: string,
 ): Promise<CatalogData | null> {
@@ -397,6 +403,13 @@ export async function loadCatalog(
 
   const config = await readPublicJson<CatalogConfig>(`${base}/config.json`);
   if (!config) return null;
+
+  if (!config.meta?.layoutType || !VALID_LAYOUT_TYPES.has(config.meta.layoutType)) {
+    console.warn(
+      `[catalog-loader] ${catalogId}: missing or invalid meta.layoutType (got ${JSON.stringify(config.meta?.layoutType)}). Expected one of: qx, type2, type3.`,
+    );
+    return null;
+  }
 
   const sections =
     config.sections ?? SECTION_ORDER.map((id) => ({ id, label: id }));

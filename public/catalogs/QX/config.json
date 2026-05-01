@@ -4,6 +4,7 @@
     "description": "QX - Modular desk system engineered for the modern workspace.",
     "brandName": "METRO QX",
     "collectionName": "QX",
+    "layoutType": "qx",
     "theme": "qx0"
   },
   "sections": [

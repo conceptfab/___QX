@@ -103,7 +103,31 @@ Trzyma ustawienia slidera, definicje slajdow (kolejnosc + opisy) oraz styl opisu
     {
       "image": "hero_00.webp",
       "alt": "Accessible alt text",
-      "description": "Visible description/caption for this slide"
+      "description": "Visible description/caption for this slide",
+      "heroContent": {
+        "brandLabel": "METRO QX",
+        "collectionName": "QX",
+        "tagline": "Per-slide tagline override.",
+        "taglineLine2": "Optional second line.",
+        "ctaLabel": "Explore"
+      },
+      "contentLayout": {
+        "anchor": "bottom-left",
+        "textAlign": "left",
+        "maxWidth": "36rem",
+        "paddingX": "1.25rem",
+        "paddingY": "2.5rem",
+        "textColor": "#151515",
+        "secondaryTextColor": "rgba(21, 21, 21, 0.78)",
+        "titleFontSize": "clamp(5.6rem, 17.5vw, 15.4rem)",
+        "titleFontWeight": 200,
+        "titleLineHeight": "0.9",
+        "titleLetterSpacing": "-0.02em",
+        "taglineFontSize": "1.125rem",
+        "taglineLine2FontSize": "1rem",
+        "brandLabelFontSize": "0.875rem",
+        "ctaPosition": "inline"
+      }
     },
     {
       "image": "hero_01.webp"
@@ -134,6 +158,46 @@ Trzyma ustawienia slidera, definicje slajdow (kolejnosc + opisy) oraz styl opisu
 - `description` jest opcjonalny i moze byc wyswietlany na hero.
 - `descriptionStyle` dziala per katalog `QX-*` (zmiana w jednym `slider.json` nie zmienia innych).
 - Jesli `slider.json` nie istnieje, aplikacja fallbackuje do auto-detekcji `hero_00.webp`, `hero_01.webp`, itd. Jesli `webp` nie ma, uzyje `jpg/jpeg/png`.
+
+### Per-slide customization (pelna kontrola geometrii)
+
+Kazdy slajd moze nadpisac:
+
+**`heroContent`** — tresc per slajd (fallback do `hero/content.json`):
+
+| Pole | Co nadpisuje |
+|---|---|
+| `brandLabel` | maly label nad tytulem |
+| `collectionName` | glowny tytul |
+| `tagline` | glowna tresc |
+| `taglineLine2` | druga linia tresci |
+| `ctaLabel` | label przycisku CTA |
+
+**`contentLayout`** — geometria tekstu per slajd (kazde pole opcjonalne, defaulty = centered/light):
+
+| Pole | Wartosc | Opis |
+|---|---|---|
+| `anchor` | `top-left`/`top-center`/`top-right`/`center-left`/`center`/`center-right`/`bottom-left`/`bottom-center`/`bottom-right` | gdzie kotwiczy blok tekstu |
+| `textAlign` | `left`/`center`/`right` | wyrownanie wewnatrz bloku |
+| `maxWidth` | dowolna jednostka CSS (`36rem`, `60vw`, `1440px`) | max szerokosc bloku tekstu |
+| `paddingX` | dowolna jednostka CSS | padding od krawedzi bocznych |
+| `paddingY` | dowolna jednostka CSS | padding od gory/dolu |
+| `textColor` | dowolny CSS color | kolor glownego tekstu |
+| `secondaryTextColor` | dowolny CSS color | kolor brand label + taglineLine2 |
+| `titleFontSize` | CSS, wspiera `clamp()` | rozmiar tytulu (np. `clamp(3rem, 8vw, 7rem)`) |
+| `titleFontWeight` | liczba (100-900) | grubosc tytulu |
+| `titleLineHeight` | CSS (`0.9`, `1.1`) | wysokosc linii tytulu |
+| `titleLetterSpacing` | CSS (`-0.02em`, `0.04em`) | tracking tytulu |
+| `taglineFontSize` | CSS | rozmiar glownej tresci |
+| `taglineLine2FontSize` | CSS | rozmiar drugiej linii |
+| `brandLabelFontSize` | CSS | rozmiar brand label |
+| `ctaPosition` | `inline`/`floating`/`none` | inline = pod tekstem, floating = absolute (uzyte z `ctaFloatingBottom`), none = ukryj CTA |
+| `ctaFloatingBottom` | CSS | dystans floating CTA od dolu (np. `16rem`, `clamp(12rem, 22vh, 16rem)`) |
+| `contentLift` | CSS transform value | przesuniecie pionowe bloku (np. `-8rem`) |
+
+**`descriptionStyle`** — geometria opisu per slajd (jesli `description` ustawione i `enabled: true`):
+
+Pelny zestaw pol w `HeroDescriptionStyleConfig` (position, offsetPx, textColor, backgroundColor, backdropBlurPx, paddingX, paddingY, borderRadiusPx, fontSizePx, fontWeight, letterSpacingEm, maxWidth, textAlign, uppercase).
 
 ## Sciezki do obrazow
 

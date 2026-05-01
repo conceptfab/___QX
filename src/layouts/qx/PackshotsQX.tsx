@@ -8,7 +8,7 @@ import type {
   PackshotItem,
 } from '@/types/catalog';
 import { slowTransition } from '@/lib/motion';
-import { renderQxText } from './renderQxText';
+import { renderQxText } from '@/components/catalog/renderQxText';
 import { responsiveImg } from '@/lib/responsive-image';
 
 interface PackshotsSectionProps {
@@ -68,7 +68,7 @@ function DefaultCard({ item }: { item: PackshotItem }) {
   );
 }
 
-const PackshotsSection = ({ data }: PackshotsSectionProps) => {
+const PackshotsQX = ({ data }: PackshotsSectionProps) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
@@ -143,4 +143,4 @@ const PackshotsSection = ({ data }: PackshotsSectionProps) => {
   );
 };
 
-export default PackshotsSection;
+export default PackshotsQX;
