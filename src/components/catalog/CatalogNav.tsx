@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
@@ -43,7 +43,10 @@ const CatalogNav = ({
   const isSectionHighlighted = (sectionId: string) =>
     sectionId !== 'cover' && activeSection === sectionId;
 
-  const visibleSections = sections.filter((section) => section.enabled !== false);
+  const visibleSections = useMemo(
+    () => sections.filter((section) => section.enabled !== false),
+    [sections],
+  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -74,9 +77,11 @@ const CatalogNav = ({
   }, [visibleSections]);
 
   useEffect(() => {
-    document.body.style.overflow = isOpen ? 'hidden' : 'auto';
+    if (!isOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = previousOverflow;
     };
   }, [isOpen]);
 
@@ -108,15 +113,14 @@ const CatalogNav = ({
     setActiveSection(id);
 
     const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-    const targetTop = id === 'cover' ? 0 : sectionTop - getScrollOffset();
+    const rawTarget = id === 'cover' ? 0 : sectionTop - getScrollOffset();
+    const targetTop = id === 'cover' ? Math.max(rawTarget, 0) : rawTarget;
     const startTop = window.scrollY;
-    const distance = Math.max(targetTop, 0) - startTop;
+    const distance = targetTop - startTop;
     const duration = Math.min(Math.max(Math.abs(distance) * 0.55, 420), 900);
     const startTime = window.performance.now();
 
-    document.body.style.overflow = 'auto';
     setIsOpen(false);
-    setActiveSection(id);
 
     const animateScroll = (time: number) => {
       const elapsed = time - startTime;
@@ -208,8 +212,8 @@ const CatalogNav = ({
                         onClick={() => scrollTo(section.id)}
                         className={`catalog-nav-link flex h-full w-full items-center justify-center px-3 text-sm font-medium transition-colors !rounded-none ${
                           isSectionHighlighted(section.id)
-                            ? '!font-bold !text-black'
-                            : 'text-muted-foreground hover:text-black'
+                            ? '!font-bold !text-foreground'
+                            : 'text-muted-foreground hover:text-foreground'
                         }`}
                         aria-current={
                           isSectionHighlighted(section.id) ? 'true' : undefined
@@ -251,8 +255,8 @@ const CatalogNav = ({
                       onClick={() => scrollTo(section.id)}
                       className={`catalog-nav-link w-full border-b border-muted p-5 text-left text-base font-medium transition-colors last:border-0 !rounded-none ${
                         isSectionHighlighted(section.id)
-                          ? '!font-bold !text-black'
-                          : 'text-muted-foreground hover:text-black'
+                          ? '!font-bold !text-foreground'
+                          : 'text-muted-foreground hover:text-foreground'
                       }`}
                       aria-current={
                         isSectionHighlighted(section.id) ? 'true' : undefined
@@ -300,8 +304,8 @@ const CatalogNav = ({
                       onClick={() => scrollTo(section.id)}
                       className={`catalog-nav-link flex w-full items-center justify-center border-b-2 px-3 py-2 text-sm font-medium transition-colors ${
                         isSectionHighlighted(section.id)
-                          ? '!border-black !font-bold !text-black'
-                          : 'border-transparent text-muted-foreground hover:border-black hover:text-black'
+                          ? '!border-foreground !font-bold !text-foreground'
+                          : 'border-transparent text-muted-foreground hover:border-foreground hover:text-foreground'
                       }`}
                       aria-current={
                         isSectionHighlighted(section.id) ? 'true' : undefined
@@ -343,8 +347,8 @@ const CatalogNav = ({
                     onClick={() => scrollTo(section.id)}
                     className={`catalog-nav-link w-full p-4 text-left text-base font-medium transition-colors ${
                         isSectionHighlighted(section.id)
-                          ? '!font-bold !text-black'
-                          : 'text-muted-foreground hover:text-black'
+                          ? '!font-bold !text-foreground'
+                          : 'text-muted-foreground hover:text-foreground'
                     }`}
                     aria-current={
                       isSectionHighlighted(section.id) ? 'true' : undefined

@@ -87,7 +87,7 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
   );
   const [currentIndex, setCurrentIndex] = useState(initialIdx);
   const [isHovered, setIsHovered] = useState(false);
-  const currentSlide = displaySlides[currentIndex];
+  const currentSlide = displaySlides[currentIndex] ?? displaySlides[0];
   const currentHeroContent = {
     brandLabel: currentSlide?.heroContent?.brandLabel ?? data.brandLabel,
     collectionName:
@@ -260,14 +260,12 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
         className="absolute inset-0"
         role={hasSlider ? 'region' : undefined}
         aria-roledescription={hasSlider ? 'Image carousel' : undefined}
-        aria-live={hasSlider ? 'polite' : undefined}
       >
         <AnimatePresence mode="sync" initial={false}>
           <motion.img
             key={`${currentSlide.src}-${currentIndex}`}
             src={currentSlide.src}
             {...responsiveImg(currentSlide.src, 'hero')}
-            draggable={true}
             alt={currentSlide.alt}
             className="absolute inset-0 h-full w-full object-cover will-change-[opacity,transform]"
             initial={{ opacity: 0, scale: 1.012 }}
@@ -278,7 +276,7 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
           />
         </AnimatePresence>
         {!isQx && (
-          <div className="hero-overlay-layer absolute inset-0 z-[2] bg-[hsl(var(--hero-overlay)/0.65)]" />
+          <div className="absolute inset-0 z-[2] bg-[hsl(var(--hero-overlay)/0.65)]" />
         )}
       </div>
 
@@ -327,10 +325,10 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
                   aria-selected={index === currentIndex}
                   aria-label={`Go to slide ${index + 1}`}
                   onClick={() => goTo(index)}
-                  className="hero-slider-dot flex min-h-[44px] min-w-[44px] items-center justify-center p-2"
+                  className="flex min-h-[44px] min-w-[44px] items-center justify-center p-2"
                 >
                   <span
-                    className={`hero-slider-dot-mark block h-2 w-2 rounded-full transition-colors ${
+                    className={`block h-2 w-2 rounded-full transition-colors ${
                       index === currentIndex
                         ? 'bg-accent'
                         : 'bg-on-dark-muted/60'
@@ -383,7 +381,7 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
         >
           {isQx ? (
             <span
-              className="qx-giant py-4 text-[clamp(5.6rem,17.5vw,15.4rem)] tracking-tighter"
+              className="py-4 text-[clamp(5.6rem,17.5vw,15.4rem)] tracking-tighter"
               style={{
                 lineHeight: '0.9',
                 fontFamily: "'Lato', sans-serif",
@@ -448,7 +446,7 @@ const HeroSection = ({ data, catalogId }: HeroSectionProps) => {
                   .getElementById('overview')
                   ?.scrollIntoView({ behavior: 'smooth' })
               }
-              className="btn-premium inline-flex min-h-[44px] items-center gap-3 rounded-full bg-accent px-8 py-4 font-display text-sm font-bold uppercase tracking-widest text-accent-foreground transition-colors hover:opacity-100"
+              className="inline-flex min-h-[44px] items-center gap-3 rounded-full bg-accent px-8 py-4 font-display text-sm font-bold uppercase tracking-widest text-accent-foreground transition-colors hover:opacity-100"
               style={heroCtaStyle}
             >
               <span>{currentHeroContent.ctaLabel}</span>

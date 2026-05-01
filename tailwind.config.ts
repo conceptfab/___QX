@@ -57,7 +57,6 @@ export default {
         'on-dark-muted': 'hsl(var(--on-dark-muted))',
         'on-dark-subtle': 'hsl(var(--on-dark-subtle))',
         warm: {
-          DEFAULT: 'hsl(var(--warm))',
           light: 'hsl(var(--warm-light))',
         },
         success: 'hsl(var(--success))',

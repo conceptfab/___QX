@@ -322,31 +322,6 @@ async function discoverMaterialsConfigurator(
   }
 }
 
-async function discoverFeatureDemoVideo(
-  featuresBaseUrl: string,
-): Promise<string | undefined> {
-  const preferredFiles = ['ani_test.mp4'];
-
-  for (const file of preferredFiles) {
-    if (await fileExists(toPublicFilePath(featuresBaseUrl, file))) {
-      return resolveImageUrl(featuresBaseUrl, file);
-    }
-  }
-
-  try {
-    const files = await fs.readdir(toPublicFilePath(featuresBaseUrl));
-    const fallbackVideo = files.find((file) =>
-      file.toLowerCase().endsWith('.mp4'),
-    );
-
-    return fallbackVideo
-      ? resolveImageUrl(featuresBaseUrl, normalizeRelativeAssetPath(fallbackVideo))
-      : undefined;
-  } catch {
-    return undefined;
-  }
-}
-
 async function normalizeHeroSlides(
   slides: HeroSliderFile['slides'] | undefined,
   heroBase: string,
@@ -490,7 +465,6 @@ export async function loadCatalog(
     ...(heroSliderFile?.descriptionStyle ?? {}),
   };
   const materialsBase = `${base}/materials`;
-  const featuresBase = `${base}/features`;
   const packshotsBase = `${base}/packshots`;
   const [
     resolvedHeroImage,
@@ -500,7 +474,6 @@ export async function loadCatalog(
     resolvedGalleryImages,
     resolvedPackshots,
     materialsConfigurator,
-    featureDemoVideo,
   ] = await Promise.all([
     resolveImage(heroBase, hero.heroImage),
     resolveImage(`${base}/overview`, overview.packshotImage),
@@ -530,7 +503,6 @@ export async function loadCatalog(
         }))
       : undefined,
     discoverMaterialsConfigurator(materialsBase),
-    discoverFeatureDemoVideo(featuresBase),
   ]);
 
   return {
@@ -564,10 +536,7 @@ export async function loadCatalog(
       detailImage: resolvedDetailImage,
       ...(materialsConfigurator ? { configurator: materialsConfigurator } : {}),
     },
-    features: {
-      ...features,
-      ...(featureDemoVideo ? { demoVideo: featureDemoVideo } : {}),
-    },
+    features,
     assembly,
     ...(resolvedPackshots ? { packshots: resolvedPackshots } : {}),
   };

@@ -60,7 +60,7 @@ const DimensionsSection = ({ data }: DimensionsSectionProps) => {
               alt="Technical dimension drawing"
               width={842}
               height={842}
-              className="tech-axo w-full h-auto"
+              className="w-full h-auto"
             />
           </motion.div>
 

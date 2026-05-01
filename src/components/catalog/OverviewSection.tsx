@@ -19,11 +19,11 @@ const OverviewSection = ({ data }: OverviewSectionProps) => {
   return (
     <section
       id="overview"
-      className="bg-white lg:h-[960px]"
+      className="bg-white lg:min-h-[960px]"
       aria-labelledby="overview-title"
     >
       <div
-        className="relative mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-10 px-5 py-16 sm:px-8 lg:h-full lg:grid-cols-12 lg:gap-0 lg:px-9 lg:py-0"
+        className="relative mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-10 px-5 py-16 sm:px-8 lg:min-h-[960px] lg:grid-cols-12 lg:gap-0 lg:px-9 lg:py-0"
         ref={ref}
       >
         <div className="relative z-10 flex flex-col lg:col-span-6 lg:max-w-[540px] lg:pt-3">
@@ -67,7 +67,6 @@ const OverviewSection = ({ data }: OverviewSectionProps) => {
                 <img
                   src={data.packshotImage}
                   {...responsiveImg(data.packshotImage, 'overview')}
-                  draggable={true}
                   alt={data.packshotImageAlt}
                   className="absolute inset-0 h-full w-full object-cover object-center"
                   loading="lazy"

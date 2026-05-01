@@ -147,12 +147,6 @@ export interface HeroData {
   descriptionStyle?: HeroDescriptionStyleConfig;
 }
 
-export interface OverviewFeature {
-  icon: string;
-  title: string;
-  desc: string;
-}
-
 export interface OverviewData {
   sectionLabel: string;
   title: string;
@@ -161,8 +155,6 @@ export interface OverviewData {
   packshotImage: string;
   packshotImageAlt: string;
   packshotCaption: string;
-  features: OverviewFeature[];
-  quickLinkLabels: string[];
 }
 
 export interface GalleryImage {
@@ -262,14 +254,12 @@ export interface FeatureItem {
   icon: string;
   title: string;
   desc: string;
-  badge: string;
 }
 
 export interface FeaturesData {
   sectionLabel: string;
   title: string;
   items: FeatureItem[];
-  demoVideo?: string;
 }
 
 export interface AssemblyStep {

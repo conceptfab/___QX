@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { X, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { GalleryData } from '@/types/catalog';
@@ -16,6 +16,7 @@ const GallerySection = ({ data }: GallerySectionProps) => {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const openLightbox = (index: number) => setLightboxIndex(index);
   const closeLightbox = () => setLightboxIndex(null);
@@ -26,6 +27,33 @@ const GallerySection = ({ data }: GallerySectionProps) => {
       (lightboxIndex + dir + data.images.length) % data.images.length,
     );
   };
+
+  useEffect(() => {
+    if (lightboxIndex === null) return;
+
+    closeButtonRef.current?.focus();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeLightbox();
+        return;
+      }
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        navigate(-1);
+        return;
+      }
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        navigate(1);
+      }
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lightboxIndex]);
 
   return (
     <section
@@ -63,7 +91,7 @@ const GallerySection = ({ data }: GallerySectionProps) => {
           </div>
         </motion.div>
 
-        <div className="gallery-grid grid grid-cols-2 gap-4 lg:col-span-7 lg:col-start-6 lg:grid-cols-3 lg:self-center">
+        <div className="grid grid-cols-2 gap-4 lg:col-span-7 lg:col-start-6 lg:grid-cols-3 lg:self-center">
           {data.images.map((img, i) => (
             <motion.button
               key={i}
@@ -71,7 +99,7 @@ const GallerySection = ({ data }: GallerySectionProps) => {
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={slowTransition({ duration: 0.3, delay: i * 0.1 })}
               onClick={() => openLightbox(i)}
-              className={`gallery-item group relative overflow-hidden ${
+              className={`group relative overflow-hidden ${
                 i === 0 ? 'col-span-2 lg:col-span-2 row-span-2' : ''
               } min-h-[44px]`}
               aria-label={`View ${img.category} image in fullscreen`}
@@ -83,7 +111,6 @@ const GallerySection = ({ data }: GallerySectionProps) => {
                   'gallery',
                   i === 0 ? '(min-width: 1024px) 66vw, 100vw' : undefined,
                 )}
-                draggable={true}
                 alt={img.alt}
                 className="w-full h-full object-cover aspect-[4/3] group-hover:scale-110 transition-transform duration-700"
                 loading="lazy"
@@ -112,6 +139,7 @@ const GallerySection = ({ data }: GallerySectionProps) => {
             onClick={closeLightbox}
           >
             <button
+              ref={closeButtonRef}
               onClick={closeLightbox}
               className="absolute top-4 right-4 text-on-dark-muted hover:text-on-dark min-h-[44px] min-w-[44px] flex items-center justify-center"
               aria-label="Close lightbox"

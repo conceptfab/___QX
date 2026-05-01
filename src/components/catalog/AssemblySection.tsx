@@ -61,10 +61,9 @@ const AssemblySection = ({ data }: AssemblySectionProps) => {
                   duration: 0.3,
                   delay: 0.1 + i * 0.08,
                 })}
-                className="step-card"
               >
                 <div className="group flex items-start gap-5">
-                  <div className="step-number shrink-0 font-display text-6xl font-medium leading-none text-foreground/20 transition-colors group-hover:text-accent/40">
+                  <div className="shrink-0 font-display text-6xl font-medium leading-none text-foreground/20 transition-colors group-hover:text-accent/40">
                     {s.step}
                   </div>
                   <div className="flex flex-col pt-1">
@@ -84,7 +83,6 @@ const AssemblySection = ({ data }: AssemblySectionProps) => {
             initial={{ opacity: 0, x: 40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={slowTransition({ duration: 0.3, delay: 0.65 })}
-            className="assembly-codes-panel"
           >
             <div className="mb-6">
               <h3 className="mb-4 flex items-center gap-3 font-display text-2xl font-bold text-foreground">
@@ -132,7 +130,7 @@ const AssemblySection = ({ data }: AssemblySectionProps) => {
             transition={slowTransition({ duration: 0.3, delay: 0.85 })}
             className="flex flex-col gap-4 sm:flex-row"
           >
-            <button className="btn-premium inline-flex min-h-[44px] items-center gap-3 bg-accent px-8 py-5 font-display text-sm font-bold uppercase tracking-widest text-accent-foreground transition-transform hover:scale-105">
+            <button className="inline-flex min-h-[44px] items-center gap-3 bg-accent px-8 py-5 font-display text-sm font-bold uppercase tracking-widest text-accent-foreground transition-transform hover:scale-105">
               <Mail size={18} strokeWidth={1.2} />
               {renderQxText(data.ctaLabels.quote)}
             </button>

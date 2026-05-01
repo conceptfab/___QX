@@ -14,7 +14,6 @@ interface FeaturesSectionProps {
 const FeaturesSection = ({ data }: FeaturesSectionProps) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
-  const featureCards = data.items.slice(0, 4);
 
   return (
     <section
@@ -51,7 +50,7 @@ const FeaturesSection = ({ data }: FeaturesSectionProps) => {
         </motion.div>
 
         <div className="grid gap-10 sm:grid-cols-2 lg:col-span-7 lg:col-start-6 lg:self-center">
-          {featureCards.map((feature, index) => {
+          {data.items.map((feature, index) => {
             const Icon = getIcon(feature.icon);
             return (
               <motion.article
@@ -84,7 +83,7 @@ const FeaturesSection = ({ data }: FeaturesSectionProps) => {
             );
           })}
         </div>
-        </div>
+      </div>
     </section>
   );
 };

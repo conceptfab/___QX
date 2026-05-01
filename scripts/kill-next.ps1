@@ -10,10 +10,11 @@ $patterns = @(
 
 $processesByCommand = @(Get-CimInstance Win32_Process |
   Where-Object {
-    $_.ProcessId -ne $currentProcessId -and
-    $_.CommandLine -and
-    $_.Name -match "^(node|npm|npx|cmd|powershell|pwsh)\.exe$" -and
-    ($patterns | Where-Object { $_.CommandLine -match $_ })
+    $proc = $_
+    $proc.ProcessId -ne $currentProcessId -and
+    $proc.CommandLine -and
+    $proc.Name -match "^(node|npm|npx|cmd|powershell|pwsh)\.exe$" -and
+    ($patterns | Where-Object { $proc.CommandLine -match $_ })
   })
 
 $portProcessIds = @(netstat -ano |

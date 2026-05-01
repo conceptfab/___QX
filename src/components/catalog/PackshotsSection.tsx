@@ -45,7 +45,6 @@ function DefaultCard({ item }: { item: PackshotItem }) {
       <img
         src={item.image}
         {...responsiveImg(item.image, 'packshot')}
-        draggable={true}
         alt={`${item.code} - ${item.colorName}`}
         className="block aspect-[16/11] w-full object-cover object-[center_84%] transition-transform duration-700 ease-out group-hover:scale-[1.025]"
         loading="lazy"
