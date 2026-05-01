@@ -30,37 +30,50 @@ const GallerySection = ({ data }: GallerySectionProps) => {
   return (
     <section
       id="gallery"
-      className="section-padding bg-white"
+      className="bg-white lg:min-h-[960px]"
       aria-labelledby="gallery-title"
     >
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
+      <div
+        className="relative mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-10 px-5 py-16 sm:px-8 lg:min-h-[960px] lg:grid-cols-12 lg:gap-0 lg:px-9 lg:py-0"
+        ref={ref}
+      >
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          className="text-center mb-12"
+          initial={{ opacity: 0, x: -40 }}
+          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          transition={slowTransition({ duration: 0.6 })}
+          className="relative z-10 flex flex-col lg:col-span-4 lg:max-w-[420px] lg:pt-3"
         >
-          <p className="section_ID mb-4 font-display uppercase tracking-[0.2em]">
+          <p className="section_ID mb-[120px] font-display uppercase">
             {renderQxText(data.sectionLabel)}
           </p>
           <h2
             id="gallery-title"
-            className="section_Title font-display"
+            className="section_Title font-display font-normal"
           >
             {renderQxText(data.title)}
           </h2>
+          <div className="sec_main_text mt-[120px] max-w-[360px] font-body">
+            <p>
+              {renderQxText(
+                `${data.images.length} selected views across ${Array.from(
+                  new Set(data.images.map((image) => image.category)),
+                ).join(', ')} contexts.`,
+              )}
+            </p>
+          </div>
         </motion.div>
 
-        <div className="gallery-grid grid grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="gallery-grid grid grid-cols-2 gap-4 lg:col-span-7 lg:col-start-6 lg:grid-cols-3 lg:self-center">
           {data.images.map((img, i) => (
             <motion.button
               key={i}
-              initial={{ opacity: 0, y: 24 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              initial={{ opacity: 0, x: 40 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={slowTransition({ duration: 0.3, delay: i * 0.1 })}
               onClick={() => openLightbox(i)}
               className={`gallery-item group relative overflow-hidden ${
                 i === 0 ? 'col-span-2 lg:col-span-2 row-span-2' : ''
-              } min-h-[44px] shadow-lg`}
+              } min-h-[44px]`}
               aria-label={`View ${img.category} image in fullscreen`}
             >
               <img

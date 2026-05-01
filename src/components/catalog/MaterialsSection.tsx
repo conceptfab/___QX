@@ -121,118 +121,29 @@ const MaterialsSection = ({ data }: MaterialsSectionProps) => {
   return (
     <section
       id="materials"
-      className="section-padding bg-white"
+      className="bg-white lg:min-h-[960px]"
       aria-labelledby="materials-title"
     >
-      <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8" ref={ref}>
+      <div
+        className="relative mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-10 px-5 py-16 sm:px-8 lg:min-h-[960px] lg:grid-cols-12 lg:gap-0 lg:px-9 lg:py-0"
+        ref={ref}
+      >
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          className="mb-12 text-center"
+          initial={{ opacity: 0, x: -40 }}
+          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          transition={slowTransition({ duration: 0.6 })}
+          className="relative z-10 flex flex-col lg:col-span-4 lg:max-w-[420px] lg:pt-3"
         >
-          <p className="section_ID mb-4 font-display uppercase tracking-[0.2em]">
+          <p className="section_ID mb-[120px] font-display uppercase">
             {renderQxText(data.sectionLabel)}
           </p>
           <h2
             id="materials-title"
-            className="section_Title font-display"
+            className="section_Title font-display font-normal"
           >
             {renderQxText(data.title)}
           </h2>
-        </motion.div>
-
-        <div className="grid items-start gap-12 lg:grid-cols-2">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={slowTransition({ duration: 0.3, delay: 0.2 })}
-            className="flex flex-col"
-          >
-            {hasConfigurator && selectedFrame && selectedDesktop ? (
-              <>
-                <figure className="materials-configurator-figure relative mb-6 overflow-visible">
-                  <div className="pointer-events-none absolute inset-x-[12%] bottom-[8%] h-[14%] rounded-full bg-[hsl(35_26%_74%/0.18)] blur-3xl" />
-                  <div
-                    className="materials-configurator-preview relative mx-auto aspect-square w-full"
-                    role="img"
-                    aria-label={configuratorAlt}
-                  >
-                    <AnimatePresence mode="wait" initial={false}>
-                      <motion.img
-                        key={`frame-${selectedFrame.image}`}
-                        src={selectedFrame.image}
-                        {...responsiveImg(selectedFrame.image, 'materials-full')}
-                        draggable={true}
-                        alt=""
-                        aria-hidden="true"
-                        className="materials-configurator-preview-image absolute inset-0 h-full w-full object-contain px-2 py-4 sm:px-4 sm:py-6 drop-shadow-[0_18px_38px_rgba(182,171,155,0.2)]"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={slowTransition({
-                          duration: 0.22,
-                          ease: 'easeOut',
-                        })}
-                      />
-                    </AnimatePresence>
-
-                    <AnimatePresence mode="wait" initial={false}>
-                      <motion.img
-                        key={`desktop-${selectedDesktop.image}`}
-                        src={selectedDesktop.image}
-                        {...responsiveImg(selectedDesktop.image, 'materials-full')}
-                        draggable={true}
-                        alt=""
-                        aria-hidden="true"
-                        className="materials-configurator-preview-image absolute inset-0 h-full w-full object-contain px-2 py-4 sm:px-4 sm:py-6 drop-shadow-[0_26px_48px_rgba(164,154,139,0.16)]"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={slowTransition({
-                          duration: 0.22,
-                          ease: 'easeOut',
-                        })}
-                      />
-                    </AnimatePresence>
-                  </div>
-                </figure>
-
-                <div className="space-y-1 px-4 text-center">
-                  <p className="sec_main_text materials-detail-caption">
-                    {renderQxText(data.detailImageCaption)}
-                  </p>
-                  <p className="text-xs font-medium uppercase tracking-[0.26em] text-foreground/90">
-                    {renderQxText(
-                      `Desktop ${selectedDesktop.label} / Frame ${selectedFrame.label}`,
-                    )}
-                  </p>
-                </div>
-              </>
-            ) : (
-              <>
-                <figure className="group relative mb-4 overflow-hidden shadow-2xl">
-                  <img
-                    src={data.detailImage}
-                    {...responsiveImg(data.detailImage, 'materials-full')}
-                    draggable={true}
-                    alt={data.detailImageAlt}
-                    className="aspect-square h-auto w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                </figure>
-                <p className="sec_main_text materials-detail-caption px-4 text-center">
-                  {renderQxText(data.detailImageCaption)}
-                </p>
-              </>
-            )}
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={slowTransition({ duration: 0.3, delay: 0.3 })}
-            className="space-y-8"
-          >
+          <div className="mt-[120px] max-w-[420px] space-y-8">
             {data.materials.map((material) => (
               <div key={material.name} className="border-l-2 border-accent pl-6">
                 <h3 className="font-display text-lg font-semibold text-foreground">
@@ -246,7 +157,94 @@ const MaterialsSection = ({ data }: MaterialsSectionProps) => {
                 </p>
               </div>
             ))}
+          </div>
+        </motion.div>
 
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          transition={slowTransition({ duration: 0.6, delay: 0.2 })}
+          className="flex flex-col lg:col-span-7 lg:col-start-6 lg:self-center"
+        >
+          {hasConfigurator && selectedFrame && selectedDesktop ? (
+            <>
+              <figure className="materials-configurator-figure relative mb-6 overflow-visible">
+                <div className="pointer-events-none absolute inset-x-[12%] bottom-[8%] h-[14%] rounded-full bg-[hsl(35_26%_74%/0.18)] blur-3xl" />
+                <div
+                  className="materials-configurator-preview relative mx-auto aspect-square w-full max-w-[680px]"
+                  role="img"
+                  aria-label={configuratorAlt}
+                >
+                  <AnimatePresence mode="wait" initial={false}>
+                    <motion.img
+                      key={`frame-${selectedFrame.image}`}
+                      src={selectedFrame.image}
+                      {...responsiveImg(selectedFrame.image, 'materials-full')}
+                      draggable={true}
+                      alt=""
+                      aria-hidden="true"
+                      className="materials-configurator-preview-image absolute inset-0 h-full w-full object-contain px-2 py-4 sm:px-4 sm:py-6 drop-shadow-[0_18px_38px_rgba(182,171,155,0.2)]"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={slowTransition({
+                        duration: 0.22,
+                        ease: 'easeOut',
+                      })}
+                    />
+                  </AnimatePresence>
+
+                  <AnimatePresence mode="wait" initial={false}>
+                    <motion.img
+                      key={`desktop-${selectedDesktop.image}`}
+                      src={selectedDesktop.image}
+                      {...responsiveImg(selectedDesktop.image, 'materials-full')}
+                      draggable={true}
+                      alt=""
+                      aria-hidden="true"
+                      className="materials-configurator-preview-image absolute inset-0 h-full w-full object-contain px-2 py-4 sm:px-4 sm:py-6 drop-shadow-[0_26px_48px_rgba(164,154,139,0.16)]"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={slowTransition({
+                        duration: 0.22,
+                        ease: 'easeOut',
+                      })}
+                    />
+                  </AnimatePresence>
+                </div>
+              </figure>
+
+              <div className="space-y-1 text-left">
+                <p className="sec_main_text materials-detail-caption">
+                  {renderQxText(data.detailImageCaption)}
+                </p>
+                <p className="text-xs font-medium uppercase tracking-[0.26em] text-foreground/90">
+                  {renderQxText(
+                    `Desktop ${selectedDesktop.label} / Frame ${selectedFrame.label}`,
+                  )}
+                </p>
+              </div>
+            </>
+          ) : (
+            <>
+              <figure className="group relative mb-4 overflow-hidden">
+                <img
+                  src={data.detailImage}
+                  {...responsiveImg(data.detailImage, 'materials-full')}
+                  draggable={true}
+                  alt={data.detailImageAlt}
+                  className="aspect-square h-auto w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </figure>
+              <p className="sec_main_text materials-detail-caption text-left">
+                {renderQxText(data.detailImageCaption)}
+              </p>
+            </>
+          )}
+
+          <div className="mt-10">
             {hasConfigurator ? (
               <div className="space-y-6">
                 <MaterialsOptionGroup
@@ -284,8 +282,8 @@ const MaterialsSection = ({ data }: MaterialsSectionProps) => {
                 </div>
               </div>
             )}
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

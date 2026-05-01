@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
@@ -37,12 +37,22 @@ const CatalogNav = ({
   const [activeSection, setActiveSection] = useState('cover');
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const scrollAnimationRef = useRef<number | null>(null);
+  const scrollingToSectionRef = useRef<string | null>(null);
+  const navExpanded = !scrolled;
+  const isSectionHighlighted = (sectionId: string) =>
+    sectionId !== 'cover' && activeSection === sectionId;
 
   const visibleSections = sections.filter((section) => section.enabled !== false);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+
+      if (scrollingToSectionRef.current) {
+        setActiveSection(scrollingToSectionRef.current);
+        return;
+      }
 
       const sectionElements = visibleSections.map((section) => ({
         id: section.id,
@@ -59,6 +69,7 @@ const CatalogNav = ({
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, [visibleSections]);
 
@@ -69,9 +80,64 @@ const CatalogNav = ({
     };
   }, [isOpen]);
 
+  useEffect(() => {
+    return () => {
+      if (scrollAnimationRef.current !== null) {
+        window.cancelAnimationFrame(scrollAnimationRef.current);
+      }
+    };
+  }, []);
+
+  const getScrollOffset = () => {
+    if (variant === 'qx0') {
+      return window.matchMedia('(min-width: 640px)').matches ? 56 : 44;
+    }
+
+    return 72;
+  };
+
   const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    const section = document.getElementById(id);
+    if (!section) return;
+
+    if (scrollAnimationRef.current !== null) {
+      window.cancelAnimationFrame(scrollAnimationRef.current);
+    }
+
+    scrollingToSectionRef.current = id;
+    setActiveSection(id);
+
+    const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+    const targetTop = id === 'cover' ? 0 : sectionTop - getScrollOffset();
+    const startTop = window.scrollY;
+    const distance = Math.max(targetTop, 0) - startTop;
+    const duration = Math.min(Math.max(Math.abs(distance) * 0.55, 420), 900);
+    const startTime = window.performance.now();
+
+    document.body.style.overflow = 'auto';
     setIsOpen(false);
+    setActiveSection(id);
+
+    const animateScroll = (time: number) => {
+      const elapsed = time - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased =
+        progress < 0.5
+          ? 4 * progress * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+      window.scrollTo(0, startTop + distance * eased);
+
+      if (progress < 1) {
+        scrollAnimationRef.current = window.requestAnimationFrame(animateScroll);
+        return;
+      }
+
+      scrollAnimationRef.current = null;
+      scrollingToSectionRef.current = null;
+    };
+
+    scrollAnimationRef.current = window.requestAnimationFrame(animateScroll);
   };
 
   const renderBrand = (logoClassName: string) => {
@@ -119,43 +185,46 @@ const CatalogNav = ({
           aria-label="Catalog sections"
           className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-300 ${
             scrolled || isOpen
-              ? 'bg-white/90 border-b border-border shadow-sm backdrop-blur-xl'
-              : 'bg-white'
+              ? 'bg-white shadow-[0_8px_24px_rgba(0,0,0,0.08)]'
+              : 'shadow-none'
           }`}
         >
           <div className="mx-auto max-w-[1440px] px-6 sm:px-8">
-            <div className="flex h-11 items-center justify-between transition-all duration-300 sm:h-14">
+            <div
+              className={`flex items-center justify-between transition-all duration-300 ${
+                navExpanded ? 'h-[166px]' : 'h-11 sm:h-14'
+              }`}
+            >
               {renderBrandControl(
                 'font-display text-xl font-black tracking-tighter text-slate-900 !rounded-none',
                 'h-7 w-auto object-contain !rounded-none',
               )}
 
-              <ul
-                className="hidden h-full flex-1 items-stretch justify-end lg:flex"
-                role="list"
-              >
-                {visibleSections.map((section) => (
-                  <li key={section.id} className="h-full">
-                    <button
-                      onClick={() => scrollTo(section.id)}
-                      className={`flex h-full items-center px-6 text-sm font-medium transition-colors !rounded-none ${
-                        activeSection === section.id
-                          ? 'bg-primary text-primary-foreground'
-                          : 'text-muted-foreground hover:bg-muted hover:text-primary'
-                      }`}
-                      aria-current={
-                        activeSection === section.id ? 'true' : undefined
-                      }
-                    >
-                      {renderQxText(section.label)}
-                    </button>
-                  </li>
-                ))}
-              </ul>
+              <div className="ml-auto hidden h-full w-full max-w-[1150px] lg:block">
+                <ul className="flex h-full items-stretch" role="list">
+                  {visibleSections.map((section) => (
+                    <li key={section.id} className="h-full flex-1">
+                      <button
+                        onClick={() => scrollTo(section.id)}
+                        className={`catalog-nav-link flex h-full w-full items-center justify-center px-3 text-sm font-medium transition-colors !rounded-none ${
+                          isSectionHighlighted(section.id)
+                            ? '!font-bold !text-black'
+                            : 'text-muted-foreground hover:text-black'
+                        }`}
+                        aria-current={
+                          isSectionHighlighted(section.id) ? 'true' : undefined
+                        }
+                      >
+                        {renderQxText(section.label)}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
               <button
                 onClick={() => setIsOpen((value) => !value)}
-                className="ml-4 p-2 text-primary transition-colors hover:bg-muted !rounded-none lg:hidden"
+                className="ml-4 p-2 text-primary transition-colors hover:text-primary/75 !rounded-none lg:hidden"
                 aria-expanded={isOpen}
                 aria-label={isOpen ? 'Close menu' : 'Open menu'}
               >
@@ -171,18 +240,23 @@ const CatalogNav = ({
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="fixed left-0 right-0 top-[44px] z-[59] border-b border-border bg-white shadow-xl !rounded-none sm:top-[56px] lg:hidden"
+              className={`fixed left-0 right-0 z-[59] border-b border-border bg-white shadow-xl !rounded-none lg:hidden ${
+                navExpanded ? 'top-[166px]' : 'top-[44px] sm:top-[56px]'
+              }`}
             >
               <ul className="flex flex-col !rounded-none" role="list">
                 {visibleSections.map((section) => (
                   <li key={section.id}>
                     <button
                       onClick={() => scrollTo(section.id)}
-                      className={`w-full border-b border-muted p-5 text-left text-base font-medium transition-colors last:border-0 !rounded-none ${
-                        activeSection === section.id
-                          ? 'bg-primary text-primary-foreground'
-                          : 'text-muted-foreground hover:text-primary'
+                      className={`catalog-nav-link w-full border-b border-muted p-5 text-left text-base font-medium transition-colors last:border-0 !rounded-none ${
+                        isSectionHighlighted(section.id)
+                          ? '!font-bold !text-black'
+                          : 'text-muted-foreground hover:text-black'
                       }`}
+                      aria-current={
+                        isSectionHighlighted(section.id) ? 'true' : undefined
+                      }
                     >
                       {renderQxText(section.label)}
                     </button>
@@ -203,43 +277,46 @@ const CatalogNav = ({
         aria-label="Catalog sections"
         className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-300 ${
           scrolled || isOpen
-            ? 'bg-white/30 border-b border-slate-200/50 py-3 shadow-sm backdrop-blur-xl'
-            : 'bg-white py-4 shadow-none'
+            ? 'bg-white py-3 shadow-[0_8px_24px_rgba(0,0,0,0.08)]'
+            : 'shadow-none'
         }`}
       >
         <div className="mx-auto max-w-[1440px] px-6 sm:px-8">
-          <div className="flex items-center justify-between">
+          <div
+            className={`flex items-center justify-between transition-all duration-300 ${
+              navExpanded ? 'h-[166px]' : ''
+            }`}
+          >
             {renderBrandControl(
               'font-display text-xl font-black tracking-tighter text-slate-900',
               'h-7 w-auto object-contain',
             )}
 
-            <ul
-              className="hidden flex-1 items-center justify-end gap-2 lg:flex"
-              role="list"
-            >
-              {visibleSections.map((section) => (
-                <li key={section.id}>
-                  <button
-                    onClick={() => scrollTo(section.id)}
-                    className={`border-b-2 px-4 py-2 text-sm font-medium transition-colors ${
-                      activeSection === section.id
-                        ? 'border-primary text-primary'
-                        : 'border-transparent text-muted-foreground hover:border-border hover:text-primary'
-                    }`}
-                    aria-current={
-                      activeSection === section.id ? 'true' : undefined
-                    }
-                  >
-                    {renderQxText(section.label)}
-                  </button>
-                </li>
-              ))}
-            </ul>
+            <div className="ml-auto hidden w-full max-w-[1150px] lg:block">
+              <ul className="flex items-center" role="list">
+                {visibleSections.map((section) => (
+                  <li key={section.id} className="flex-1">
+                    <button
+                      onClick={() => scrollTo(section.id)}
+                      className={`catalog-nav-link flex w-full items-center justify-center border-b-2 px-3 py-2 text-sm font-medium transition-colors ${
+                        isSectionHighlighted(section.id)
+                          ? '!border-black !font-bold !text-black'
+                          : 'border-transparent text-muted-foreground hover:border-black hover:text-black'
+                      }`}
+                      aria-current={
+                        isSectionHighlighted(section.id) ? 'true' : undefined
+                      }
+                    >
+                      {renderQxText(section.label)}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
             <button
               onClick={() => setIsOpen((value) => !value)}
-              className="ml-4 rounded-md p-2 text-primary transition-colors hover:bg-muted lg:hidden"
+              className="ml-4 rounded-md p-2 text-primary transition-colors hover:text-primary/75 lg:hidden"
               aria-expanded={isOpen}
               aria-label={isOpen ? 'Close menu' : 'Open menu'}
             >
@@ -255,18 +332,23 @@ const CatalogNav = ({
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed left-0 right-0 top-[72px] z-[59] border-b border-border bg-white shadow-xl lg:hidden"
+            className={`fixed left-0 right-0 z-[59] border-b border-border bg-white shadow-xl lg:hidden ${
+              navExpanded ? 'top-[166px]' : 'top-[72px]'
+            }`}
           >
             <ul className="flex flex-col p-4" role="list">
               {visibleSections.map((section) => (
                 <li key={section.id}>
                   <button
                     onClick={() => scrollTo(section.id)}
-                    className={`w-full p-4 text-left text-base font-medium transition-colors ${
-                      activeSection === section.id
-                        ? 'rounded-md bg-muted text-primary'
-                        : 'text-muted-foreground hover:text-primary'
+                    className={`catalog-nav-link w-full p-4 text-left text-base font-medium transition-colors ${
+                        isSectionHighlighted(section.id)
+                          ? '!font-bold !text-black'
+                          : 'text-muted-foreground hover:text-black'
                     }`}
+                    aria-current={
+                      isSectionHighlighted(section.id) ? 'true' : undefined
+                    }
                   >
                     {renderQxText(section.label)}
                   </button>

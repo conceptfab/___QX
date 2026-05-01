@@ -379,6 +379,19 @@ html {
   line-height: var(--section-text-line) !important;
 }
 
+.catalog-nav-link:hover,
+.catalog-nav-link[aria-current='true'] {
+  color: #000 !important;
+  font-weight: 700 !important;
+  border-color: #000 !important;
+}
+
+.catalog-nav-link:hover .qx-word,
+.catalog-nav-link[aria-current='true'] .qx-word {
+  color: #000 !important;
+  font-weight: 700 !important;
+}
+
 /* Motion speed */
 .catalog-motion-slow .transition,
 .catalog-motion-slow .transition-all,
@@ -407,5 +420,4 @@ html {
 .catalog-motion-slow .animate-bounce {
   animation-duration: 2s !important;
 }
-
 

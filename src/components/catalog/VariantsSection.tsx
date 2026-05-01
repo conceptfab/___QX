@@ -24,29 +24,45 @@ const VariantsSection = ({ data }: VariantsSectionProps) => {
   return (
     <section
       id="variants"
-      className="section-padding bg-white"
+      className="bg-white lg:min-h-[960px]"
       aria-labelledby="variants-title"
     >
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
+      <div
+        className="relative mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-10 px-5 py-16 sm:px-8 lg:min-h-[960px] lg:grid-cols-12 lg:gap-0 lg:px-9 lg:py-0"
+        ref={ref}
+      >
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          className="text-center mb-12"
+          initial={{ opacity: 0, x: -40 }}
+          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          transition={slowTransition({ duration: 0.6 })}
+          className="relative z-10 flex flex-col lg:col-span-4 lg:max-w-[420px] lg:pt-3"
         >
-          <p className="section_ID mb-4 font-display uppercase tracking-[0.2em]">
+          <p className="section_ID mb-[120px] font-display uppercase">
             {renderQxText(data.sectionLabel)}
           </p>
           <h2
             id="variants-title"
-            className="section_Title font-display"
+            className="section_Title font-display font-normal"
           >
             {renderQxText(data.title)}
           </h2>
+          <div className="sec_main_text mt-[120px] max-w-[360px] space-y-4 font-body">
+            <p>
+              {renderQxText(
+                `${data.desktopColors.length} desktop finishes, ${data.frameColors.length} frame colours and ${data.sizes.length} desk sizes.`,
+              )}
+            </p>
+            <p aria-live="polite">
+              {renderQxText(data.desktopColors[selectedColor].name)} /{' '}
+              {renderQxText(data.frameColors[selectedFrame].name)} /{' '}
+              {renderQxText(data.sizes[selectedSize].label)}
+            </p>
+          </div>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+        <div className="grid gap-10 lg:col-span-7 lg:col-start-6 lg:grid-cols-2 lg:self-center">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: 40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={slowTransition({ duration: 0.3, delay: 0.2 })}
             className="relative z-0"
@@ -69,7 +85,7 @@ const VariantsSection = ({ data }: VariantsSectionProps) => {
                 loading="lazy"
               />
             </div>
-            <div className="mt-6 text-center" aria-live="polite">
+            <div className="mt-6 text-left" aria-live="polite">
               <p className="font-display font-semibold text-foreground text-lg">
                 {renderQxText(data.sizes[selectedSize].label)}
               </p>
@@ -85,7 +101,7 @@ const VariantsSection = ({ data }: VariantsSectionProps) => {
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={slowTransition({ duration: 0.3, delay: 0.3 })}
-            className="space-y-10"
+            className="space-y-8"
           >
             <div>
               <h3 className="font-display font-semibold text-foreground mb-1">

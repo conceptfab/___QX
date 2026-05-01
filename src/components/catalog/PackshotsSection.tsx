@@ -77,37 +77,43 @@ const PackshotsSection = ({ data }: PackshotsSectionProps) => {
     <section
       id="packshots"
       aria-labelledby="packshots-title"
-      className="section-padding bg-white"
+      className="bg-white lg:min-h-[960px]"
     >
-      <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8" ref={ref}>
+      <div
+        className="relative mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-10 px-5 py-16 sm:px-8 lg:min-h-[960px] lg:grid-cols-12 lg:gap-0 lg:px-9 lg:py-0"
+        ref={ref}
+      >
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          className="text-center mb-12"
+          initial={{ opacity: 0, x: -40 }}
+          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          transition={slowTransition({ duration: 0.6 })}
+          className="relative z-10 flex flex-col lg:col-span-4 lg:max-w-[420px] lg:pt-3"
         >
-          <p className="section_ID mb-4 font-display uppercase tracking-[0.2em]">
+          <p className="section_ID mb-[120px] font-display uppercase">
             {renderQxText(data.sectionLabel)}
           </p>
           <h2
             id="packshots-title"
-            className="section_Title font-display"
+            className="section_Title font-display font-normal"
           >
             {renderQxText(data.title)}
           </h2>
           {data.subtitle && (
-            <p className="sec_main_text mt-3">{data.subtitle}</p>
+            <p className="sec_main_text mt-[120px] max-w-[360px] font-body">
+              {data.subtitle}
+            </p>
           )}
         </motion.div>
 
-        <div className="space-y-14">
+        <div className="space-y-14 lg:col-span-7 lg:col-start-6 lg:self-center">
           {data.groups.map((group, index) => {
             const groupDescription = resolveGroupDescription(group);
 
             return (
               <motion.div
                 key={group.model}
-                initial={{ opacity: 0, y: 24 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                initial={{ opacity: 0, x: 40 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={slowTransition({
                   duration: 0.3,
                   delay: 0.06 + index * 0.07,
