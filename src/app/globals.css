@@ -306,6 +306,10 @@ html {
 }
 
 /* QX shapes */
+.catalog-qx0 section {
+  scroll-margin-top: 56px;
+}
+
 .catalog-qx0 button,
 .catalog-qx0 [role='button'],
 .catalog-qx0 [role='tab'],
