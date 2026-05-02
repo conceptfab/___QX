@@ -55,7 +55,7 @@ const OverviewQX = ({ data }: OverviewSectionProps) => {
           </motion.div>
         </div>
 
-        <div className="min-h-[360px] lg:absolute lg:inset-y-0 lg:left-[51.5%] lg:right-9 lg:min-h-0">
+        <div className="min-h-[360px] lg:absolute lg:inset-y-0 lg:left-1/2 lg:right-0 lg:min-h-0">
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}

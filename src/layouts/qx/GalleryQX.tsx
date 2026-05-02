@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { X, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { GalleryData } from '@/types/catalog';
 import { slowTransition } from '@/lib/motion';
 import { renderQxText } from '@/components/catalog/renderQxText';
@@ -20,6 +20,11 @@ const GalleryQX = ({ data }: GallerySectionProps) => {
   const galleryImages = data.images.slice(0, 4);
   const mainImage = galleryImages[0];
   const thumbnailImages = galleryImages.slice(1, 4);
+  const thumbnailPositionClasses = [
+    'lg:top-[163px]',
+    'lg:top-[434px]',
+    'lg:top-[705px]',
+  ];
 
   const openLightbox = (index: number) => setLightboxIndex(index);
   const closeLightbox = () => setLightboxIndex(null);
@@ -61,18 +66,18 @@ const GalleryQX = ({ data }: GallerySectionProps) => {
   return (
     <section
       id="gallery"
-      className="bg-white"
+      className="bg-white lg:h-[960px]"
       aria-labelledby="gallery-title"
     >
       <div
-        className="relative mx-auto w-full max-w-[1440px] px-5 py-16 sm:px-8 lg:px-0 lg:py-0"
+        className="relative mx-auto w-full max-w-[1440px] px-5 py-16 sm:px-8 lg:h-[960px] lg:px-0 lg:py-0"
         ref={ref}
       >
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={slowTransition({ duration: 0.6 })}
-          className="relative z-10 flex flex-col"
+          className="relative z-10 flex flex-col lg:absolute lg:left-9 lg:top-3"
         >
           <p className="section_ID font-display uppercase">
             {renderQxText(data.sectionLabel)}
@@ -86,13 +91,13 @@ const GalleryQX = ({ data }: GallerySectionProps) => {
         </motion.div>
 
         {mainImage && (
-          <div className="mt-8 grid gap-5 lg:grid-cols-[minmax(0,1075px)_345px] lg:items-start">
+          <div className="mt-8 grid gap-5 lg:mt-0 lg:block">
             <motion.button
               initial={{ opacity: 0, x: 40 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={slowTransition({ duration: 0.3 })}
               onClick={() => openLightbox(0)}
-              className="group relative aspect-[1075/1078] min-h-[44px] w-full overflow-hidden"
+              className="group relative aspect-[1075/1078] min-h-[44px] w-full overflow-hidden lg:absolute lg:left-11 lg:top-[163px] lg:h-[797px] lg:w-[1125px] lg:aspect-auto"
               aria-label={`View ${mainImage.category} image in fullscreen`}
             >
               <img
@@ -100,21 +105,15 @@ const GalleryQX = ({ data }: GallerySectionProps) => {
                 {...responsiveImg(
                   mainImage.src,
                   'gallery',
-                  '(min-width: 1440px) 1075px, (min-width: 1024px) calc(100vw - 365px), 100vw',
+                  '(min-width: 1440px) 1081px, (min-width: 1024px) 75vw, 100vw',
                 )}
                 alt={mainImage.alt}
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                 loading="lazy"
               />
-              <div className="absolute inset-0 flex items-center justify-center bg-foreground/0 transition-colors group-hover:bg-foreground/20">
-                <ZoomIn
-                  className="text-primary-foreground opacity-0 transition-opacity group-hover:opacity-100"
-                  size={28}
-                />
-              </div>
             </motion.button>
 
-            <div className="grid grid-cols-3 gap-5 lg:grid-cols-1 lg:grid-rows-3">
+            <div className="grid grid-cols-3 gap-5 lg:block">
               {thumbnailImages.map((img, i) => (
                 <motion.button
                   key={img.src}
@@ -125,7 +124,7 @@ const GalleryQX = ({ data }: GallerySectionProps) => {
                     delay: (i + 1) * 0.1,
                   })}
                   onClick={() => openLightbox(i + 1)}
-                  className="group relative aspect-square min-h-[44px] w-full overflow-hidden"
+                  className={`group relative aspect-square min-h-[44px] w-full overflow-hidden lg:absolute lg:right-0 lg:h-[255px] lg:w-[255px] lg:aspect-square ${thumbnailPositionClasses[i]}`}
                   aria-label={`View ${img.category} image in fullscreen`}
                 >
                   <img
@@ -133,18 +132,12 @@ const GalleryQX = ({ data }: GallerySectionProps) => {
                     {...responsiveImg(
                       img.src,
                       'gallery',
-                      '(min-width: 1024px) 345px, 33vw',
+                      '(min-width: 1440px) 255px, (min-width: 1024px) 18vw, 33vw',
                     )}
                     alt={img.alt}
                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 flex items-center justify-center bg-foreground/0 transition-colors group-hover:bg-foreground/20">
-                    <ZoomIn
-                      className="text-primary-foreground opacity-0 transition-opacity group-hover:opacity-100"
-                      size={24}
-                    />
-                  </div>
                 </motion.button>
               ))}
             </div>

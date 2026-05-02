@@ -378,6 +378,16 @@ html {
   line-height: var(--section-text-line) !important;
 }
 
+/* QX section geometry debug */
+.catalog-qx0 main > section > div:first-child {
+  width: 1440px !important;
+  max-width: 1440px !important;
+  height: 960px !important;
+  min-height: 960px !important;
+  max-height: 960px !important;
+  background: #fff200 !important;
+}
+
 .catalog-nav-link:hover,
 .catalog-nav-link[aria-current='true'] {
   color: #000 !important;
@@ -419,4 +429,3 @@ html {
 .catalog-motion-slow .animate-bounce {
   animation-duration: 2s !important;
 }
-

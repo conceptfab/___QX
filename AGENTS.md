@@ -1,18 +1,17 @@
 <claude-mem-context>
 # Memory Context
 
-# [___QX] recent context, 2026-05-02 9:45am GMT+2
+# [___QX] recent context, 2026-05-02 12:58pm GMT+2
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 28 obs (10,951t read) | 719,143t work | 98% savings
+Stats: 50 obs (18,020t read) | 952,902t work | 98% savings
 
 ### May 1, 2026
 1276 11:27p 🔵 QX Project Git State at Code Review Start
 1277 " 🔵 QX Project Stack: Next.js Catalog App with Massive Radix UI Dependency Set
-1278 " 🔵 Branch Diff: 15 Files Changed, 648 Insertions / 513 Deletions vs master
 1279 " 🔵 Catalog Component Structure: 12 Files Including CatalogMotion and renderQxText
 1280 11:28p 🔵 Full Dependency Inventory: Many Unused Packages in Catalog-Focused App
 1281 " 🔵 CatalogNav: Duplicate JSX, Double setActiveSection Call, and Potentially Stale Effect Dependency
@@ -49,22 +48,29 @@ S1037 Multi-catalog infrastructure refactor + landing page — final verificatio
 1300 12:05a 🟣 loadCatalog gains layoutType validation guard — invalid catalogs return null with console warning
 1302 " 🔵 All 9 moved QX section files have broken sibling imports pointing to old components/catalog/ neighbors
 S1038 Hero slider per-slide customization — what fields can be configured per slide in QX layout (May 2 at 12:14 AM)
-**Investigated**: - HeroQX.tsx internal structure: per-slide heroContent field usage (grep for description, heroContent, descriptionStyle)
-    - Confirmed fields read per slide: brandLabel, collectionName, tagline, taglineLine2, ctaLabel — all with fallback to top-level content.json values
-    - Confirmed layout variants are hardcoded by slide index (0-1=corner, 2=lift, 3+=centered), not data-driven
+1304 9:46a 🔵 Gallery Section Structure in QX Catalog
+1305 " 🔵 GalleryQX Component Current Layout Architecture
+1306 " 🔵 Gallery Image Source Dimensions Audited
+1307 " 🟣 GalleryQX Layout Refactored to 1 Large + 3 Small Schema
+1308 9:47a 🔴 Lightbox src Reference Fixed to Use Sliced galleryImages Array
+1309 " 🔵 Lint Results After Gallery Refactor: 0 New Errors
+1310 9:48a 🔵 TypeScript Check: Only Pre-existing vitest Error, No New Errors from Gallery Refactor
+1312 " ✅ Gallery content.json Image Order Adjusted for Thumbnail Slot Selection
+1313 " ✅ Gallery Section Refactor Complete — Final State Confirmed
+1311 " 🔵 Next.js Dev Server Live at localhost:3000 with Gallery Changes
+1314 9:49a 🔄 GalleryQX Sizing Changed from Fixed Pixels to Fluid Aspect-Ratio
+1315 12:26p 🔵 QX Catalog Project Structure — Visual Gallery Section Codebase Mapping
+1316 12:27p 🔵 GalleryQX Image Pixel Dimensions Audited for 1440×960 Redesign
+1317 12:28p 🟣 GalleryQX Redesigned to Fixed 1440×960 Canvas with Absolute Positioning
+1318 12:29p ✅ GalleryQX Refactor Passes Lint and TypeScript — No New Errors
+1319 " 🔵 Next.js Dev Server Running During GalleryQX Development Session
+1320 " ✅ Production Build Initiated After GalleryQX Redesign — Thumbnail Manifest Updated
+1321 12:30p 🔵 Production Build Succeeded but Dev Server Returns HTTP 500 on /catalog/QX
+1322 " 🔵 Fresh Dev Server Started on Port 3001 to Bypass Port 3000 HTTP 500
+1323 " 🔵 Fresh Dev Server Confirms /catalog/QX Returns HTTP 200 with GalleryQX Changes
+1324 " ✅ GalleryQX 1440×960 Refactor Verified in Compiled CSS and Final Git Diff
+1325 " 🔵 OverviewQX Already Uses 960px Min-Height Canvas Pattern — Consistent with GalleryQX Redesign
+1326 12:34p 🔄 GalleryQX Layout Switched from Percentage-Based to Pixel-Based Positioning — Aligned with OverviewQX Pattern
 
-**Learned**: - HeroQX.tsx reads heroContent per slide with ?? fallback to top-level data for: brandLabel, collectionName, tagline, taglineLine2, ctaLabel
-    - `description` and `descriptionStyle` fields exist in the HeroSlide type but are NOT rendered in QX layout — the render block was removed during refactor (it was guarded by `&& !isQx` so QX never showed it)
-    - Slide layout variants (corner/lift/centered) are determined by slide index (currentIndex &lt; 2, currentIndex === 2, else), not by per-slide config
-    - heroContentWrapperClassName and heroContentWrapperStyle are the two CSS hooks driven by index-based layout selection
-
-**Completed**: - All multi-catalog infrastructure work from previous session fully verified: tsc clean, eslint 0 errors, build SUCCESS (6 static pages)
-    - Link fixes confirmed applied to CatalogPageType2.tsx, CatalogPageType3.tsx, src/app/page.tsx (a → Link, import added)
-    - memory/feedback_terse_execution.md and memory/MEMORY.md confirmed written
-    - Answered user question about per-slide customization capabilities and limitations
-
-**Next Steps**: User asked "co chcesz dodać?" — waiting for user response on whether to: (1) add description/caption rendering to QX slides, (2) add data-driven slide layout field (corner/centered/lift) to slider.json config, or (3) something else.
-
-
-Access 719k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 953k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>
