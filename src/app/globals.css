@@ -378,31 +378,33 @@ html {
   line-height: var(--section-text-line) !important;
 }
 
-/* QX section geometry debug */
-.catalog-qx0 main > section > div:first-child {
-  width: 1440px !important;
-  max-width: 1440px !important;
-  height: 960px !important;
-  min-height: 960px !important;
-  max-height: 960px !important;
-  background: #fff200 !important;
-}
+/* QX section geometry debug — desktop-only fixed canvas */
+@media (min-width: 1440px) {
+  .catalog-qx0 main > section > div:first-child {
+    width: 1440px !important;
+    max-width: 1440px !important;
+    height: 960px !important;
+    min-height: 960px !important;
+    max-height: 960px !important;
+    background: #fff200 !important;
+  }
 
-/* Hero/slider exempt from debug geometry — must be full viewport */
-.catalog-qx0 main > section#cover > div:first-child {
-  width: 100% !important;
-  max-width: none !important;
-  height: 100% !important;
-  min-height: 0 !important;
-  max-height: none !important;
-  background: transparent !important;
-}
+  /* Hero/slider exempt from debug geometry — must be full viewport */
+  .catalog-qx0 main > section#cover > div:first-child {
+    width: 100% !important;
+    max-width: none !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    background: transparent !important;
+  }
 
-/* Packshots/Models — height grows with thumbnail count */
-.catalog-qx0 main > section#packshots > div:first-child {
-  height: auto !important;
-  min-height: 0 !important;
-  max-height: none !important;
+  /* Packshots/Models — height grows with thumbnail count */
+  .catalog-qx0 main > section#packshots > div:first-child {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
 }
 
 .catalog-nav-link:hover,

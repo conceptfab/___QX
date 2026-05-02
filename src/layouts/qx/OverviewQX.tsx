@@ -23,7 +23,7 @@ const OverviewQX = ({ data }: OverviewSectionProps) => {
       aria-labelledby="overview-title"
     >
       <div
-        className="relative mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-10 px-5 py-16 sm:px-8 lg:min-h-[960px] lg:grid-cols-12 lg:gap-0 lg:px-0 lg:py-0"
+        className="relative mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-10 px-5 pt-6 pb-12 sm:px-8 sm:pt-8 lg:min-h-[960px] lg:grid-cols-12 lg:gap-0 lg:px-0 lg:py-0"
         ref={ref}
       >
         <div className="relative z-10 flex flex-col lg:col-span-6 lg:max-w-[540px] lg:pt-3">
@@ -32,7 +32,7 @@ const OverviewQX = ({ data }: OverviewSectionProps) => {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={slowTransition({ duration: 0.6 })}
           >
-            <p className="section_ID mb-[120px] font-display uppercase">
+            <p className="section_ID mb-12 font-display uppercase lg:mb-[120px]">
               {renderQxText(data.sectionLabel)}
             </p>
             <h2
@@ -47,7 +47,7 @@ const OverviewQX = ({ data }: OverviewSectionProps) => {
                 </>
               )}
             </h2>
-            <div className="sec_main_text mt-[120px] max-w-[520px] space-y-4 font-body">
+            <div className="sec_main_text mt-12 max-w-[520px] space-y-4 font-body lg:mt-[120px]">
               {data.paragraphs.map((p, i) => (
                 <p key={i}>{renderQxText(p)}</p>
               ))}

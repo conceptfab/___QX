@@ -68,7 +68,7 @@ const VariantsQX = ({ data, configurator }: VariantsSectionProps) => {
       aria-labelledby="variants-title"
     >
       <div
-        className="relative mx-auto w-full max-w-[1440px] px-5 py-16 sm:px-8 lg:min-h-[960px] lg:px-0 lg:py-0"
+        className="relative mx-auto w-full max-w-[1440px] px-5 pt-6 pb-12 sm:px-8 sm:pt-8 lg:min-h-[960px] lg:px-0 lg:py-0"
         ref={ref}
       >
         <motion.div
@@ -154,7 +154,7 @@ const VariantsQX = ({ data, configurator }: VariantsSectionProps) => {
           initial={{ opacity: 0, x: 40 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={slowTransition({ duration: 0.3, delay: 0.2 })}
-          className="mt-10 lg:absolute lg:bottom-0 lg:right-0 lg:mt-0 lg:h-[715px] lg:w-[710px]"
+          className="mt-10 aspect-square w-full lg:absolute lg:bottom-0 lg:right-0 lg:mt-0 lg:aspect-auto lg:h-[715px] lg:w-[710px]"
         >
           {hasConfigurator && selectedFrame && selectedDesktop ? (
             <figure

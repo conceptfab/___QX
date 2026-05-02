@@ -21,7 +21,7 @@ const AssemblyQX = ({ data }: AssemblySectionProps) => {
       aria-labelledby="assembly-title"
     >
       <div
-        className="relative mx-auto w-full max-w-[1440px] px-5 py-16 sm:px-8 lg:px-0 lg:py-0"
+        className="relative mx-auto w-full max-w-[1440px] px-5 pt-6 pb-12 sm:px-8 sm:pt-8 lg:px-0 lg:py-0"
         ref={ref}
       >
         <motion.div

@@ -195,13 +195,13 @@ const CatalogNav = ({
         >
           <div className="mx-auto max-w-[1440px] px-6 sm:px-8 lg:px-0">
             <div
-              className={`flex items-center justify-between transition-all duration-300 ${
-                navExpanded ? 'h-[166px]' : 'h-11 sm:h-14'
+              className={`flex items-center justify-between transition-all duration-300 h-11 sm:h-14 ${
+                navExpanded ? 'lg:h-[166px]' : 'lg:h-14'
               }`}
             >
               {renderBrandControl(
                 'font-display text-xl font-black tracking-tighter text-slate-900 !rounded-none',
-                'h-7 w-auto object-contain !rounded-none',
+                'h-[22px] w-auto object-contain !rounded-none lg:h-7',
               )}
 
               <div className="ml-auto hidden h-full w-full max-w-[1150px] lg:block">
@@ -234,7 +234,7 @@ const CatalogNav = ({
                 aria-expanded={isOpen}
                 aria-label={isOpen ? 'Close menu' : 'Open menu'}
               >
-                {isOpen ? <X size={24} /> : <Menu size={24} />}
+                {isOpen ? <X size={36} strokeWidth={1.5} /> : <Menu size={36} strokeWidth={1.5} />}
               </button>
             </div>
           </div>
@@ -246,9 +246,7 @@ const CatalogNav = ({
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className={`fixed left-0 right-0 z-[59] border-b border-border bg-white shadow-xl !rounded-none lg:hidden ${
-                navExpanded ? 'top-[166px]' : 'top-[44px] sm:top-[56px]'
-              }`}
+              className="fixed left-0 right-0 top-[44px] z-[59] border-b border-border bg-white shadow-xl !rounded-none sm:top-[56px] lg:hidden"
             >
               <ul className="flex flex-col !rounded-none" role="list">
                 {visibleSections.map((section) => (
@@ -289,8 +287,8 @@ const CatalogNav = ({
       >
         <div className="mx-auto max-w-[1440px] px-6 sm:px-8">
           <div
-            className={`flex items-center justify-between transition-all duration-300 ${
-              navExpanded ? 'h-[166px]' : ''
+            className={`flex items-center justify-between transition-all duration-300 h-14 ${
+              navExpanded ? 'lg:h-[166px]' : 'lg:h-14'
             }`}
           >
             {renderBrandControl(
@@ -338,9 +336,7 @@ const CatalogNav = ({
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className={`fixed left-0 right-0 z-[59] border-b border-border bg-white shadow-xl lg:hidden ${
-              navExpanded ? 'top-[166px]' : 'top-[72px]'
-            }`}
+            className="fixed left-0 right-0 top-14 z-[59] border-b border-border bg-white shadow-xl lg:hidden"
           >
             <ul className="flex flex-col p-4" role="list">
               {visibleSections.map((section) => (

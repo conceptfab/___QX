@@ -54,7 +54,7 @@ export default function CatalogPageQX({ catalog, globalConfig }: Props) {
         <main
           id="main-content"
           lang="en"
-          className="[&>section+section]:mt-[240px]"
+          className="[&>section+section]:mt-2 lg:[&>section+section]:mt-[240px]"
         >
           <HeroQX data={catalog.hero} />
           <OverviewQX data={catalog.overview} />
