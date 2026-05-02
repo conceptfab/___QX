@@ -193,7 +193,7 @@ const CatalogNav = ({
               : 'shadow-none'
           }`}
         >
-          <div className="mx-auto max-w-[1440px] px-6 sm:px-8">
+          <div className="mx-auto max-w-[1440px] px-6 sm:px-8 lg:px-0">
             <div
               className={`flex items-center justify-between transition-all duration-300 ${
                 navExpanded ? 'h-[166px]' : 'h-11 sm:h-14'
@@ -205,12 +205,14 @@ const CatalogNav = ({
               )}
 
               <div className="ml-auto hidden h-full w-full max-w-[1150px] lg:block">
-                <ul className="flex h-full items-stretch" role="list">
-                  {visibleSections.map((section) => (
-                    <li key={section.id} className="h-full flex-1">
+                <ul className="flex h-full items-stretch justify-between" role="list">
+                  {visibleSections.map((section, index) => (
+                    <li key={section.id} className="h-full">
                       <button
                         onClick={() => scrollTo(section.id)}
-                        className={`catalog-nav-link flex h-full w-full items-center justify-center px-3 text-sm font-medium transition-colors !rounded-none ${
+                        className={`catalog-nav-link flex h-full items-center px-3 text-sm font-medium transition-colors !rounded-none ${
+                          index === visibleSections.length - 1 ? 'pr-0' : ''
+                        } ${
                           isSectionHighlighted(section.id)
                             ? '!font-bold !text-foreground'
                             : 'text-muted-foreground hover:text-foreground'

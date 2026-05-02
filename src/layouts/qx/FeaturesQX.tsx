@@ -22,14 +22,14 @@ const FeaturesQX = ({ data }: FeaturesSectionProps) => {
       aria-labelledby="features-title"
     >
       <div
-        className="relative mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-10 px-5 py-16 sm:px-8 lg:min-h-[960px] lg:grid-cols-12 lg:gap-0 lg:px-9 lg:py-0"
+        className="relative mx-auto w-full max-w-[1440px] px-5 py-16 sm:px-8 lg:px-0 lg:py-0"
         ref={ref}
       >
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={slowTransition({ duration: 0.6 })}
-          className="relative z-10 flex flex-col lg:col-span-4 lg:max-w-[420px] lg:pt-3"
+          className="relative z-10 flex flex-col lg:max-w-[520px] lg:pt-3"
         >
           <p className="section_ID font-display uppercase">
             {renderQxText(data.sectionLabel)}
@@ -40,43 +40,36 @@ const FeaturesQX = ({ data }: FeaturesSectionProps) => {
           >
             {renderQxText(data.title)}
           </h2>
-          <div className="sec_main_text mt-[120px] max-w-[360px] font-body">
-            <p>
-              {renderQxText(
-                `${data.items.length} ergonomic and technical feature groups for adaptable workstations.`,
-              )}
-            </p>
-          </div>
         </motion.div>
 
-        <div className="grid gap-10 sm:grid-cols-2 lg:col-span-7 lg:col-start-6 lg:self-center">
+        <div className="mt-10 grid grid-cols-1 gap-y-10 sm:grid-cols-2 sm:gap-x-10 lg:grid-cols-3 lg:gap-x-[calc((100%-1029px)/2)]">
           {data.items.map((feature, index) => {
             const Icon = getIcon(feature.icon);
             return (
               <motion.article
                 key={feature.title}
-                initial={{ opacity: 0, x: 40 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={slowTransition({
                   duration: 0.5,
                   delay: index * 0.08,
                 })}
-                className="w-full"
+                className="w-full lg:w-[343px]"
               >
                 <div
-                  className="flex aspect-square w-full items-center justify-center"
+                  className="flex h-[212px] w-full items-center justify-center bg-background"
                   aria-hidden="true"
                 >
                   <Icon
-                    size={96}
+                    size={120}
                     strokeWidth={1}
                     className="text-foreground/55"
                   />
                 </div>
-                <h3 className="section_Title mt-4 font-display">
+                <h3 className="mt-2 font-display text-lg font-bold text-foreground">
                   {renderQxText(feature.title)}
                 </h3>
-                <p className="sec_main_text mt-2 font-body">
+                <p className="sec_main_text mt-1 max-w-[360px] font-body">
                   {renderQxText(feature.desc)}
                 </p>
               </motion.article>
