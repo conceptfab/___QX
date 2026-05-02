@@ -17,6 +17,9 @@ const GalleryQX = ({ data }: GallerySectionProps) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const galleryImages = data.images.slice(0, 4);
+  const mainImage = galleryImages[0];
+  const thumbnailImages = galleryImages.slice(1, 4);
 
   const openLightbox = (index: number) => setLightboxIndex(index);
   const closeLightbox = () => setLightboxIndex(null);
@@ -24,7 +27,7 @@ const GalleryQX = ({ data }: GallerySectionProps) => {
   const navigate = (dir: number) => {
     if (lightboxIndex === null) return;
     setLightboxIndex(
-      (lightboxIndex + dir + data.images.length) % data.images.length,
+      (lightboxIndex + dir + galleryImages.length) % galleryImages.length,
     );
   };
 
@@ -58,72 +61,95 @@ const GalleryQX = ({ data }: GallerySectionProps) => {
   return (
     <section
       id="gallery"
-      className="bg-white lg:min-h-[960px]"
+      className="bg-white"
       aria-labelledby="gallery-title"
     >
       <div
-        className="relative mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-10 px-5 py-16 sm:px-8 lg:min-h-[960px] lg:grid-cols-12 lg:gap-0 lg:px-9 lg:py-0"
+        className="relative mx-auto w-full max-w-[1440px] px-5 py-16 sm:px-8 lg:px-0 lg:py-0"
         ref={ref}
       >
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={slowTransition({ duration: 0.6 })}
-          className="relative z-10 flex flex-col lg:col-span-4 lg:max-w-[420px] lg:pt-3"
+          className="relative z-10 flex flex-col"
         >
-          <p className="section_ID mb-[120px] font-display uppercase">
+          <p className="section_ID font-display uppercase">
             {renderQxText(data.sectionLabel)}
           </p>
           <h2
             id="gallery-title"
-            className="section_Title font-display font-normal"
+            className="section_Title mt-8 font-display font-normal lg:mt-7"
           >
             {renderQxText(data.title)}
           </h2>
-          <div className="sec_main_text mt-[120px] max-w-[360px] font-body">
-            <p>
-              {renderQxText(
-                `${data.images.length} selected views across ${Array.from(
-                  new Set(data.images.map((image) => image.category)),
-                ).join(', ')} contexts.`,
-              )}
-            </p>
-          </div>
         </motion.div>
 
-        <div className="grid grid-cols-2 gap-4 lg:col-span-7 lg:col-start-6 lg:grid-cols-3 lg:self-center">
-          {data.images.map((img, i) => (
+        {mainImage && (
+          <div className="mt-8 grid gap-5 lg:grid-cols-[minmax(0,1075px)_345px] lg:items-start">
             <motion.button
-              key={i}
               initial={{ opacity: 0, x: 40 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={slowTransition({ duration: 0.3, delay: i * 0.1 })}
-              onClick={() => openLightbox(i)}
-              className={`group relative overflow-hidden ${
-                i === 0 ? 'col-span-2 lg:col-span-2 row-span-2' : ''
-              } min-h-[44px]`}
-              aria-label={`View ${img.category} image in fullscreen`}
+              transition={slowTransition({ duration: 0.3 })}
+              onClick={() => openLightbox(0)}
+              className="group relative aspect-[1075/1078] min-h-[44px] w-full overflow-hidden"
+              aria-label={`View ${mainImage.category} image in fullscreen`}
             >
               <img
-                src={img.src}
+                src={mainImage.src}
                 {...responsiveImg(
-                  img.src,
+                  mainImage.src,
                   'gallery',
-                  i === 0 ? '(min-width: 1024px) 66vw, 100vw' : undefined,
+                  '(min-width: 1440px) 1075px, (min-width: 1024px) calc(100vw - 365px), 100vw',
                 )}
-                alt={img.alt}
-                className="w-full h-full object-cover aspect-[4/3] group-hover:scale-110 transition-transform duration-700"
+                alt={mainImage.alt}
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/20 transition-colors flex items-center justify-center">
+              <div className="absolute inset-0 flex items-center justify-center bg-foreground/0 transition-colors group-hover:bg-foreground/20">
                 <ZoomIn
-                  className="text-primary-foreground opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="text-primary-foreground opacity-0 transition-opacity group-hover:opacity-100"
                   size={28}
                 />
               </div>
             </motion.button>
-          ))}
-        </div>
+
+            <div className="grid grid-cols-3 gap-5 lg:grid-cols-1 lg:grid-rows-3">
+              {thumbnailImages.map((img, i) => (
+                <motion.button
+                  key={img.src}
+                  initial={{ opacity: 0, x: 40 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={slowTransition({
+                    duration: 0.3,
+                    delay: (i + 1) * 0.1,
+                  })}
+                  onClick={() => openLightbox(i + 1)}
+                  className="group relative aspect-square min-h-[44px] w-full overflow-hidden"
+                  aria-label={`View ${img.category} image in fullscreen`}
+                >
+                  <img
+                    src={img.src}
+                    {...responsiveImg(
+                      img.src,
+                      'gallery',
+                      '(min-width: 1024px) 345px, 33vw',
+                    )}
+                    alt={img.alt}
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-foreground/0 transition-colors group-hover:bg-foreground/20">
+                    <ZoomIn
+                      className="text-primary-foreground opacity-0 transition-opacity group-hover:opacity-100"
+                      size={24}
+                    />
+                  </div>
+                </motion.button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <AnimatePresence>
@@ -171,9 +197,9 @@ const GalleryQX = ({ data }: GallerySectionProps) => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              src={data.images[lightboxIndex].src}
+              src={galleryImages[lightboxIndex].src}
               draggable={true}
-              alt={data.images[lightboxIndex].alt}
+              alt={galleryImages[lightboxIndex].alt}
               className="max-w-full max-h-[85vh] object-contain rounded-lg"
               onClick={(e) => e.stopPropagation()}
             />
@@ -181,7 +207,7 @@ const GalleryQX = ({ data }: GallerySectionProps) => {
               className="absolute bottom-6 text-on-dark-muted text-sm"
               aria-live="polite"
             >
-              {lightboxIndex + 1} / {data.images.length}
+              {lightboxIndex + 1} / {galleryImages.length}
             </p>
           </motion.div>
         )}
