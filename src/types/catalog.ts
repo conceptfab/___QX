@@ -246,6 +246,7 @@ export interface ComparisonRow {
 export interface VariantsData {
   sectionLabel: string;
   title: string;
+  description?: string;
   desktopColors: ColorOption[];
   frameColors: ColorOption[];
   sizes: SizeOption[];

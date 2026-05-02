@@ -49,7 +49,10 @@ export default function CatalogPageQX({ catalog, globalConfig }: Props) {
           <HeroQX data={catalog.hero} />
           <OverviewQX data={catalog.overview} />
           <GalleryQX data={catalog.gallery} />
-          <VariantsQX data={catalog.variants} />
+          <VariantsQX
+            data={catalog.variants}
+            configurator={catalog.materials.configurator}
+          />
           {catalog.packshots && <PackshotsQX data={catalog.packshots} />}
           <DimensionsQX data={catalog.dimensions} />
           <MaterialsQX data={catalog.materials} />

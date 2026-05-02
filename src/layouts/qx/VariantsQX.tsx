@@ -1,25 +1,65 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import type { VariantsData } from '@/types/catalog';
+import { useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion, useInView } from 'framer-motion';
+import type {
+  MaterialsConfiguratorData,
+  MaterialsConfiguratorOption,
+  VariantsData,
+} from '@/types/catalog';
 import { slowTransition } from '@/lib/motion';
 import { renderQxText } from '@/components/catalog/renderQxText';
 import { responsiveImg } from '@/lib/responsive-image';
+import { MaterialsOptionGroup } from '@/components/catalog/MaterialsOptionGroup';
 
 interface VariantsSectionProps {
   data: VariantsData;
+  configurator?: MaterialsConfiguratorData;
 }
 
-const VariantsQX = ({ data }: VariantsSectionProps) => {
-  const [selectedColor, setSelectedColor] = useState(0);
-  const [selectedFrame, setSelectedFrame] = useState(0);
-  const [selectedSize, setSelectedSize] = useState(1);
+const EMPTY_OPTIONS: MaterialsConfiguratorOption[] = [];
+
+const VariantsQX = ({ data, configurator }: VariantsSectionProps) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
-  const basicLabel = data.comparisonBasicLabel ?? 'Basic';
-  const premiumLabel = data.comparisonPremiumLabel ?? 'Premium';
+  const frameOptions = configurator?.frameOptions ?? EMPTY_OPTIONS;
+  const desktopOptions = configurator?.desktopOptions ?? EMPTY_OPTIONS;
+  const hasConfigurator = frameOptions.length > 0 && desktopOptions.length > 0;
+
+  const [selectedFrameId, setSelectedFrameId] = useState(
+    frameOptions[0]?.id ?? '',
+  );
+  const [selectedDesktopId, setSelectedDesktopId] = useState(
+    desktopOptions[0]?.id ?? '',
+  );
+
+  useEffect(() => {
+    setSelectedFrameId((current) =>
+      frameOptions.some((option) => option.id === current)
+        ? current
+        : (frameOptions[0]?.id ?? ''),
+    );
+  }, [frameOptions]);
+
+  useEffect(() => {
+    setSelectedDesktopId((current) =>
+      desktopOptions.some((option) => option.id === current)
+        ? current
+        : (desktopOptions[0]?.id ?? ''),
+    );
+  }, [desktopOptions]);
+
+  const selectedFrame =
+    frameOptions.find((option) => option.id === selectedFrameId) ??
+    frameOptions[0];
+  const selectedDesktop =
+    desktopOptions.find((option) => option.id === selectedDesktopId) ??
+    desktopOptions[0];
+  const configuratorAlt =
+    selectedFrame && selectedDesktop
+      ? `Desk with desktop ${selectedDesktop.label} and frame ${selectedFrame.label}`
+      : data.title;
 
   return (
     <section
@@ -28,215 +68,148 @@ const VariantsQX = ({ data }: VariantsSectionProps) => {
       aria-labelledby="variants-title"
     >
       <div
-        className="relative mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-10 px-5 py-16 sm:px-8 lg:min-h-[960px] lg:grid-cols-12 lg:gap-0 lg:px-9 lg:py-0"
+        className="relative mx-auto w-full max-w-[1440px] px-5 py-16 sm:px-8 lg:min-h-[960px] lg:px-9 lg:py-0"
         ref={ref}
       >
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={slowTransition({ duration: 0.6 })}
-          className="relative z-10 flex flex-col lg:col-span-4 lg:max-w-[420px] lg:pt-3"
+          className="relative z-10 flex flex-col lg:pt-3"
         >
-          <p className="section_ID mb-[120px] font-display uppercase">
+          <p className="section_ID font-display uppercase">
             {renderQxText(data.sectionLabel)}
           </p>
           <h2
             id="variants-title"
-            className="section_Title font-display font-normal"
+            className="section_Title mt-8 font-display font-normal lg:mt-7"
           >
             {renderQxText(data.title)}
           </h2>
-          <div className="sec_main_text mt-[120px] max-w-[360px] space-y-4 font-body">
-            <p>
-              {renderQxText(
-                `${data.desktopColors.length} desktop finishes, ${data.frameColors.length} frame colours and ${data.sizes.length} desk sizes.`,
-              )}
+          {data.description && (
+            <p className="sec_main_text mt-6 max-w-[633px]">
+              {renderQxText(data.description)}
             </p>
-            <p>
-              {renderQxText(data.desktopColors[selectedColor].name)} /{' '}
-              {renderQxText(data.frameColors[selectedFrame].name)} /{' '}
-              {renderQxText(data.sizes[selectedSize].label)}
-            </p>
-          </div>
+          )}
         </motion.div>
 
-        <div className="grid gap-10 lg:col-span-7 lg:col-start-6 lg:grid-cols-2 lg:self-center">
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={slowTransition({ duration: 0.3, delay: 0.2 })}
-            className="relative z-0"
-          >
-            <div
-              className="relative aspect-square w-full overflow-hidden bg-surface/30 mix-blend-multiply"
-              style={{
-                filter:
-                  selectedColor > 2
-                    ? `hue-rotate(${selectedColor * 20}deg) saturate(0.5)`
-                    : 'none',
-              }}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={slowTransition({ duration: 0.6, delay: 0.2 })}
+          className="mt-10 space-y-10 lg:mt-10 lg:max-w-[630px]"
+        >
+          {hasConfigurator ? (
+            <>
+              <MaterialsOptionGroup
+                title="Desktop Finish"
+                options={desktopOptions}
+                selectedId={selectedDesktop?.id}
+                onSelect={setSelectedDesktopId}
+              />
+              <MaterialsOptionGroup
+                title="Frame Colour"
+                options={frameOptions}
+                selectedId={selectedFrame?.id}
+                onSelect={setSelectedFrameId}
+              />
+            </>
+          ) : (
+            <>
+              <div>
+                <h3 className="mb-4 font-display text-lg font-normal text-foreground">
+                  Desktop Finish
+                </h3>
+                <div className="flex flex-wrap gap-3">
+                  {data.desktopColors.map((c) => (
+                    <div
+                      key={c.name}
+                      className="h-12 w-12 rounded-full border border-border"
+                      style={{ backgroundColor: c.code }}
+                      title={c.name}
+                    />
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h3 className="mb-4 font-display text-lg font-normal text-foreground">
+                  Frame Colour
+                </h3>
+                <div className="flex flex-wrap gap-3">
+                  {data.frameColors.map((c) => (
+                    <div
+                      key={c.name}
+                      className="h-12 w-12 rounded-full border border-border"
+                      style={{ backgroundColor: c.code }}
+                      title={c.name}
+                    />
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          transition={slowTransition({ duration: 0.3, delay: 0.2 })}
+          className="mt-10 lg:absolute lg:bottom-0 lg:right-0 lg:mt-0 lg:h-[715px] lg:w-[710px]"
+        >
+          {hasConfigurator && selectedFrame && selectedDesktop ? (
+            <figure
+              className="relative h-full w-full"
+              role="img"
+              aria-label={configuratorAlt}
             >
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.img
+                  key={`frame-${selectedFrame.image}`}
+                  src={selectedFrame.image}
+                  {...responsiveImg(selectedFrame.image, 'materials-full')}
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute inset-0 h-full w-full object-contain"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={slowTransition({
+                    duration: 0.22,
+                    ease: 'easeOut',
+                  })}
+                />
+              </AnimatePresence>
+
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.img
+                  key={`desktop-${selectedDesktop.image}`}
+                  src={selectedDesktop.image}
+                  {...responsiveImg(selectedDesktop.image, 'materials-full')}
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute inset-0 h-full w-full object-contain"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={slowTransition({
+                    duration: 0.22,
+                    ease: 'easeOut',
+                  })}
+                />
+              </AnimatePresence>
+            </figure>
+          ) : (
+            <figure className="relative h-full w-full overflow-hidden">
               <img
                 src={data.previewImage}
                 {...responsiveImg(data.previewImage, 'variants')}
-                alt={`Desk in ${data.desktopColors[selectedColor].name} finish with ${data.frameColors[selectedFrame].name} frame`}
-                className="absolute inset-0 h-full w-full object-cover"
+                alt={configuratorAlt}
+                className="h-full w-full object-cover"
                 loading="lazy"
               />
-            </div>
-            <div className="mt-6 text-left" aria-live="polite">
-              <p className="font-display font-semibold text-foreground text-lg">
-                {renderQxText(data.sizes[selectedSize].label)}
-              </p>
-              <p className="text-sm text-muted-foreground">
-                {renderQxText(data.desktopColors[selectedColor].name)} /{' '}
-                {renderQxText(data.frameColors[selectedFrame].name)} Frame /{' '}
-                {renderQxText(data.sizes[selectedSize].label)} mm
-              </p>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={slowTransition({ duration: 0.3, delay: 0.3 })}
-            className="space-y-8"
-          >
-            <div>
-              <h3 className="font-display font-semibold text-foreground mb-1">
-                Desktop Finish
-              </h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                Select your desktop colour -{' '}
-                {renderQxText(data.desktopColors[selectedColor].name)}
-                {data.desktopColors[selectedColor].ral &&
-                  ` (${data.desktopColors[selectedColor].ral})`}
-              </p>
-              <div
-                className="flex flex-wrap gap-3"
-                role="radiogroup"
-                aria-label="Desktop colour"
-              >
-                {data.desktopColors.map((c, i) => (
-                  <button
-                    key={c.name}
-                    onClick={() => setSelectedColor(i)}
-                    role="radio"
-                    aria-checked={selectedColor === i}
-                    className={`w-12 h-12 rounded-full border-2 transition-all min-h-[44px] min-w-[44px] ${
-                      selectedColor === i
-                        ? 'border-accent scale-110 shadow-md'
-                        : 'border-border hover:border-muted-foreground'
-                    }`}
-                    style={{ backgroundColor: c.code }}
-                    aria-label={c.name}
-                    title={c.name}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="font-display font-semibold text-foreground mb-1">
-                Frame Colour
-              </h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                {renderQxText(data.frameColors[selectedFrame].name)}
-              </p>
-              <div
-                className="flex gap-3"
-                role="radiogroup"
-                aria-label="Frame colour"
-              >
-                {data.frameColors.map((c, i) => (
-                  <button
-                    key={c.name}
-                    onClick={() => setSelectedFrame(i)}
-                    role="radio"
-                    aria-checked={selectedFrame === i}
-                    className={`w-12 h-12 rounded-full border-2 transition-all min-h-[44px] min-w-[44px] ${
-                      selectedFrame === i
-                        ? 'border-accent scale-110 shadow-md'
-                        : 'border-border hover:border-muted-foreground'
-                    }`}
-                    style={{ backgroundColor: c.code }}
-                    aria-label={c.name}
-                    title={c.name}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="font-display font-semibold text-foreground mb-4">
-                Desk Size
-              </h3>
-              <div
-                className="grid grid-cols-2 sm:grid-cols-3 gap-3"
-                role="radiogroup"
-                aria-label="Desk size"
-              >
-                {data.sizes.map((s, i) => (
-                  <button
-                    key={s.label}
-                    onClick={() => setSelectedSize(i)}
-                    role="radio"
-                    aria-checked={selectedSize === i}
-                    className={`p-4 text-left transition-all min-h-[44px] ${
-                      selectedSize === i
-                        ? 'border-b-2 border-foreground'
-                        : 'border-b-2 border-transparent text-muted-foreground hover:border-muted'
-                    }`}
-                  >
-                    <span className="font-display font-bold text-base block">
-                      {renderQxText(s.label)}
-                    </span>
-                    <span className="text-xs">{renderQxText(s.desc)}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="font-display font-semibold text-foreground mb-4">
-                Quick Comparison
-              </h3>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm" role="table">
-                  <thead>
-                    <tr className="border-b border-border">
-                      <th className="text-left py-3 pr-4 font-semibold text-foreground">
-                        Feature
-                      </th>
-                      <th className="text-left py-3 px-4 font-semibold text-foreground">
-                        {renderQxText(basicLabel)}
-                      </th>
-                      <th className="text-left py-3 pl-4 font-semibold text-foreground">
-                        {renderQxText(premiumLabel)}
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-muted-foreground">
-                    {data.comparisonTable.map((row) => (
-                      <tr
-                        key={row.feature}
-                        className="border-b border-border/50 last:border-0"
-                      >
-                        <td className="py-3 pr-4">
-                          {renderQxText(row.feature)}
-                        </td>
-                        <td className="py-3 px-4">{renderQxText(row.basic)}</td>
-                        <td className="py-3 pl-4 text-foreground font-medium">
-                          {renderQxText(row.premium)}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </motion.div>
-        </div>
+            </figure>
+          )}
+        </motion.div>
       </div>
     </section>
   );
