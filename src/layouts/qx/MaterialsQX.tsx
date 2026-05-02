@@ -26,18 +26,11 @@ function MaterialsOptionGroup({
   selectedId,
   onSelect,
 }: MaterialsOptionGroupProps) {
-  const selectedOption = options.find((option) => option.id === selectedId);
-
   return (
     <div>
-      <div className="mb-4 flex items-center justify-between gap-4">
-        <h3 className="font-display text-lg font-semibold text-foreground">
-          {renderQxText(title)}
-        </h3>
-        <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
-          {renderQxText(selectedOption?.label ?? '')}
-        </p>
-      </div>
+      <h3 className="mb-4 font-display text-lg font-normal text-foreground">
+        {renderQxText(title)}
+      </h3>
 
       <div className="flex flex-wrap gap-2.5">
         {options.map((option) => {
@@ -124,158 +117,124 @@ const MaterialsQX = ({ data }: MaterialsSectionProps) => {
       aria-labelledby="materials-title"
     >
       <div
-        className="relative mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-10 px-5 py-16 sm:px-8 lg:min-h-[960px] lg:grid-cols-12 lg:gap-0 lg:px-9 lg:py-0"
+        className="relative mx-auto w-full max-w-[1440px] px-5 py-16 sm:px-8 lg:min-h-[960px] lg:px-9 lg:py-0"
         ref={ref}
       >
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={slowTransition({ duration: 0.6 })}
-          className="relative z-10 flex flex-col lg:col-span-4 lg:max-w-[420px] lg:pt-3"
+          className="relative z-10 flex flex-col lg:pt-3"
         >
-          <p className="section_ID mb-[120px] font-display uppercase">
+          <p className="section_ID font-display uppercase">
             {renderQxText(data.sectionLabel)}
           </p>
           <h2
             id="materials-title"
-            className="section_Title font-display font-normal"
+            className="section_Title mt-8 font-display font-normal lg:mt-7"
           >
             {renderQxText(data.title)}
           </h2>
-          <div className="mt-[120px] max-w-[420px] space-y-8">
-            {data.materials.map((material) => (
-              <div key={material.name} className="border-l-2 border-accent pl-6">
-                <h3 className="font-display text-lg font-semibold text-foreground">
-                  {renderQxText(material.name)}
-                </h3>
-                <p className="sec_main_text mt-1">
-                  {renderQxText(material.desc)}
-                </p>
-                <p className="mt-2 text-xs font-medium text-accent">
-                  {renderQxText(material.specs)}
-                </p>
-              </div>
-            ))}
-          </div>
+          {data.description && (
+            <p className="sec_main_text mt-6 max-w-[633px]">
+              {renderQxText(data.description)}
+            </p>
+          )}
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={slowTransition({ duration: 0.6, delay: 0.2 })}
-          className="flex flex-col lg:col-span-7 lg:col-start-6 lg:self-center"
+          className="mt-10 grid gap-10 lg:mt-10 lg:grid-cols-12 lg:gap-9"
         >
-          {hasConfigurator && selectedFrame && selectedDesktop ? (
-            <>
-              <figure className="relative mb-6 overflow-visible">
-                <div className="pointer-events-none absolute inset-x-[12%] bottom-[8%] h-[14%] rounded-full bg-[hsl(35_26%_74%/0.18)] blur-3xl" />
-                <div
-                  className="relative mx-auto aspect-square w-full max-w-[680px]"
-                  role="img"
-                  aria-label={configuratorAlt}
-                >
-                  <AnimatePresence mode="wait" initial={false}>
-                    <motion.img
-                      key={`frame-${selectedFrame.image}`}
-                      src={selectedFrame.image}
-                      {...responsiveImg(selectedFrame.image, 'materials-full')}
-                          alt=""
-                      aria-hidden="true"
-                      className="absolute inset-0 h-full w-full object-contain px-2 py-4 sm:px-4 sm:py-6 drop-shadow-[0_18px_38px_rgba(182,171,155,0.2)]"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={slowTransition({
-                        duration: 0.22,
-                        ease: 'easeOut',
-                      })}
-                    />
-                  </AnimatePresence>
+          <div className="lg:col-span-6 lg:h-[633px] lg:w-[633px]">
+            {hasConfigurator && selectedFrame && selectedDesktop ? (
+              <figure
+                className="relative aspect-square w-full"
+                role="img"
+                aria-label={configuratorAlt}
+              >
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.img
+                    key={`frame-${selectedFrame.image}`}
+                    src={selectedFrame.image}
+                    {...responsiveImg(selectedFrame.image, 'materials-full')}
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute inset-0 h-full w-full object-contain"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={slowTransition({
+                      duration: 0.22,
+                      ease: 'easeOut',
+                    })}
+                  />
+                </AnimatePresence>
 
-                  <AnimatePresence mode="wait" initial={false}>
-                    <motion.img
-                      key={`desktop-${selectedDesktop.image}`}
-                      src={selectedDesktop.image}
-                      {...responsiveImg(selectedDesktop.image, 'materials-full')}
-                          alt=""
-                      aria-hidden="true"
-                      className="absolute inset-0 h-full w-full object-contain px-2 py-4 sm:px-4 sm:py-6 drop-shadow-[0_26px_48px_rgba(164,154,139,0.16)]"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={slowTransition({
-                        duration: 0.22,
-                        ease: 'easeOut',
-                      })}
-                    />
-                  </AnimatePresence>
-                </div>
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.img
+                    key={`desktop-${selectedDesktop.image}`}
+                    src={selectedDesktop.image}
+                    {...responsiveImg(selectedDesktop.image, 'materials-full')}
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute inset-0 h-full w-full object-contain"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={slowTransition({
+                      duration: 0.22,
+                      ease: 'easeOut',
+                    })}
+                  />
+                </AnimatePresence>
               </figure>
-
-              <div className="space-y-1 text-left">
-                <p className="sec_main_text">
-                  {renderQxText(data.detailImageCaption)}
-                </p>
-                <p className="text-xs font-medium uppercase tracking-[0.26em] text-foreground/90">
-                  {renderQxText(
-                    `Desktop ${selectedDesktop.label} / Frame ${selectedFrame.label}`,
-                  )}
-                </p>
-              </div>
-            </>
-          ) : (
-            <>
-              <figure className="group relative mb-4 overflow-hidden">
+            ) : (
+              <figure className="group relative aspect-square w-full overflow-hidden">
                 <img
                   src={data.detailImage}
                   {...responsiveImg(data.detailImage, 'materials-full')}
                   alt={data.detailImageAlt}
-                  className="aspect-square h-auto w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
                 />
               </figure>
-              <p className="sec_main_text text-left">
-                {renderQxText(data.detailImageCaption)}
-              </p>
-            </>
-          )}
+            )}
+          </div>
 
-          <div className="mt-10">
+          <div className="space-y-10 lg:col-span-6 lg:col-start-7">
             {hasConfigurator ? (
-              <div className="space-y-6">
+              <>
                 <MaterialsOptionGroup
-                  title="Frame Colours"
-                  options={frameOptions}
-                  selectedId={selectedFrame?.id}
-                  onSelect={setSelectedFrameId}
-                />
-                <MaterialsOptionGroup
-                  title="Desktop Colours"
+                  title="Desktop Finish"
                   options={desktopOptions}
                   selectedId={selectedDesktop?.id}
                   onSelect={setSelectedDesktopId}
                 />
-              </div>
+                <MaterialsOptionGroup
+                  title="Frame Colour"
+                  options={frameOptions}
+                  selectedId={selectedFrame?.id}
+                  onSelect={setSelectedFrameId}
+                />
+              </>
             ) : (
-              <div>
-                <h3 className="mb-4 font-display font-semibold text-foreground">
-                  Colour & Decor Palette
-                </h3>
-                <div className="grid grid-cols-4 gap-3">
-                  {data.swatches.map((swatch) => (
-                    <div key={swatch.name} className="text-center">
-                      <div
-                        className="aspect-square w-full shadow-md transition-transform hover:scale-110"
-                        style={{ backgroundColor: swatch.hex }}
-                        role="img"
-                        aria-label={`${swatch.name} colour swatch`}
-                      />
-                      <p className="mt-2 text-xs text-muted-foreground">
-                        {renderQxText(swatch.name)}
-                      </p>
-                    </div>
-                  ))}
-                </div>
+              <div className="grid grid-cols-4 gap-3">
+                {data.swatches.map((swatch) => (
+                  <div key={swatch.name} className="text-center">
+                    <div
+                      className="aspect-square w-full shadow-md transition-transform hover:scale-110"
+                      style={{ backgroundColor: swatch.hex }}
+                      role="img"
+                      aria-label={`${swatch.name} colour swatch`}
+                    />
+                    <p className="mt-2 text-xs text-muted-foreground">
+                      {renderQxText(swatch.name)}
+                    </p>
+                  </div>
+                ))}
               </div>
             )}
           </div>

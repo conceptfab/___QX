@@ -299,6 +299,7 @@ export interface MaterialsConfiguratorData {
 export interface MaterialsData {
   sectionLabel: string;
   title: string;
+  description?: string;
   materials: MaterialItem[];
   swatches: ColorSwatch[];
   detailImage: string;
