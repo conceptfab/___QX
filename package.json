@@ -11,8 +11,8 @@
     "thumbnails:force": "node scripts/generate-thumbnails.mjs --force",
     "thumbnails:clean": "node scripts/generate-thumbnails.mjs --clean",
     "prebuild": "node scripts/generate-thumbnails.mjs",
-    "build": "next build",
-    "start": "next start",
+    "build": "NEXT_LOCAL_ISOLATED_DIST=1 next build",
+    "start": "NEXT_LOCAL_ISOLATED_DIST=1 next start",
     "lint": "eslint ."
   },
   "dependencies": {

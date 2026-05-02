@@ -11,6 +11,7 @@ export interface CatalogData {
   materials: MaterialsData;
   features: FeaturesData;
   assembly: AssemblyData;
+  productCodes: ProductCodesData;
   packshots?: PackshotsData;
   sections?: SectionConfig[];
 }
@@ -328,16 +329,10 @@ export interface AssemblyStep {
   desc: string;
 }
 
-export interface OrderCode {
-  code: string;
-  desc: string;
-}
-
 export interface AssemblyData {
   sectionLabel: string;
   title: string;
   steps: AssemblyStep[];
-  orderCodes: OrderCode[];
   ctaLabels: {
     quote: string;
     pdf: string;
@@ -345,6 +340,28 @@ export interface AssemblyData {
   };
   footerText: string;
   versionInfo: string;
+}
+
+export type ProductCodeGroupCategory = 'single' | 'bench' | 'manager';
+
+export interface ProductCodeRow {
+  index: string;
+  indexR: string;
+  dimensions: string;
+}
+
+export interface ProductCodeGroup {
+  id: string;
+  category: ProductCodeGroupCategory;
+  title: string;
+  rows: ProductCodeRow[];
+}
+
+export interface ProductCodesData {
+  sectionLabel: string;
+  title: string;
+  description: string;
+  groups: ProductCodeGroup[];
 }
 
 export interface SectionConfig {

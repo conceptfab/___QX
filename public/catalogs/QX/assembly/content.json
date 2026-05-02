@@ -33,28 +33,6 @@
       "desc": "Carefully flip desk upright. Run auto-calibration by holding ▼ button for 5 seconds."
     }
   ],
-  "orderCodes": [
-    {
-      "code": "QX-1200-OAK-BK",
-      "desc": "1200×600mm, Natural Oak, Black Frame"
-    },
-    {
-      "code": "QX-1400-OAK-BK",
-      "desc": "1400×700mm, Natural Oak, Black Frame"
-    },
-    {
-      "code": "QX-1600-OAK-BK",
-      "desc": "1600×800mm, Natural Oak, Black Frame"
-    },
-    {
-      "code": "QX-1800-WAL-SL",
-      "desc": "1800×800mm, Walnut Dark, Silver Frame"
-    },
-    {
-      "code": "QX-2000L-OAK-BK",
-      "desc": "2000×900mm, Natural Oak, Black Frame"
-    }
-  ],
   "ctaLabels": {
     "quote": "Request a Quote",
     "pdf": "Download PDF",

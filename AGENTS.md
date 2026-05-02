@@ -1,28 +1,15 @@
 <claude-mem-context>
 # Memory Context
 
-# [___QX] recent context, 2026-05-02 7:05pm GMT+2
+# [___QX] recent context, 2026-05-02 7:39pm GMT+2
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (15,022t read) | 357,358t work | 96% savings
+Stats: 50 obs (14,177t read) | 515,788t work | 97% savings
 
 ### May 2, 2026
-1361 1:56p 🔵 HeroQX section uses id="cover" not "hero", full-screen image with Ken Burns scale animation
-1362 " 🔵 HeroQX DEFAULT_CONTENT_LAYOUT configuration schema: fluid typography, centered anchor, 1rem paddingX
-1363 " 🔵 HeroQX slider.json: 3 slides with per-slide content layouts and disabled description overlays
-1364 2:00p 🔵 HeroQX Slider Architecture and Content Layout System
-1365 " 🔵 Hero Content Split Across Two JSON Files
-1366 " 🔵 HeroAnchor Type Defined in catalog.ts at Line 100
-1368 2:01p 🔴 Fixed Hero/Slider Center Anchor Not Centering Content
-1367 2:02p 🔵 HeroAnchor "center" Value Causes Bug in anchorToFlexClasses
-1369 2:17p 🔵 QX Catalog Full Layout Hierarchy Mapped
-1370 " 🔵 Active Debug CSS Rule Overriding Section Geometry in globals.css
-1371 2:18p 🔴 Hero Section Exempted from Debug Geometry CSS Override
-1372 " 🔵 QX Section ID Placement Is Consistent Across All Section Components
-1373 2:23p 🔵 section_ID CSS Class Element Position in OverviewQX
 1374 2:24p 🔵 section_ID Spacing Is Inconsistent Across QX Sections — Two Distinct Patterns
 1375 2:25p 🔄 Standardized section_ID Spacing to mb-[120px] Pattern in DimensionsQX, VariantsQX, MaterialsQX
 1376 " 🔵 GalleryQX section_ID Has No Description Paragraph — Only Label and Title
@@ -69,7 +56,20 @@ S1129 MaterialsQX section structure examined for comparison with ProductCodesQX 
 1407 6:52p ✅ CatalogPageQX Gains Decorative 240px Footer; ProductCodesQX Reverts to Fixed 960px Min-Height
 1409 " ✅ CatalogPageQX Footer Background Changed from White to Light Gray #f4f4f4
 1410 " ✅ QX Config Removes "Cover" from Nav Sections — Hero No Longer Listed in CatalogNav
+1411 " ✅ All session changes committed to git
+1412 " 🔵 OverviewQX has split framer-motion import (minor code smell)
+1413 " 🔵 ProductCodesQX receives AssemblyData but uses only orderCodes field
 1408 6:53p ✅ Session Complete — Final State of All QX Catalog Changes Confirmed
+1414 7:06p 🔵 CatalogNav DEFAULT_SECTIONS still includes "cover" entry after config.json removal
+1415 " 🔵 AssemblyData type in catalog.ts confirmed to include orderCodes field
+1416 " 🔵 npm run lint fails due to .next/ directory not excluded from ESLint scan
+1417 " 🔵 TypeScript check fails: vitest not installed but test file imports it
+1418 " 🔵 Production build succeeds — all session changes build clean
+1419 " 🔵 Raw &lt;img&gt; with responsiveImg() helper is intentional pattern — not a bug
+1420 7:07p 🔵 User questions why "Codes" section lacks its own folder
+1421 " 🔵 AssemblyData embeds orderCodes — no separate codes/ data folder exists by design
+1422 " 🔄 Codes section extracted from AssemblyData into standalone ProductCodesData domain
+1423 7:21p 🔴 Dev server confirmed on port 3000 — /catalog/QX returns HTTP 200 OK after codes refactor
 
-Access 357k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 516k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

@@ -12,6 +12,7 @@ import type {
   MaterialsConfiguratorOption,
   FeaturesData,
   AssemblyData,
+  ProductCodesData,
   PackshotsData,
 } from '@/types/catalog';
 import fs from 'fs/promises';
@@ -69,6 +70,7 @@ const SECTION_ORDER = [
   'materials',
   'features',
   'assembly',
+  'codes',
 ] as const;
 
 const BASE = '/catalogs';
@@ -424,6 +426,7 @@ export async function loadCatalog(
     materials,
     features,
     assembly,
+    productCodes,
     packshots,
   ] = await Promise.all([
     readPublicJson<HeroData>(`${base}/hero/content.json`),
@@ -435,6 +438,7 @@ export async function loadCatalog(
     readPublicJson<MaterialsData>(`${base}/materials/content.json`),
     readPublicJson<FeaturesData>(`${base}/features/content.json`),
     readPublicJson<AssemblyData>(`${base}/assembly/content.json`),
+    readPublicJson<ProductCodesData>(`${base}/codes/content.json`),
     readPublicJson<RawPackshotsData>(`${base}/packshots/content.json`),
   ]);
 
@@ -446,7 +450,8 @@ export async function loadCatalog(
     !dimensions ||
     !materials ||
     !features ||
-    !assembly
+    !assembly ||
+    !productCodes
   ) {
     return null;
   }
@@ -551,6 +556,7 @@ export async function loadCatalog(
     },
     features,
     assembly,
+    productCodes,
     ...(resolvedPackshots ? { packshots: resolvedPackshots } : {}),
   };
 }

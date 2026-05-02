@@ -68,7 +68,7 @@ export default function CatalogPageQX({ catalog, globalConfig }: Props) {
           <MaterialsQX data={catalog.materials} />
           <FeaturesQX data={catalog.features} />
           <AssemblyQX data={catalog.assembly} />
-          <ProductCodesQX data={catalog.assembly} />
+          <ProductCodesQX data={catalog.productCodes} />
         </main>
 
         <footer className="h-[240px] bg-[#f4f4f4]">
