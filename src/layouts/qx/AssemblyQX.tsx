@@ -31,12 +31,12 @@ const AssemblyQX = ({ data }: AssemblySectionProps) => {
           transition={slowTransition({ duration: 0.6 })}
           className="relative z-10 flex flex-col lg:col-span-4 lg:max-w-[420px] lg:pt-3"
         >
-          <p className="section_ID mb-[120px] font-display uppercase">
+          <p className="section_ID font-display uppercase">
             {renderQxText(data.sectionLabel)}
           </p>
           <h2
             id="assembly-title"
-            className="section_Title font-display font-normal"
+            className="section_Title mt-8 font-display font-normal lg:mt-7"
           >
             {renderQxText(data.title)}
           </h2>

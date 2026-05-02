@@ -79,7 +79,7 @@ function anchorToFlexClasses(anchor: HeroAnchor): string {
     center: 'items-center',
     right: 'items-end',
   };
-  const [v, h] = anchor.split('-');
+  const [v, h] = anchor === 'center' ? ['center', 'center'] : anchor.split('-');
   return `${verticalMap[v]} ${horizontalMap[h]}`;
 }
 

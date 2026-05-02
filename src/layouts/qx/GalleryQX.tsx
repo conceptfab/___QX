@@ -77,7 +77,7 @@ const GalleryQX = ({ data }: GallerySectionProps) => {
           initial={{ opacity: 0, x: -40 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={slowTransition({ duration: 0.6 })}
-          className="relative z-10 flex flex-col lg:absolute lg:left-9 lg:top-3"
+          className="relative z-10 flex flex-col lg:absolute lg:left-0 lg:top-3"
         >
           <p className="section_ID font-display uppercase">
             {renderQxText(data.sectionLabel)}
@@ -97,7 +97,7 @@ const GalleryQX = ({ data }: GallerySectionProps) => {
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={slowTransition({ duration: 0.3 })}
               onClick={() => openLightbox(0)}
-              className="group relative aspect-[1075/1078] min-h-[44px] w-full overflow-hidden lg:absolute lg:left-11 lg:top-[163px] lg:h-[797px] lg:w-[1125px] lg:aspect-auto"
+              className="group relative aspect-[1075/1078] min-h-[44px] w-full overflow-hidden lg:absolute lg:left-0 lg:top-[163px] lg:h-[797px] lg:w-[1169px] lg:aspect-auto"
               aria-label={`View ${mainImage.category} image in fullscreen`}
             >
               <img

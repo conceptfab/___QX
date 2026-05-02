@@ -264,6 +264,7 @@ export interface SpecItem {
 export interface DimensionsData {
   sectionLabel: string;
   title: string;
+  description?: string;
   specs: SpecItem[];
   certifications: string[];
   dimensionDiagram?: {

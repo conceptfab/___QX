@@ -23,7 +23,7 @@ const OverviewQX = ({ data }: OverviewSectionProps) => {
       aria-labelledby="overview-title"
     >
       <div
-        className="relative mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-10 px-5 py-16 sm:px-8 lg:min-h-[960px] lg:grid-cols-12 lg:gap-0 lg:px-9 lg:py-0"
+        className="relative mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-10 px-5 py-16 sm:px-8 lg:min-h-[960px] lg:grid-cols-12 lg:gap-0 lg:px-0 lg:py-0"
         ref={ref}
       >
         <div className="relative z-10 flex flex-col lg:col-span-6 lg:max-w-[540px] lg:pt-3">

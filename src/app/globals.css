@@ -388,6 +388,16 @@ html {
   background: #fff200 !important;
 }
 
+/* Hero/slider exempt from debug geometry — must be full viewport */
+.catalog-qx0 main > section#cover > div:first-child {
+  width: 100% !important;
+  max-width: none !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  background: transparent !important;
+}
+
 .catalog-nav-link:hover,
 .catalog-nav-link[aria-current='true'] {
   color: #000 !important;
