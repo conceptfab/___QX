@@ -41,12 +41,12 @@ function resolveGroupDescription(group: PackshotGroup): string | undefined {
 
 function DefaultCard({ item }: { item: PackshotItem }) {
   return (
-    <div className="group overflow-hidden rounded-[1.75rem] bg-background">
+    <div className="group overflow-hidden bg-background">
       <img
         src={item.image}
         {...responsiveImg(item.image, 'packshot')}
         alt={`${item.code} - ${item.colorName}`}
-        className="block aspect-[16/11] w-full object-cover object-[center_84%] transition-transform duration-700 ease-out group-hover:scale-[1.025]"
+        className="block aspect-square w-full object-cover object-[center_84%] transition-transform duration-700 ease-out group-hover:scale-[1.025]"
         loading="lazy"
       />
       <div className="px-4 pb-4 pt-3 sm:px-5 sm:pb-5">
@@ -76,17 +76,17 @@ const PackshotsQX = ({ data }: PackshotsSectionProps) => {
     <section
       id="packshots"
       aria-labelledby="packshots-title"
-      className="bg-white lg:min-h-[960px]"
+      className="bg-white"
     >
       <div
-        className="relative mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-10 px-5 py-16 sm:px-8 lg:min-h-[960px] lg:grid-cols-12 lg:gap-0 lg:px-9 lg:py-0"
+        className="relative mx-auto w-full max-w-[1440px] px-5 py-16 sm:px-8 lg:px-0 lg:py-0"
         ref={ref}
       >
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={slowTransition({ duration: 0.6 })}
-          className="relative z-10 flex flex-col lg:col-span-4 lg:max-w-[420px] lg:pt-3"
+          className="relative z-10 flex flex-col lg:max-w-[520px] lg:pt-3"
         >
           <p className="section_ID font-display uppercase">
             {renderQxText(data.sectionLabel)}
@@ -98,13 +98,13 @@ const PackshotsQX = ({ data }: PackshotsSectionProps) => {
             {renderQxText(data.title)}
           </h2>
           {data.subtitle && (
-            <p className="sec_main_text mt-[120px] max-w-[360px] font-body">
+            <p className="sec_main_text mt-6 max-w-[520px] font-body">
               {data.subtitle}
             </p>
           )}
         </motion.div>
 
-        <div className="space-y-14 lg:col-span-7 lg:col-start-6 lg:self-center">
+        <div className="mt-10 space-y-14">
           {data.groups.map((group, index) => {
             const groupDescription = resolveGroupDescription(group);
 
@@ -118,7 +118,7 @@ const PackshotsQX = ({ data }: PackshotsSectionProps) => {
                   delay: 0.06 + index * 0.07,
                 })}
               >
-                <div className="mb-5 flex items-center gap-3 border-b border-border pb-3">
+                <div className="mb-5 flex items-center gap-3">
                   <h3 className="font-display text-lg font-bold text-foreground">
                     {renderQxText(group.label)}
                   </h3>
@@ -129,7 +129,7 @@ const PackshotsQX = ({ data }: PackshotsSectionProps) => {
                   )}
                 </div>
 
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:gap-8">
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-5">
                   {group.items.map((item) => (
                     <DefaultCard key={item.code} item={item} />
                   ))}

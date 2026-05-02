@@ -398,6 +398,13 @@ html {
   background: transparent !important;
 }
 
+/* Packshots/Models — height grows with thumbnail count */
+.catalog-qx0 main > section#packshots > div:first-child {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+}
+
 .catalog-nav-link:hover,
 .catalog-nav-link[aria-current='true'] {
   color: #000 !important;
