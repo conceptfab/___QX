@@ -1,0 +1,103 @@
+{
+  "sectionLabel": "Product Codes",
+  "title": "Order references",
+  "description": "Use these unique codes when placing your order or specifying modules for your workspace.",
+  "groups": [
+    {
+      "id": "single-depth-70",
+      "category": "single",
+      "title": "QX single desk (depth 70 cm)",
+      "rows": [
+        { "index": "QX1", "indexR": "QX1R", "dimensions": "120 × 70 × 74" },
+        { "index": "QX2", "indexR": "QX2R", "dimensions": "140 × 70 × 74" },
+        { "index": "QX3", "indexR": "QX3R", "dimensions": "160 × 70 × 74" },
+        { "index": "QX4", "indexR": "QX4R", "dimensions": "180 × 70 × 74" }
+      ]
+    },
+    {
+      "id": "single-depth-80",
+      "category": "single",
+      "title": "QX single desk (depth 80 cm)",
+      "rows": [
+        { "index": "QX180", "indexR": "QX1R80", "dimensions": "120 × 80 × 74" },
+        { "index": "QX280", "indexR": "QX2R80", "dimensions": "140 × 80 × 74" },
+        { "index": "QX380", "indexR": "QX3R80", "dimensions": "160 × 80 × 74" },
+        { "index": "QX480", "indexR": "QX4R80", "dimensions": "180 × 80 × 74" }
+      ]
+    },
+    {
+      "id": "single-extension-depth-70",
+      "category": "single",
+      "title": "Extension for QX single desk (depth 70 cm)",
+      "rows": [
+        { "index": "QX1D", "indexR": "QX1RD", "dimensions": "66.5 × 50 × 74" },
+        { "index": "QX2D", "indexR": "QX2RD", "dimensions": "86.5 × 50 × 74" },
+        { "index": "QX3D", "indexR": "QX3RD", "dimensions": "106.5 × 50 × 74" },
+        { "index": "QX4D", "indexR": "QX4RD", "dimensions": "126.5 × 50 × 74" }
+      ]
+    },
+    {
+      "id": "single-extension-depth-80",
+      "category": "single",
+      "title": "Extension for QX single desk (depth 80 cm)",
+      "rows": [
+        { "index": "QX1D80", "indexR": "QX1RD80", "dimensions": "66.5 × 50 × 74" },
+        { "index": "QX2D80", "indexR": "QX2RD80", "dimensions": "86.5 × 50 × 74" },
+        { "index": "QX3D80", "indexR": "QX3RD80", "dimensions": "106.5 × 50 × 74" },
+        { "index": "QX4D80", "indexR": "QX4RD80", "dimensions": "126.5 × 50 × 74" }
+      ]
+    },
+    {
+      "id": "bench-depth-140",
+      "category": "bench",
+      "title": "QX bench double desk (depth 140 cm)",
+      "rows": [
+        { "index": "QX10", "indexR": "QX10R", "dimensions": "120 × 140 × 74" },
+        { "index": "QX11", "indexR": "QX11R", "dimensions": "140 × 140 × 74" },
+        { "index": "QX12", "indexR": "QX12R", "dimensions": "160 × 140 × 74" },
+        { "index": "QX13", "indexR": "QX13R", "dimensions": "180 × 140 × 74" }
+      ]
+    },
+    {
+      "id": "bench-depth-160",
+      "category": "bench",
+      "title": "QX bench double desk (depth 160 cm)",
+      "rows": [
+        { "index": "QX1080", "indexR": "QX1080R", "dimensions": "120 × 160 × 74" },
+        { "index": "QX1180", "indexR": "QX1180R", "dimensions": "140 × 160 × 74" },
+        { "index": "QX1280", "indexR": "QX1280R", "dimensions": "160 × 160 × 74" },
+        { "index": "QX1380", "indexR": "QX1380R", "dimensions": "180 × 160 × 74" }
+      ]
+    },
+    {
+      "id": "bench-flaps-depth-140",
+      "category": "bench",
+      "title": "QX bench double desk with access to the cable canal through the flaps (depth 140 cm)",
+      "rows": [
+        { "index": "QX15", "indexR": "QX15R", "dimensions": "120 × 140 × 74" },
+        { "index": "QX16", "indexR": "QX16R", "dimensions": "140 × 140 × 74" },
+        { "index": "QX17", "indexR": "QX17R", "dimensions": "160 × 140 × 74" },
+        { "index": "QX18", "indexR": "QX18R", "dimensions": "180 × 140 × 74" }
+      ]
+    },
+    {
+      "id": "bench-flaps-depth-160",
+      "category": "bench",
+      "title": "QX bench double desk with access to the cable canal through the flaps (depth 160 cm)",
+      "rows": [
+        { "index": "QX1580", "indexR": "QX1580R", "dimensions": "120 × 160 × 74" },
+        { "index": "QX1680", "indexR": "QX1680R", "dimensions": "140 × 160 × 74" },
+        { "index": "QX1780", "indexR": "QX1780R", "dimensions": "160 × 160 × 74" },
+        { "index": "QX1880", "indexR": "QX1880R", "dimensions": "180 × 160 × 74" }
+      ]
+    },
+    {
+      "id": "manager-modesty-panel",
+      "category": "manager",
+      "title": "QX manager's desk with modesty panel",
+      "rows": [
+        { "index": "QX60", "indexR": "QX60R", "dimensions": "200 × 80 × 74" }
+      ]
+    }
+  ]
+}

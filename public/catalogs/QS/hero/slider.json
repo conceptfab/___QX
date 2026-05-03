@@ -1,0 +1,117 @@
+{
+  "settings": {
+    "autoAdvance": true,
+    "interval": 5000,
+    "pauseOnHover": true,
+    "transitionMs": 1800,
+    "showArrows": true,
+    "showDots": true,
+    "initialSlide": 0
+  },
+  "slides": [
+    {
+      "image": "hero_00.webp",
+      "alt": "QX desk system in a modern open-space office with people working",
+      "description": "Slide 01: Open-space layout with collaborative desks.",
+      "descriptionStyle": {
+        "enabled": false,
+        "position": "bottom-left",
+        "offsetPx": 56,
+        "textAlign": "left",
+        "maxWidth": "28rem"
+      },
+      "contentLayout": {
+        "anchor": "center",
+        "textAlign": "center",
+        "maxWidth": "1440px",
+        "paddingX": "1rem",
+        "paddingY": "0",
+        "textColor": "#151515",
+        "secondaryTextColor": "rgba(21, 21, 21, 0.78)",
+        "titleFontSize": "clamp(5.6rem, 17.5vw, 15.4rem)",
+        "titleFontWeight": 200,
+        "titleLineHeight": "0.9",
+        "titleLetterSpacing": "-0.02em",
+        "taglineFontSize": "1.125rem",
+        "ctaPosition": "floating",
+        "ctaFloatingBottom": "clamp(12rem, 22vh, 16rem)",
+        "contentLift": "calc(clamp(5.04rem, 15.75vw, 13.86rem) * -1)"
+      }
+    },
+    {
+      "image": "hero_01.webp",
+      "alt": "QX desk with ergonomic chairs in a bright office interior",
+      "description": "Slide 02: Focus zone optimized for ergonomic work.",
+      "descriptionStyle": {
+        "enabled": false,
+        "position": "top-right",
+        "offsetPx": 112,
+        "textAlign": "right",
+        "maxWidth": "24rem"
+      },
+      "contentLayout": {
+        "anchor": "center",
+        "textAlign": "center",
+        "maxWidth": "1440px",
+        "paddingX": "1rem",
+        "paddingY": "0",
+        "textColor": "#151515",
+        "secondaryTextColor": "rgba(21, 21, 21, 0.78)",
+        "titleFontSize": "clamp(5.6rem, 17.5vw, 15.4rem)",
+        "titleFontWeight": 200,
+        "titleLineHeight": "0.9",
+        "titleLetterSpacing": "-0.02em",
+        "taglineFontSize": "1.125rem",
+        "ctaPosition": "floating",
+        "ctaFloatingBottom": "clamp(12rem, 22vh, 16rem)",
+        "contentLift": "calc(clamp(5.04rem, 15.75vw, 13.86rem) * -1)"
+      }
+    },
+    {
+      "image": "hero_02.webp",
+      "alt": "QX modular desks arranged in a contemporary workspace",
+      "description": "Slide 03: Modular arrangement for team scalability.",
+      "descriptionStyle": {
+        "enabled": false,
+        "position": "bottom-center",
+        "offsetPx": 56,
+        "textAlign": "center",
+        "maxWidth": "30rem"
+      },
+      "contentLayout": {
+        "anchor": "center",
+        "textAlign": "center",
+        "maxWidth": "1440px",
+        "paddingX": "1rem",
+        "paddingY": "0",
+        "textColor": "hsl(var(--primary-foreground))",
+        "secondaryTextColor": "hsl(var(--on-dark-muted))",
+        "titleFontSize": "clamp(5.6rem, 17.5vw, 15.4rem)",
+        "titleFontWeight": 200,
+        "titleLineHeight": "0.9",
+        "titleLetterSpacing": "-0.02em",
+        "taglineFontSize": "1.125rem",
+        "ctaPosition": "floating",
+        "ctaFloatingBottom": "clamp(12rem, 22vh, 16rem)",
+        "contentLift": "calc(clamp(5.04rem, 15.75vw, 13.86rem) * -1)"
+      }
+    }
+  ],
+  "descriptionStyle": {
+    "enabled": false,
+    "position": "bottom-center",
+    "offsetPx": 40,
+    "textColor": "#E8EEF5",
+    "backgroundColor": "rgba(0,0,0,0.35)",
+    "backdropBlurPx": 6,
+    "paddingX": 16,
+    "paddingY": 8,
+    "borderRadiusPx": 9999,
+    "fontSizePx": 13,
+    "fontWeight": 500,
+    "letterSpacingEm": 0.04,
+    "maxWidth": "90vw",
+    "textAlign": "center",
+    "uppercase": false
+  }
+}
